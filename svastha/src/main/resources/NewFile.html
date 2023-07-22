@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+
+
+<h2>The XMLHttpRequest Object</h2>
+<button type="button" onclick="loadDoc()">Request data</button>
+
+<p id="demo"></p>
+ 
+<script>
+function loadDoc() {
+	
+	$.ajax({
+          url: "http://localhost:8080/users",
+          type: 'GET',
+          cors: true ,
+          contentType:'application/json',
+          secure: true,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
+          },
+          success: function (data){
+            console.log(data);
+            document.getElementById("demo").innerHTML = data;
+          }
+      })
+ 
+}
+</script>
+
+</body>
+</html>
