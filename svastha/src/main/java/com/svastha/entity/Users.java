@@ -1,10 +1,23 @@
-package com.example.model;
+package com.svastha.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
-public class UserModel {
+@Entity
+@Table(name = "users")
+public class Users {
+
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer pk1;
 	
 	private String first_name;
 	
@@ -16,9 +29,19 @@ public class UserModel {
 	
 	private String phone_number;
 	
-	private Integer role;
+	@ManyToOne
+	private Roles role;
 	
-	
+	private Timestamp createddt;
+
+	public Integer getPk1() {
+		return pk1;
+	}
+
+	public void setPk1(Integer pk1) {
+		this.pk1 = pk1;
+	}
+
 	public String getFirst_name() {
 		return first_name;
 	}
@@ -59,12 +82,21 @@ public class UserModel {
 		this.phone_number = phone_number;
 	}
 
-	public Integer getRole() {
+	public Roles getRoles() {
 		return role;
 	}
 
-	public void setRole(Integer role) {
+	public void setRoles(Roles role) {
 		this.role = role;
 	}
+
+	public Timestamp getCreateddt() {
+		return createddt;
+	}
+
+	public void setCreateddt(Timestamp createddt) {
+		this.createddt = createddt;
+	}
+	
 	
 }

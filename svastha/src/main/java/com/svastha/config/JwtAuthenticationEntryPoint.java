@@ -1,5 +1,4 @@
-package com.example.config;
-
+package com.svastha.config;
 
 import java.io.IOException;
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package com.example;
+package com.svastha;
 
 import java.util.Arrays;
 
@@ -10,10 +10,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class DemoApplication extends SpringBootServletInitializer{
+public class SvasthaApplication extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(SvasthaApplication.class, args); 
 	}
 	
 	@Bean

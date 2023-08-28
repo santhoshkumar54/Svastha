@@ -1,4 +1,4 @@
-package com.example.service;
+package com.svastha.service;
 
 import java.util.ArrayList;
 
@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.entity.Users;
-import com.example.repository.UserRepository;
+import com.svastha.entity.Users;
+import com.svastha.repository.UserRepository;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService{

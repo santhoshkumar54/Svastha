@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.svastha.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,13 +8,12 @@ import javax.persistence.Id;
 @Entity
 public class CropType {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int pk1;
-	
+
 	private String type_name;
-	
+
 	private int crop;
 
 	public String getType_name() {
@@ -32,7 +31,5 @@ public class CropType {
 	public void setCrop(int crop) {
 		this.crop = crop;
 	}
-	
-	
 
 }

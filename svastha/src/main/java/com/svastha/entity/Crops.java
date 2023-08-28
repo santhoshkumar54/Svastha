@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.svastha.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,20 +6,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Roles {
-	
+public class Crops {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int pk1;
 	
-	private String role;
+	private String crop_name;
 
-	public String getRole() {
-		return role;
+	public String getCrop_name() {
+		return crop_name;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setCrop_name(String crop_name) {
+		this.crop_name = crop_name;
 	}
-
 }

@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.svastha.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.config.JwtTokenUtil;
-import com.example.entity.JwtRequest;
-import com.example.entity.JwtResponse;
-import com.example.service.JwtUserDetailsService;
+import com.svastha.config.JwtTokenUtil;
+import com.svastha.entity.JwtRequest;
+import com.svastha.entity.JwtResponse;
+import com.svastha.service.JwtUserDetailsService;
 
 @RestController
 public class AuthController {
@@ -28,7 +28,7 @@ public class AuthController {
 
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
-	
+
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -36,8 +36,7 @@ public class AuthController {
 		System.out.println(authenticationRequest.getUsername());
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-		final UserDetails userDetails = userDetailsService
-				.loadUserByUsername(authenticationRequest.getUsername());
+		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 

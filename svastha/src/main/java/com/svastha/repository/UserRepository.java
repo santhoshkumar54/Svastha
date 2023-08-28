@@ -1,8 +1,8 @@
-package com.example.repository;
+package com.svastha.repository;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.Users;
+import com.svastha.entity.Users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
