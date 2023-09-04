@@ -1,10 +1,13 @@
 package com.svastha.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +44,12 @@ public class AdminController {
 	public @ResponseBody Iterable<Users> getAllUsers() {
 
 		return userDao.findAll();
+	}
+
+	@GetMapping(path = "/user")
+	public @ResponseBody Optional<Users> getUserbyUserId(@RequestParam Long userId) {
+
+		return userDao.findById(userId);
 	}
 
 	@GetMapping("/addroles")

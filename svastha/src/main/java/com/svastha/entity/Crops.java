@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class Crops {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int pk1;
 	
 	private String crop_name;

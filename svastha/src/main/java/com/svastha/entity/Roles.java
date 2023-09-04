@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class Roles {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int pk1;
 	
 	private String role;

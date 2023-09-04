@@ -17,7 +17,7 @@ public class Users {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer pk1;
+	private Long pk1;
 	
 	private String first_name;
 	
@@ -34,11 +34,11 @@ public class Users {
 	
 	private Timestamp createddt;
 
-	public Integer getPk1() {
+	public Long getPk1() {
 		return pk1;
 	}
 
-	public void setPk1(Integer pk1) {
+	public void setPk1(Long pk1) {
 		this.pk1 = pk1;
 	}
 

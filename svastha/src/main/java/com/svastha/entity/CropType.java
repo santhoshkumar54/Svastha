@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class CropType {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int pk1;
 
 	private String type_name;
