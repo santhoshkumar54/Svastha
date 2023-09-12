@@ -3,6 +3,7 @@ package com.svastha.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,8 @@ public class AdminController {
 	private PasswordEncoder bcryptEncoder;
 
 	@PostMapping("/addUsers")
+    @PreAuthorize("hasRole('ADMIN')")
+
 	public String addUsers(@RequestBody Users user) {
 		try {
 			user.setPassword((bcryptEncoder.encode(user.getPassword())));
@@ -41,6 +44,7 @@ public class AdminController {
 	}
 
 	@GetMapping(path = "/users")
+    @PreAuthorize("hasRole('ADMIN')")
 	public @ResponseBody Iterable<Users> getAllUsers() {
 
 		return userDao.findAll();

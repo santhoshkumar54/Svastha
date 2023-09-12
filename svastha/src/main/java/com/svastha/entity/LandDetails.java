@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -28,9 +27,11 @@ public class LandDetails {
 
 	private String surveyNumber;
 
-	private String pattaNUmber;
+	private String pattaNumber;
 
 	private String soilData;
+	
+	private String location;
 	
 	@ManyToOne
 	private Farms farm;
@@ -96,12 +97,12 @@ public class LandDetails {
 		this.surveyNumber = surveyNumber;
 	}
 
-	public String getPattaNUmber() {
-		return pattaNUmber;
+	public String getPattaNumber() {
+		return pattaNumber;
 	}
 
-	public void setPattaNUmber(String pattaNUmber) {
-		this.pattaNUmber = pattaNUmber;
+	public void setPattaNumber(String pattaNumber) {
+		this.pattaNumber = pattaNumber;
 	}
 
 	public String getSoilData() {
@@ -134,5 +135,13 @@ public class LandDetails {
 
 	public void setCreatedDt(Timestamp createdDt) {
 		this.createdDt = createdDt;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 }

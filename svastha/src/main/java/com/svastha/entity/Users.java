@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "users")
@@ -25,6 +27,7 @@ public class Users {
 	
 	private String username;
 	
+	@JsonIgnore
 	private String password;
 	
 	private String phone_number;

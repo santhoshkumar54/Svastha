@@ -13,17 +13,31 @@ public class Farms {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer pk1;
+	private Long pk1;
 
 	private String farmerName;
 
-	private String aadharNumber;
+	private String fatherName;
+
+	private String gender;
+
+	private String regNumber;
+
+	private String dateOfReg;
+
+	private String mobile1;
+
+	private String mobile2;
+
+	private String mobileType;
+
+	private String landline;
+
+	private String village;
 
 	private String doorNumber;
 
 	private String Street;
-
-	private String village;
 
 	private String thaluk;
 
@@ -33,28 +47,24 @@ public class Farms {
 
 	private String pincode;
 
-	private String mobile1;
+	private String bank;
 
-	private String mobile2;
+	private String bankAccount;
 
-	private String mailid;
+	private String ifsc;
 
-	private String idproof;
-
-	private String passbook;
-
-	private String farmLocation;
+	private String location;
 
 	@ManyToOne
 	private Users createdBy;
 
 	private Timestamp createdDt;
 
-	public Integer getPk1() {
+	public Long getPk1() {
 		return pk1;
 	}
 
-	public void setPk1(Integer pk1) {
+	public void setPk1(Long pk1) {
 		this.pk1 = pk1;
 	}
 
@@ -64,14 +74,6 @@ public class Farms {
 
 	public void setFarmerName(String farmerName) {
 		this.farmerName = farmerName;
-	}
-
-	public String getAadharNumber() {
-		return aadharNumber;
-	}
-
-	public void setAadharNumber(String aadharNumber) {
-		this.aadharNumber = aadharNumber;
 	}
 
 	public String getDoorNumber() {
@@ -146,36 +148,12 @@ public class Farms {
 		this.mobile2 = mobile2;
 	}
 
-	public String getMailid() {
-		return mailid;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setMailid(String mailid) {
-		this.mailid = mailid;
-	}
-
-	public String getIdproof() {
-		return idproof;
-	}
-
-	public void setIdproof(String idproof) {
-		this.idproof = idproof;
-	}
-
-	public String getPassbook() {
-		return passbook;
-	}
-
-	public void setPassbook(String passbook) {
-		this.passbook = passbook;
-	}
-
-	public String getFarmLocation() {
-		return farmLocation;
-	}
-
-	public void setFarmLocation(String farmLocation) {
-		this.farmLocation = farmLocation;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public Users getCreatedBy() {
@@ -194,4 +172,75 @@ public class Farms {
 		this.createdDt = createdDt;
 	}
 
+	public String getFatherName() {
+		return fatherName;
+	}
+
+	public void setFatherName(String fatherName) {
+		this.fatherName = fatherName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getRegNumber() {
+		return regNumber;
+	}
+
+	public void setRegNumber(String regNumber) {
+		this.regNumber = regNumber;
+	}
+
+	public String getDateOfReg() {
+		return dateOfReg;
+	}
+
+	public void setDateOfReg(String dateOfReg) {
+		this.dateOfReg = dateOfReg;
+	}
+
+	public String getMobileType() {
+		return mobileType;
+	}
+
+	public void setMobileType(String mobileType) {
+		this.mobileType = mobileType;
+	}
+
+	public String getLandline() {
+		return landline;
+	}
+
+	public void setLandline(String landline) {
+		this.landline = landline;
+	}
+
+	public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public String getBankAccount() {
+		return bankAccount;
+	}
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+	public String getIfsc() {
+		return ifsc;
+	}
+
+	public void setIfsc(String ifsc) {
+		this.ifsc = ifsc;
+	}
 }
