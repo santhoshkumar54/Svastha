@@ -19,7 +19,7 @@ public class FarmWaterSource {
 
 	private String waterSource ;
 
-	@Type(type="boolean")
+	@Type(type="true_false")
 	private boolean isChecked;
 
 	@ManyToOne

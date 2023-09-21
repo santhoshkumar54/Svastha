@@ -52,16 +52,16 @@ public class FarmController {
 
 	@Autowired
 	private FarmWorkersRepository workerDao;
-	
+
 	@Autowired
 	private FarmGrainMarketRepository grainMarketDao;
 
 	@Autowired
 	private UserRepository userDao;
-	
+
 	@Autowired
 	FilesStorageService storageService;
-	
+
 	@Autowired
 	private FarmImagesRepository imageDao;
 
@@ -90,7 +90,7 @@ public class FarmController {
 		farmModel.setWaterSources(waterSourceDao.findAllWaterSourceByFarm(f));
 		return farmModel;
 	}
-	
+
 	@PostMapping("addFarm")
 	public @ResponseBody Farms saveFarm(@RequestBody Farms farm) {
 		try {
@@ -118,7 +118,6 @@ public class FarmController {
 		try {
 			waterSourceDao.saveAll(farmWaterSources);
 			return "Success";
-
 		} catch (Exception e) {
 			throw e;
 		}
@@ -145,14 +144,11 @@ public class FarmController {
 			throw e;
 		}
 	}
-	
+
 	@PostMapping("addGrainMarket")
-	public @ResponseBody String saveGrainMarket(@RequestBody Iterable<FarmGrainMarket> farmGrainsMarkets) {
+	public @ResponseBody String saveGrainMarket(@RequestBody FarmGrainMarket farmGrainsMarkets) {
 		try {
-			for (FarmGrainMarket farmGrainMarket : farmGrainsMarkets) {
-				System.out.println(farmGrainMarket.getAgentName());
-			}
-			grainMarketDao.saveAll(farmGrainsMarkets);
+			grainMarketDao.save(farmGrainsMarkets);
 			return "Success";
 
 		} catch (Exception e) {
@@ -170,22 +166,25 @@ public class FarmController {
 			throw e;
 		}
 	}
-	
+
 	@PostMapping("/upload")
-	public @ResponseBody String uploadFile(@RequestParam("file") MultipartFile[] file, @RequestBody Farms farm) {
-	    try {
+	public @ResponseBody String uploadFile(@RequestBody MultipartFile[] file, @RequestParam Long farmId,
+			@RequestParam Long userId) {
+		try {
+			Farms f = farmDao.findById(farmId).get();
+			Users u = userDao.findById(userId).get();
 	    	for (MultipartFile multipartFile : file) {
-				FarmImages i = new FarmImages();
-				i.setFileName(multipartFile.getOriginalFilename());
-				i.setCreatedBy(farm.getCreatedBy());
-				i.setFarm(farm);
-			    storageService.save(multipartFile);
-                imageDao.save(i);
+			FarmImages i = new FarmImages();
+			i.setFileName(multipartFile.getOriginalFilename());
+			i.setCreatedBy(u);
+			i.setFarm(f);
+			storageService.save(multipartFile);
+			imageDao.save(i);
 			}
 
-	      return "Success";
-	    } catch (Exception e) {
-	      return "Failed";
-	    }
-	  }
+			return "Success";
+		} catch (Exception e) {
+			return "Failed";
+		}
+	}
 }

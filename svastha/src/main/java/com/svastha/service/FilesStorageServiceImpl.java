@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
 
-  private final Path root = Paths.get("C://mywork/images/");
+  private final Path root = Paths.get("C:\\Users\\smsan\\work\\copy");
 
   @Override
   public void init() {
@@ -71,4 +71,10 @@ public class FilesStorageServiceImpl implements FilesStorageService {
       throw new RuntimeException("Could not load the files!");
     }
   }
+
+@Override
+public String GetPath() {
+	// TODO Auto-generated method stub
+	return null;
+}
 }
