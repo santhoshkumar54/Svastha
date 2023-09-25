@@ -1,24 +1,17 @@
 package com.svastha.model;
 
-import java.sql.Timestamp;
-
-
-
 public class UserModel {
-	
+
+	private Long pk1;
+
 	private String first_name;
-	
+
 	private String last_name;
-	
+
 	private String username;
-	
-	private String password;
-	
-	private String phone_number;
-	
-	private Integer role;
-	
-	
+
+	private String jwt;
+
 	public String getFirst_name() {
 		return first_name;
 	}
@@ -43,28 +36,20 @@ public class UserModel {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getJwt() {
+		return jwt;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setJwt(String jwt) {
+		this.jwt = jwt;
 	}
 
-	public String getPhone_number() {
-		return phone_number;
+	public Long getPk1() {
+		return pk1;
 	}
 
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+	public void setPk1(Long pk1) {
+		this.pk1 = pk1;
 	}
 
-	public Integer getRole() {
-		return role;
-	}
-
-	public void setRole(Integer role) {
-		this.role = role;
-	}
-	
 }

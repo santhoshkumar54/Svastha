@@ -1,7 +1,6 @@
 package com.svastha.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -14,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.config.JwtTokenUtil;
 import com.svastha.entity.JwtRequest;
-import com.svastha.entity.JwtResponse;
+import com.svastha.entity.Users;
+import com.svastha.model.UserModel;
+import com.svastha.repository.UserRepository;
 import com.svastha.service.JwtUserDetailsService;
 
 @RestController
@@ -29,8 +30,11 @@ public class AuthController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
+	@Autowired
+	private UserRepository userDao;
+
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+	public UserModel createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -38,7 +42,16 @@ public class AuthController {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new JwtResponse(token));
+		Users u = userDao.findByUsername(userDetails.getUsername());
+
+		UserModel model = new UserModel();
+		model.setPk1(u.getPk1());
+		model.setFirst_name(u.getFirst_name());
+		model.setLast_name(u.getLast_name());
+		model.setUsername(u.getUsername());
+		model.setJwt(token);
+
+		return model;
 	}
 
 	private void authenticate(String username, String password) throws Exception {
