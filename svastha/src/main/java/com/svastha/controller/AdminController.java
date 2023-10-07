@@ -2,6 +2,7 @@ package com.svastha.controller;
 
 import java.util.Optional;
 
+import com.svastha.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,10 +33,16 @@ public class AdminController {
 	@PostMapping("/addUsers")
     @PreAuthorize("hasRole('ADMIN')")
 
-	public String addUsers(@RequestBody Users user) {
+	public String addUsers(@RequestBody UserDTO user) {
 		try {
-			user.setPassword((bcryptEncoder.encode(user.getPassword())));
-			userDao.save(user);
+			Users newUser = new Users();
+			newUser.setUsername(user.getUsername());
+			newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+			newUser.setFirst_name(user.getFirst_name());
+			newUser.setLast_name(user.getLast_name());
+			newUser.setPhone_number(user.getPhone_number());
+			newUser.setRoles(roleDao.findByPk1(user.getRole()));
+			userDao.save(newUser);
 			return "saved";
 
 		} catch (Exception e) {

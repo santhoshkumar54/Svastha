@@ -1,13 +1,9 @@
 package com.svastha.entity;
 
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Optional;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,8 +30,14 @@ public class Users {
 	
 	@ManyToOne
 	private Roles role;
-	
-	private Timestamp createddt;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createddt;
+
+	@PrePersist
+	protected void onCreate() {
+		createddt = new Date(); // Set the current timestamp before persisting
+	}
 
 	public Long getPk1() {
 		return pk1;
@@ -93,13 +95,12 @@ public class Users {
 		this.role = role;
 	}
 
-	public Timestamp getCreateddt() {
+	public Date getCreateddt() {
 		return createddt;
 	}
 
-	public void setCreateddt(Timestamp createddt) {
+	public void setCreateddt(Date createddt) {
 		this.createddt = createddt;
 	}
-	
-	
+
 }

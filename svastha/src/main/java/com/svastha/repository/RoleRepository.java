@@ -6,4 +6,5 @@ import com.svastha.entity.Roles;
 
 public interface RoleRepository extends JpaRepository<Roles, Long>{
 
+    Roles findByPk1(int pk1);
 }
