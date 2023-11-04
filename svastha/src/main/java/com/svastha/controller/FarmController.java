@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.entity.FarmGrainMarket;
 import com.svastha.entity.FarmLiveStock;
+import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmTools;
 import com.svastha.entity.FarmWaterSource;
 import com.svastha.entity.FarmWorkers;
@@ -22,6 +23,7 @@ import com.svastha.entity.Users;
 import com.svastha.model.FarmModel;
 import com.svastha.repository.FarmGrainMarketRepository;
 import com.svastha.repository.FarmLiveStockRepository;
+import com.svastha.repository.FarmPlotsRepository;
 import com.svastha.repository.FarmRepository;
 import com.svastha.repository.FarmToolsRepository;
 import com.svastha.repository.FarmWaterSourceRepository;
@@ -38,6 +40,9 @@ public class FarmController {
 
 	@Autowired
 	private LandDetailsRepository landDetailsDao;
+
+	@Autowired
+	private FarmPlotsRepository plotsDao;
 
 	@Autowired
 	private FarmWaterSourceRepository waterSourceDao;
@@ -84,6 +89,7 @@ public class FarmController {
 		Farms f = farmDao.findById(farmId).get();
 		farmModel.setFarm(f);
 		farmModel.setLand(landDetailsDao.findLandDetailsByFarm(f));
+		farmModel.setPlots(plotsDao.findAllPlotsByFarm(f));
 		farmModel.setLiveStocks(liveStockDao.findAllLiveStocksByFarm(f));
 		farmModel.setFarmWorker(workerDao.findAllFarmWorkersByFarm(f));
 		farmModel.setGrainMarket(grainMarketDao.findAllGrainMarketByFarm(f));
@@ -92,6 +98,7 @@ public class FarmController {
 		return farmModel;
 	}
 
+	@SuppressWarnings("deprecation")
 	@PostMapping("addFarm")
 	public @ResponseBody String saveFarm(@RequestBody Farms farm) {
 		try {
@@ -129,6 +136,16 @@ public class FarmController {
 	public @ResponseBody String saveWaterSource(@RequestBody Iterable<FarmWaterSource> farmWaterSources) {
 		try {
 			waterSourceDao.saveAll(farmWaterSources);
+			return "Success";
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@PostMapping("addPlots")
+	public @ResponseBody String savePlots(@RequestBody Iterable<FarmPlots> farmPlots) {
+		try {
+			plotsDao.saveAll(farmPlots);
 			return "Success";
 		} catch (Exception e) {
 			throw e;

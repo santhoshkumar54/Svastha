@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.svastha.entity.FarmGrainMarket;
 import com.svastha.entity.FarmLiveStock;
+import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmTools;
 import com.svastha.entity.FarmWaterSource;
 import com.svastha.entity.FarmWorkers;
@@ -21,6 +22,8 @@ public class FarmModel implements Serializable {
 	private Farms farm;
 
 	private LandDetails land;
+
+	private List<FarmPlots> plots;
 
 	private List<FarmLiveStock> liveStocks;
 
@@ -86,5 +89,13 @@ public class FarmModel implements Serializable {
 
 	public void setTools(List<FarmTools> tools) {
 		this.tools = tools;
+	}
+
+	public List<FarmPlots> getPlots() {
+		return plots;
+	}
+
+	public void setPlots(List<FarmPlots> plots) {
+		this.plots = plots;
 	}
 }
