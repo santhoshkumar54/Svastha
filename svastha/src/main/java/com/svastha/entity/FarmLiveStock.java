@@ -19,6 +19,8 @@ public class FarmLiveStock {
 
 	private int count;
 
+	private String others;
+
 	@ManyToOne
 	private Farms farm;
 
@@ -73,5 +75,13 @@ public class FarmLiveStock {
 
 	public void setCreatedDt(Timestamp createdDt) {
 		this.createdDt = createdDt;
+	}
+
+	public String getOthers() {
+		return others;
+	}
+
+	public void setOthers(String others) {
+		this.others = others;
 	}
 }

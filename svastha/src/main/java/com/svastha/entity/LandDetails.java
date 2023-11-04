@@ -25,14 +25,18 @@ public class LandDetails {
 
 	private String areaAcres;
 
+	private String areaLeased;
+
+	private String areaCultivable;
+
 	private String surveyNumber;
 
 	private String pattaNumber;
 
 	private String soilData;
-	
+
 	private String location;
-	
+
 	@ManyToOne
 	private Farms farm;
 
@@ -143,5 +147,21 @@ public class LandDetails {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getAreaLeased() {
+		return areaLeased;
+	}
+
+	public void setAreaLeased(String areaLeased) {
+		this.areaLeased = areaLeased;
+	}
+
+	public String getAreaCultivable() {
+		return areaCultivable;
+	}
+
+	public void setAreaCultivable(String areaCultivable) {
+		this.areaCultivable = areaCultivable;
 	}
 }

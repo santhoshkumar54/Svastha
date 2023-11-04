@@ -9,13 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class LiveStock {
+public class MasterGrainMarket {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
 	private String name;
+
+	private String district;
 
 	@ManyToOne
 	private Users createdBy;
@@ -33,14 +35,6 @@ public class LiveStock {
 
 	public void setPk1(Long pk1) {
 		this.pk1 = pk1;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Users getCreatedBy() {
@@ -75,4 +69,19 @@ public class LiveStock {
 		this.updatedDt = updatedDt;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
 }

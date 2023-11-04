@@ -17,10 +17,12 @@ public class FarmWaterSource {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
-	private String waterSource ;
+	private String waterSource;
 
-	@Type(type="true_false")
+	@Type(type = "true_false")
 	private boolean isChecked;
+
+	private String number;
 
 	@ManyToOne
 	private Farms farm;
@@ -76,6 +78,14 @@ public class FarmWaterSource {
 
 	public void setCreatedDt(Timestamp createdDt) {
 		this.createdDt = createdDt;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 }

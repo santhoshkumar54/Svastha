@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.svastha.entity.Crops;
 import com.svastha.entity.Fertilizers;
 import com.svastha.entity.LiveStock;
-import com.svastha.entity.MasterCrop;
-import com.svastha.entity.MasterSeason;
-import com.svastha.entity.MasterYear;
+import com.svastha.entity.MasterGrainMarket;
+import com.svastha.entity.MasterSoiltype;
+import com.svastha.entity.MasterTools;
 import com.svastha.entity.TransplantMethods;
 import com.svastha.entity.WaterSource;
 import com.svastha.model.MasterProjectModel;
@@ -18,7 +18,10 @@ import com.svastha.repository.CropRepository;
 import com.svastha.repository.FertilizerRepository;
 import com.svastha.repository.LiveStockRepository;
 import com.svastha.repository.MasterCropRepository;
+import com.svastha.repository.MasterGrainMarketRepository;
 import com.svastha.repository.MasterSeasonRepository;
+import com.svastha.repository.MasterSoilTypeRepository;
+import com.svastha.repository.MasterToolsRepository;
 import com.svastha.repository.MasterYearRepository;
 import com.svastha.repository.TransplantMethodRepository;
 import com.svastha.repository.WaterSourceRepository;
@@ -33,6 +36,15 @@ public class MasterController {
 	private WaterSourceRepository waterSourceDao;
 
 	@Autowired
+	private MasterSoilTypeRepository soiltypeDao;
+
+	@Autowired
+	private MasterToolsRepository toolsDao;
+
+	@Autowired
+	private MasterGrainMarketRepository marketDao;
+
+	@Autowired
 	private TransplantMethodRepository transplantMethodDao;
 
 	@Autowired
@@ -40,13 +52,13 @@ public class MasterController {
 
 	@Autowired
 	private FertilizerRepository fertilizerDao;
-	
+
 	@Autowired
 	private MasterCropRepository masterCropDao;
-	
+
 	@Autowired
 	private MasterYearRepository yearDao;
-	
+
 	@Autowired
 	private MasterSeasonRepository seasonDao;
 
@@ -60,6 +72,24 @@ public class MasterController {
 	public @ResponseBody Iterable<WaterSource> getWaterSources() {
 
 		return waterSourceDao.findAll();
+	}
+
+	@GetMapping(path = "/soiltype")
+	public @ResponseBody Iterable<MasterSoiltype> getSoiltype() {
+
+		return soiltypeDao.findAll();
+	}
+
+	@GetMapping(path = "/tools")
+	public @ResponseBody Iterable<MasterTools> getTools() {
+
+		return toolsDao.findAll();
+	}
+
+	@GetMapping(path = "/grainmarkets")
+	public @ResponseBody Iterable<MasterGrainMarket> getGrainMarkets() {
+
+		return marketDao.findAll();
 	}
 
 	@GetMapping(path = "/fertilizers")
@@ -79,7 +109,7 @@ public class MasterController {
 
 		return transplantMethodDao.findAll();
 	}
-	
+
 	@GetMapping(path = "/getProjectMaster")
 	public @ResponseBody MasterProjectModel getMasterProject() {
 		MasterProjectModel master = new MasterProjectModel();
