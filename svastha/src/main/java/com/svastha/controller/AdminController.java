@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import com.svastha.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +31,11 @@ public class AdminController {
 
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
+	
+	 @Autowired
+	 private JavaMailSender mailSender;
 
 	@PostMapping("/addUsers")
-    @PreAuthorize("hasRole('ADMIN')")
-
 	public String addUsers(@RequestBody UserDTO user) {
 		try {
 			Users newUser = new Users();
@@ -43,6 +46,14 @@ public class AdminController {
 			newUser.setPhone_number(user.getPhone_number());
 			newUser.setRoles(roleDao.findByPk1(user.getRole()));
 			userDao.save(newUser);
+			StringBuilder content = new StringBuilder();
+			content.append("Hello ").append(user.getFirst_name()).append(",\n");
+			content.append("         Your account has been created successfully in Svastha application.\n");
+			content.append("\n Your user name : ").append(user.getUsername());
+			content.append("\n Your password : " ).append(user.getPassword());
+			content.append("\n You can download your Android Application here : ");
+			content.append("http://localhost:8080/downloadapk");
+			sendEmail(user.getUsername(), "Svastha account created",content.toString());
 			return "saved";
 
 		} catch (Exception e) {
@@ -76,4 +87,13 @@ public class AdminController {
 
 		return roleDao.findAll();
 	}
+	
+	public void sendEmail(String to, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
+
+        mailSender.send(message);
+    }
 }
