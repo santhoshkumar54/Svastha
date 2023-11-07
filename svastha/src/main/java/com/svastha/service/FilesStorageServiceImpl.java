@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FilesStorageServiceImpl implements FilesStorageService {
 
 	private final Path root = Paths.get("C:\\Users\\smsan\\work\\copy\\testit");
-
+//    private final Path root = Paths.get("/dev/svastha/images");
 	@Override
 	public void init() {
 		try {
@@ -61,7 +62,6 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 		try {
 			Path file = p.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
-
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
@@ -85,7 +85,27 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 			throw new RuntimeException("Could not load the files!");
 		}
 	}
-
+	
+	@Override
+	public MediaType getContentType(Path p,String filename) throws IOException
+	{
+		Path file = p.resolve(filename);
+		String contentType = Files.probeContentType(file);
+		MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+		if( contentType.equals("image/jpeg"))
+		{
+			mediaType = MediaType.IMAGE_JPEG;
+		}
+		else if(contentType.equals("image/png"))
+		{
+			mediaType = MediaType.IMAGE_PNG;
+		}
+		else if(contentType.equals("image/gif"))
+		{
+			mediaType = MediaType.IMAGE_GIF;
+		}
+		return mediaType;
+	}
 	public Timestamp getCurrentTimeStamp() {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		return timestamp;

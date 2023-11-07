@@ -1,9 +1,11 @@
 package com.svastha.service;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FilesStorageService {
@@ -18,4 +20,6 @@ public interface FilesStorageService {
   public Stream<Path> loadAll();
   
   public Path createFolder(String folderName);
+
+  public MediaType getContentType(Path p, String filename) throws IOException;
 }

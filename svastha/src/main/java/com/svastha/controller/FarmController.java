@@ -1,9 +1,11 @@
 package com.svastha.controller;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -89,6 +91,8 @@ public class FarmController {
 		return farmDao.findAll();
 	}
 
+	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
+
 	@GetMapping("/listFarms")
 	public @ResponseBody List<Farms> getFarmByUserId(@RequestParam Long userId) {
 		Users u = userDao.findByPk1(userId);
@@ -113,7 +117,7 @@ public class FarmController {
 
 	@SuppressWarnings("deprecation")
 	@PostMapping("addFarm")
-	public @ResponseBody String saveFarm(@RequestBody Farms farm, @RequestParam(required = false) MultipartFile file) {
+	public @ResponseBody Farms saveFarm(@RequestBody Farms farm, @RequestParam(required = false) MultipartFile file) {
 		try {
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			StringBuilder code = new StringBuilder();
@@ -135,7 +139,7 @@ public class FarmController {
 
 				i.setFarm(f);
 				System.out.println(" Into for loop 2: ");
-				Path p = storageService.createFolder("\\farmerImage\\" + f.getPk1());
+				Path p = storageService.createFolder(SEPARATOR + "farmerImage" + SEPARATOR + f.getPk1());
 				String filePath = storageService.save(file, p);
 				i.setFileName(filePath);
 				i.setPath(p.toString());
@@ -143,7 +147,7 @@ public class FarmController {
 
 				imageDao.save(i);
 			}
-			return f.getRegNumber();
+			return f;
 
 		} catch (Exception e) {
 			throw e;
@@ -159,6 +163,22 @@ public class FarmController {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	@GetMapping("surveylist")
+	public @ResponseBody List<String> getSurveyNumber(@RequestBody Farms f) {
+		LandDetails landDetails = landDetailsDao.findLandDetailsByFarm(f);
+		List<String> surveyNumbers = new ArrayList<>();
+		if (landDetails != null) {
+			String surveyNumber = landDetails.getSurveyNumber();
+			if (surveyNumber != null) {
+				String[] surveys = surveyNumber.split(",");
+				for (String string : surveys) {
+					surveyNumbers.add(string.trim());
+				}
+			}
+		}
+		return surveyNumbers;
 	}
 
 	@PostMapping("addWaterSource")
@@ -191,7 +211,6 @@ public class FarmController {
 					farmLiveStock.setOthers(null);
 				}
 				liveStockDao.save(farmLiveStock);
-
 			}
 			return "Success";
 
@@ -249,7 +268,7 @@ public class FarmController {
 		Farms f = farmDao.findById(fid).get();
 		Users u = userDao.findById(uid).get();
 
-		Path p = storageService.createFolder("\\farmerImage\\" + farmId);
+		Path p = storageService.createFolder(SEPARATOR + "farmerImage" + SEPARATOR + farmId);
 
 		for (MultipartFile multipartFile : file) {
 			FarmImages i = new FarmImages();
@@ -270,11 +289,13 @@ public class FarmController {
 		List<FarmImages> images = imageDao.findAllImagesByFarm(f);
 		Path p = Paths.get(images.get(0).getPath());
 		Resource resource = null;
+		MediaType mediaType = null;
 		try {
 			resource = storageService.load(p, images.get(0).getFileName());
+			mediaType = storageService.getContentType(p, images.get(0).getFileName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return ResponseEntity.ok().contentLength(resource.contentLength()).contentType(MediaType.ALL).body(resource);
+		return ResponseEntity.ok().contentLength(resource.contentLength()).contentType(mediaType).body(resource);
 	}
 }
