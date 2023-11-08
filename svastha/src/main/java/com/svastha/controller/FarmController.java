@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.svastha.entity.FarmGrainMarket;
 import com.svastha.entity.FarmImages;
 import com.svastha.entity.FarmLiveStock;
@@ -117,8 +118,9 @@ public class FarmController {
 
 	@SuppressWarnings("deprecation")
 	@PostMapping("addFarm")
-	public @ResponseBody Farms saveFarm(@RequestBody Farms farm, @RequestParam(required = false) MultipartFile file) {
+	public @ResponseBody Farms saveFarm(@RequestParam String farmObj, @RequestParam(required = false) MultipartFile file) {
 		try {
+			Farms farm =  new Gson().fromJson(farmObj, Farms.class);
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			StringBuilder code = new StringBuilder();
 			code.append(farm.getFarmerName());
@@ -260,7 +262,7 @@ public class FarmController {
 	}
 
 	@PostMapping("/upload")
-	public @ResponseBody String uploadPhoto(@RequestBody MultipartFile[] file, @RequestParam String farmId,
+	public @ResponseBody String uploadPhoto(@RequestParam MultipartFile[] file, @RequestParam String farmId,
 			@RequestParam String userId) {
 		Long fid = Long.parseLong(farmId);
 		Long uid = Long.parseLong(userId);
