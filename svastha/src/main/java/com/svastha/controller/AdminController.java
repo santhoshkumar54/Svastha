@@ -52,7 +52,7 @@ public class AdminController {
 			content.append("\n Your user name : ").append(user.getUsername());
 			content.append("\n Your password : " ).append(user.getPassword());
 			content.append("\n You can download your Android Application here : ");
-			content.append("http://localhost:8080/downloadapk");
+			content.append("https://app.svasthaecoharvest.com/svastha/downloadapk");
 			sendEmail(user.getUsername(), "Svastha account created",content.toString());
 			return "saved";
 

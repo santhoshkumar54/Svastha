@@ -168,7 +168,8 @@ public class FarmController {
 	}
 
 	@GetMapping("surveylist")
-	public @ResponseBody List<String> getSurveyNumber(@RequestBody Farms f) {
+	public @ResponseBody List<String> getSurveyNumber(@RequestParam Long farmId) {
+		Farms f = farmDao.findById(farmId).get();
 		LandDetails landDetails = landDetailsDao.findLandDetailsByFarm(f);
 		List<String> surveyNumbers = new ArrayList<>();
 		if (landDetails != null) {
