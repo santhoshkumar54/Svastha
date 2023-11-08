@@ -118,9 +118,10 @@ public class FarmController {
 
 	@SuppressWarnings("deprecation")
 	@PostMapping("addFarm")
-	public @ResponseBody Farms saveFarm(@RequestParam String farmObj, @RequestParam(required = false) MultipartFile file) {
+	public @ResponseBody Farms saveFarm(@RequestParam String farmObj,
+			@RequestParam(required = false) MultipartFile file) {
 		try {
-			Farms farm =  new Gson().fromJson(farmObj, Farms.class);
+			Farms farm = new Gson().fromJson(farmObj, Farms.class);
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			StringBuilder code = new StringBuilder();
 			code.append(farm.getFarmerName());
@@ -161,7 +162,6 @@ public class FarmController {
 		try {
 			LandDetails land = landDetailsDao.save(landDetails);
 			return land;
-
 		} catch (Exception e) {
 			throw e;
 		}

@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class HomeController {
@@ -23,14 +22,12 @@ public class HomeController {
 
 	@GetMapping("/downloadapk")
 	public ResponseEntity downloadapk() throws IOException {
-        File apk = new File("C://mywork/Sample Android App Test_v1.0_apkfab.com.apk");
-        Path path = Paths.get(apk.getAbsolutePath());
-        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+		File apk = new File("/dev/svastha/APK/svastha.apk");
+		Path path = Paths.get(apk.getAbsolutePath());
+		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 
-        return ResponseEntity.ok()
-                .contentLength(apk.length())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
+		return ResponseEntity.ok().contentLength(apk.length()).contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.body(resource);
 	}
 
 }
