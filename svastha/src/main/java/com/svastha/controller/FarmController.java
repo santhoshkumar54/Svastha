@@ -87,6 +87,12 @@ public class FarmController {
 	@Autowired
 	private FarmImagesRepository imageDao;
 
+//	private static String HOSTNAME = "https://app.svasthaecoharvest.com/svastha/";
+
+	private static String HOSTNAME = "localhost:8080/";
+
+	private static String IMAGEPATH = "farmer/images/";
+
 	@GetMapping("/farms")
 	public @ResponseBody Iterable<Farms> getAllFarms() {
 		return farmDao.findAll();
@@ -150,7 +156,7 @@ public class FarmController {
 				i.setPath(p.toString());
 				System.out.println(" Into for loop : 3");
 				imageDao.save(i);
-				f.setFarmerImage(folderPath + SEPARATOR + filePath);
+				f.setFarmerImage(HOSTNAME + IMAGEPATH + filePath);
 				f = farmDao.save(f);
 			}
 
