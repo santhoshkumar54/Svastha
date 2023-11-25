@@ -54,6 +54,8 @@ public class Farms {
 	private String ifsc;
 
 	private String location;
+	
+	private String farmerImage;
 
 	@ManyToOne
 	private Users createdBy;
@@ -242,5 +244,13 @@ public class Farms {
 
 	public void setIfsc(String ifsc) {
 		this.ifsc = ifsc;
+	}
+
+	public String getFarmerImage() {
+		return farmerImage;
+	}
+
+	public void setFarmerImage(String farmerImage) {
+		this.farmerImage = farmerImage;
 	}
 }

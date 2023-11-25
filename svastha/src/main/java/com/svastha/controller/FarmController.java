@@ -134,6 +134,7 @@ public class FarmController {
 			farm.setRegNumber(code.toString());
 			farm.setDateOfReg(timestamp.toString());
 			Farms f = farmDao.save(farm);
+
 			if (file != null && !file.isEmpty()) {
 				FarmImages i = new FarmImages();
 				System.out.println(" Into for loop : 00");
@@ -142,14 +143,17 @@ public class FarmController {
 
 				i.setFarm(f);
 				System.out.println(" Into for loop 2: ");
-				Path p = storageService.createFolder(SEPARATOR + "farmerImage" + SEPARATOR + f.getPk1());
+				String folderPath = SEPARATOR + "farmerImage" + SEPARATOR + f.getPk1();
+				Path p = storageService.createFolder(folderPath);
 				String filePath = storageService.save(file, p);
 				i.setFileName(filePath);
 				i.setPath(p.toString());
 				System.out.println(" Into for loop : 3");
-
 				imageDao.save(i);
+				f.setFarmerImage(folderPath + SEPARATOR + filePath);
+				f = farmDao.save(f);
 			}
+
 			return f;
 
 		} catch (Exception e) {
@@ -216,7 +220,6 @@ public class FarmController {
 				liveStockDao.save(farmLiveStock);
 			}
 			return "Success";
-
 		} catch (Exception e) {
 			throw e;
 		}
@@ -286,7 +289,7 @@ public class FarmController {
 	}
 
 	@GetMapping("/getfarmerimage")
-	public ResponseEntity getFarmerImage(@RequestParam String farmId) throws IOException {
+	public ResponseEntity<Resource> getFarmerImage(@RequestParam String farmId) throws IOException {
 		Long fid = Long.parseLong(farmId);
 		Farms f = farmDao.findById(fid).get();
 		List<FarmImages> images = imageDao.findAllImagesByFarm(f);

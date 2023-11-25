@@ -20,6 +20,8 @@ public class FarmPlots {
 	private String plotNumber;
 
 	private String surveyNumber;
+	
+	private String location;
 
 	@ManyToOne
 	private Farms farm;
@@ -85,4 +87,11 @@ public class FarmPlots {
 		this.createdDt = createdDt;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
 }
