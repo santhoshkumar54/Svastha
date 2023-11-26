@@ -94,6 +94,7 @@ public class FarmController {
 
 	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
+	
 	@GetMapping("/listFarms")
 	public @ResponseBody List<Farms> getFarmByUserId(@RequestParam Long userId) {
 		Users u = userDao.findByPk1(userId);
@@ -150,7 +151,7 @@ public class FarmController {
 				i.setPath(p.toString());
 				System.out.println(" Into for loop : 3");
 				imageDao.save(i);
-				f.setFarmerImage(folderPath + SEPARATOR + filePath);
+				f.setFarmerImage("/farmer/images" + folderPath + SEPARATOR + filePath);
 				f = farmDao.save(f);
 			}
 

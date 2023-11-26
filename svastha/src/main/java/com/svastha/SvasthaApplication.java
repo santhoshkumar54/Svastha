@@ -1,6 +1,5 @@
 package com.svastha;
 
-import java.io.File;
 import java.util.Arrays;
 
 import org.springframework.boot.CommandLineRunner;
@@ -9,14 +8,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class SvasthaApplication extends SpringBootServletInitializer{
+public class SvasthaApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
+
+//	public static String IMAGEPATH = "file:C:\\Users\\smsan\\Downloads\\images\\";
+	public static String IMAGEPATH = "file:/dev/svastha/images/";
 
 	public static void main(String[] args) {
-		SpringApplication.run(SvasthaApplication.class, args); 
+		SpringApplication.run(SvasthaApplication.class, args);
 	}
-	
+
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
@@ -28,8 +32,12 @@ public class SvasthaApplication extends SpringBootServletInitializer{
 			for (String beanName : beanNames) {
 				System.out.println(beanName);
 			}
-
 		};
+	}
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/farmer/images/**").addResourceLocations(IMAGEPATH);
 	}
 
 }
