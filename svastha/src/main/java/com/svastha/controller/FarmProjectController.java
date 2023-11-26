@@ -1,5 +1,6 @@
 package com.svastha.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +11,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+import com.svastha.dto.LocationDTO;
+import com.svastha.dto.PlotsDTO;
+import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
+import com.svastha.entity.Farms;
 import com.svastha.entity.LandPreparation;
 import com.svastha.entity.NurseryManagement;
 import com.svastha.entity.TransplantManagement;
 import com.svastha.entity.Users;
 import com.svastha.model.ProjectModel;
+import com.svastha.repository.FarmPlotsRepository;
 import com.svastha.repository.FarmProjectRepository;
+import com.svastha.repository.FarmRepository;
 import com.svastha.repository.LandPreparationRepository;
 import com.svastha.repository.NurseryManagementRepository;
 import com.svastha.repository.TransplantManagementRepository;
 import com.svastha.repository.UserRepository;
+import com.svastha.service.GpsService;
 
 @RestController
 public class FarmProjectController {
@@ -38,7 +47,16 @@ public class FarmProjectController {
 	private TransplantManagementRepository transplantDao;
 
 	@Autowired
+	private FarmRepository farmDao;
+
+	@Autowired
+	private FarmPlotsRepository plotsDao;
+
+	@Autowired
 	private UserRepository userDao;
+	
+	@Autowired
+	private GpsService gpsService;
 
 	@GetMapping("/projects")
 	public @ResponseBody Iterable<FarmProjects> getAllProjects() {
@@ -63,6 +81,39 @@ public class FarmProjectController {
 		projectModel.setNursery(nursery);
 		projectModel.setTransplant(transplant);
 		return projectModel;
+	}
+
+	@GetMapping("getProjectPlots")
+	public @ResponseBody List<PlotsDTO> getProjectPlots(@RequestParam Long farmerId, @RequestParam String location) {
+		LocationDTO currentLoc = new Gson().fromJson(location,LocationDTO.class); 
+		double currentLat = currentLoc.getCoords().getLatitude();
+		double currentLon = currentLoc.getCoords().getLongitude();
+		Farms f = farmDao.findById(farmerId).get();
+		 List<FarmPlots> plots = plotsDao.findAllPlotsByFarm(f);
+		 List<PlotsDTO> allPlots = new ArrayList<>();
+		 for (FarmPlots plot : plots) {
+			PlotsDTO p = new PlotsDTO();
+			p.setId(plot.getPk1());
+			p.setNumber(plot.getPlotNumber());
+			LocationDTO loc = new Gson().fromJson(plot.getLocation(),LocationDTO.class);
+			p.setLocation(plot.getLocation());
+			double plotLat = loc.getCoords().getLatitude();
+			double plotLon = loc.getCoords().getLongitude();
+			p.setLat(loc.getCoords().getLatitude());
+			p.setLon(loc.getCoords().getLongitude());
+			long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
+			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
+		    p.setDistance(distance);
+		    p.setBearing(bearing);
+			String direction = gpsService.calculateDirection(bearing);
+		    String plotDetails = plot.getPlotNumber()+" - "+distance+"m - "+direction+" - "+bearing;
+		    p.setUrlName(plotDetails);
+		    String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
+            p.setUrl(url);
+            allPlots.add(p);
+		 }
+
+		return allPlots;
 	}
 
 	@PostMapping("addProject")

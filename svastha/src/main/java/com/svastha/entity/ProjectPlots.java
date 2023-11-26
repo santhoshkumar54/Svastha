@@ -1,46 +1,25 @@
 package com.svastha.entity;
 
 import java.sql.Timestamp;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
-public class FarmProjects {
+public class ProjectPlots {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
 	@ManyToOne
-	private Farms farm;
+	private FarmProjects project;
 
 	@ManyToOne
-	private MasterYear year;
-
-	@ManyToOne
-	private MasterSeason season;
-
-	@ManyToOne
-	private MasterCrop crop;
-
-	// Mapping to the other table
-	@OneToMany(cascade = CascadeType.ALL)
-	private Set<ProjectPlots> plots;
-
-	public Set<ProjectPlots> getPlots() {
-		return plots;
-	}
-
-	public void setPlots(Set<ProjectPlots> plots) {
-		this.plots = plots;
-	}
+	private FarmPlots plots;
 
 	private String status;
 
@@ -64,38 +43,6 @@ public class FarmProjects {
 
 	public void setPk1(Long pk1) {
 		this.pk1 = pk1;
-	}
-
-	public Farms getFarm() {
-		return farm;
-	}
-
-	public void setFarm(Farms farm) {
-		this.farm = farm;
-	}
-
-	public MasterYear getYear() {
-		return year;
-	}
-
-	public void setYear(MasterYear year) {
-		this.year = year;
-	}
-
-	public MasterSeason getSeason() {
-		return season;
-	}
-
-	public void setSeason(MasterSeason season) {
-		this.season = season;
-	}
-
-	public MasterCrop getCrop() {
-		return crop;
-	}
-
-	public void setCrop(MasterCrop crop) {
-		this.crop = crop;
 	}
 
 	public String getStatus() {
@@ -154,4 +101,19 @@ public class FarmProjects {
 		this.updatedDt = updatedDt;
 	}
 
+	public FarmProjects getProject() {
+		return project;
+	}
+
+	public void setProject(FarmProjects project) {
+		this.project = project;
+	}
+
+	public FarmPlots getPlots() {
+		return plots;
+	}
+
+	public void setPlots(FarmPlots plots) {
+		this.plots = plots;
+	}
 }
