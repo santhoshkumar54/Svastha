@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.svastha.dto.LocationDTO;
 import com.svastha.dto.PlotsDTO;
+import com.svastha.dto.ProjectsDTO;
 import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.Farms;
 import com.svastha.entity.LandPreparation;
 import com.svastha.entity.NurseryManagement;
+import com.svastha.entity.ProjectPlots;
 import com.svastha.entity.TransplantManagement;
 import com.svastha.entity.Users;
 import com.svastha.model.ProjectModel;
@@ -27,6 +29,7 @@ import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.FarmRepository;
 import com.svastha.repository.LandPreparationRepository;
 import com.svastha.repository.NurseryManagementRepository;
+import com.svastha.repository.ProjectsPlotsRepository;
 import com.svastha.repository.TransplantManagementRepository;
 import com.svastha.repository.UserRepository;
 import com.svastha.service.GpsService;
@@ -53,8 +56,11 @@ public class FarmProjectController {
 	private FarmPlotsRepository plotsDao;
 
 	@Autowired
+	private ProjectsPlotsRepository projectPlotsDao;
+
+	@Autowired
 	private UserRepository userDao;
-	
+
 	@Autowired
 	private GpsService gpsService;
 
@@ -83,19 +89,19 @@ public class FarmProjectController {
 		return projectModel;
 	}
 
-	@GetMapping("getProjectPlots")
+	@GetMapping("/getProjectPlots")
 	public @ResponseBody List<PlotsDTO> getProjectPlots(@RequestParam Long farmerId, @RequestParam String location) {
-		LocationDTO currentLoc = new Gson().fromJson(location,LocationDTO.class); 
+		LocationDTO currentLoc = new Gson().fromJson(location, LocationDTO.class);
 		double currentLat = currentLoc.getCoords().getLatitude();
 		double currentLon = currentLoc.getCoords().getLongitude();
 		Farms f = farmDao.findById(farmerId).get();
-		 List<FarmPlots> plots = plotsDao.findAllPlotsByFarm(f);
-		 List<PlotsDTO> allPlots = new ArrayList<>();
-		 for (FarmPlots plot : plots) {
+		List<FarmPlots> plots = plotsDao.findAllPlotsByFarm(f);
+		List<PlotsDTO> allPlots = new ArrayList<>();
+		for (FarmPlots plot : plots) {
 			PlotsDTO p = new PlotsDTO();
 			p.setId(plot.getPk1());
 			p.setNumber(plot.getPlotNumber());
-			LocationDTO loc = new Gson().fromJson(plot.getLocation(),LocationDTO.class);
+			LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
 			p.setLocation(plot.getLocation());
 			double plotLat = loc.getCoords().getLatitude();
 			double plotLon = loc.getCoords().getLongitude();
@@ -103,23 +109,36 @@ public class FarmProjectController {
 			p.setLon(loc.getCoords().getLongitude());
 			long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
 			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
-		    p.setDistance(distance);
-		    p.setBearing(bearing);
+			p.setDistance(distance);
+			p.setBearing(bearing);
 			String direction = gpsService.calculateDirection(bearing);
-		    String plotDetails = plot.getPlotNumber()+" - "+distance+"m - "+direction+" - "+bearing;
-		    p.setUrlName(plotDetails);
-		    String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
-            p.setUrl(url);
-            allPlots.add(p);
-		 }
+			String plotDetails = plot.getPlotNumber() + " - " + distance + "m - " + direction + " - " + bearing;
+			p.setUrlName(plotDetails);
+			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
+			p.setUrl(url);
+			allPlots.add(p);
+		}
 
 		return allPlots;
 	}
 
-	@PostMapping("addProject")
-	public @ResponseBody FarmProjects saveFarm(@RequestBody FarmProjects project) {
+	@PostMapping("/addProject")
+	public @ResponseBody FarmProjects saveFarm(@RequestBody ProjectsDTO projectsDTO) {
 		try {
-			FarmProjects f = projectDao.save(project);
+
+			FarmProjects f = projectDao.save(projectsDTO.getProjects());
+			Iterable<PlotsDTO> plots = projectsDTO.getPlots();
+			List<ProjectPlots> plotsentity = new ArrayList<>();
+			for (PlotsDTO plot : plots) {
+				ProjectPlots p = new ProjectPlots();
+				p.setCreatedBy(f.getCreatedBy());
+				p.setDisabled(false);
+				FarmPlots fp = plotsDao.findById(plot.getId()).get();
+				p.setPlots(fp);
+				p.setProject(f);
+				plotsentity.add(p);
+			}
+			projectPlotsDao.saveAll(plotsentity);
 			return f;
 
 		} catch (Exception e) {
