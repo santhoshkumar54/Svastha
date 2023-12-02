@@ -39,6 +39,7 @@ public class HomeController {
 				.headers(httpHeaders).body(resource);
 	}
 	
+	//under construction
 	public void sendEmailToMultipleRecepients(String[] to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);

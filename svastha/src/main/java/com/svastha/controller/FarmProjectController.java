@@ -125,7 +125,6 @@ public class FarmProjectController {
 	@PostMapping("/addProject")
 	public @ResponseBody FarmProjects saveFarm(@RequestBody ProjectsDTO projectsDTO) {
 		try {
-
 			FarmProjects f = projectDao.save(projectsDTO.getProjects());
 			Iterable<PlotsDTO> plots = projectsDTO.getPlots();
 			List<ProjectPlots> plotsentity = new ArrayList<>();
