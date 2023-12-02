@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.svastha.entity.Crops;
 import com.svastha.entity.Fertilizers;
 import com.svastha.entity.LiveStock;
+import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterGrainMarket;
 import com.svastha.entity.MasterSoiltype;
 import com.svastha.entity.MasterTools;
@@ -18,6 +19,7 @@ import com.svastha.repository.CropRepository;
 import com.svastha.repository.FertilizerRepository;
 import com.svastha.repository.LiveStockRepository;
 import com.svastha.repository.MasterCropRepository;
+import com.svastha.repository.MasterCropStageRepository;
 import com.svastha.repository.MasterGrainMarketRepository;
 import com.svastha.repository.MasterSeasonRepository;
 import com.svastha.repository.MasterSoilTypeRepository;
@@ -62,6 +64,9 @@ public class MasterController {
 	@Autowired
 	private MasterSeasonRepository seasonDao;
 
+	@Autowired
+	private MasterCropStageRepository masterStageDao;
+
 	@GetMapping(path = "/liveStocks")
 	public @ResponseBody Iterable<LiveStock> getLiveStocks() {
 
@@ -102,6 +107,12 @@ public class MasterController {
 	public @ResponseBody Iterable<Crops> getCrops() {
 
 		return cropDao.findAll();
+	}
+	
+	@GetMapping(path = "/cropStage")
+	public @ResponseBody Iterable<MasterCropStage> getCropStage() {
+
+		return masterStageDao.findAll();
 	}
 
 	@GetMapping(path = "/transplantMethod")

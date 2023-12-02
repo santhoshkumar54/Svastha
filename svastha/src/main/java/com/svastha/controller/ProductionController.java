@@ -14,19 +14,21 @@ import com.svastha.dto.ProjectSeedTreatmentDTO;
 import com.svastha.dto.ProjectSowingDTO;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectDSRMethod;
+import com.svastha.entity.ProjectIrrigation;
 import com.svastha.entity.ProjectSeedTreatment;
 import com.svastha.entity.ProjectSeedTreatmentChemical;
 import com.svastha.entity.ProjectSowingData;
 import com.svastha.entity.ProjectSowingPlots;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsDsrRepository;
+import com.svastha.repository.ProjectsIrrigationRepository;
 import com.svastha.repository.ProjectsSeedTreatmentChemicalRepository;
 import com.svastha.repository.ProjectsSeedTreatmentRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
 import com.svastha.repository.ProjectsSowingPlotsRepository;
 
 @RestController
-public class NurseryController {
+public class ProductionController {
 
 	@Autowired
 	private ProjectsSeedTreatmentRepository seedTreatmentDao;
@@ -45,6 +47,9 @@ public class NurseryController {
 
 	@Autowired
 	private FarmProjectRepository projectDao;
+
+	@Autowired
+	private ProjectsIrrigationRepository irrigationDao;
 
 	@GetMapping("/getSeedTreatment")
 	public ProjectSeedTreatmentDTO getSeedTReatment(@RequestParam Long projectId) {
@@ -115,5 +120,17 @@ public class NurseryController {
 			}
 			sowingPlotsDao.saveAll(plotsEntity);
 		}
+	}
+
+	@GetMapping("/getIrrigation")
+	public ProjectIrrigation getIrrigation(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		return irrigationDao.findAllIrrigationsByProjects(project);
+	}
+
+	@PostMapping("/saveIrrigation")
+	public ProjectIrrigation saveIrrigation(@RequestBody ProjectIrrigation irrigation) {
+
+		return irrigationDao.save(irrigation);
 	}
 }

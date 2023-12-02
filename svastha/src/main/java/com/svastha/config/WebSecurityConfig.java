@@ -57,9 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/authenticate").permitAll()
 				.antMatchers("/downloadapk").permitAll()
 				.antMatchers("/farmer/images/**").permitAll()
-				.antMatchers("/v2/api-docs").permitAll()
-				.antMatchers("/swagger-ui").permitAll()
-				.antMatchers("/swagger-ui/*").permitAll()
+				.antMatchers("/swagger-ui/*","/v3/api-docs/**").permitAll()
 				.antMatchers("/*").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest().authenticated().and()
