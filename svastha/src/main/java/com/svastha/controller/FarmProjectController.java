@@ -146,9 +146,7 @@ public class FarmProjectController {
 			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
 			p.setDistance(distance);
 			p.setBearing(bearing);
-			String direction = gpsService.calculateDirection(bearing);
-			String plotDetails = "Plot no: " + plot.getPlotNumber() + " in " + distance + "m away towards " + bearing
-					+ " " + direction + " direction.";
+			String plotDetails = "No: " + plot.getPlotNumber() + " in " + distance + "m away towards " + bearing;
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 			p.setUrl(url);
