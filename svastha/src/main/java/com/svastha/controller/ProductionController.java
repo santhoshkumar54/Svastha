@@ -123,14 +123,14 @@ public class ProductionController {
 	}
 
 	@GetMapping("/getIrrigation")
-	public ProjectIrrigation getIrrigation(@RequestParam Long projectId) {
+	public List<ProjectIrrigation> getIrrigation(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return irrigationDao.findAllIrrigationsByProjects(project);
 	}
 
 	@PostMapping("/saveIrrigation")
-	public ProjectIrrigation saveIrrigation(@RequestBody ProjectIrrigation irrigation) {
+	public List<ProjectIrrigation> saveIrrigation(@RequestBody List<ProjectIrrigation> irrigation) {
 
-		return irrigationDao.save(irrigation);
+		return irrigationDao.saveAll(irrigation);
 	}
 }

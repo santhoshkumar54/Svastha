@@ -89,8 +89,8 @@ public class FarmProjectController {
 		return projectModel;
 	}
 
-	@GetMapping("/getProjectPlots")
-	public @ResponseBody List<PlotsDTO> getProjectPlots(@RequestParam Long farmerId, @RequestParam String location) {
+	@GetMapping("/getFarmerPlots")
+	public @ResponseBody List<PlotsDTO> getFarmerPlots(@RequestParam Long farmerId, @RequestParam String location) {
 		LocationDTO currentLoc = new Gson().fromJson(location, LocationDTO.class);
 		double currentLat = currentLoc.getCoords().getLatitude();
 		double currentLon = currentLoc.getCoords().getLongitude();
@@ -112,13 +112,48 @@ public class FarmProjectController {
 			p.setDistance(distance);
 			p.setBearing(bearing);
 			String direction = gpsService.calculateDirection(bearing);
-			String plotDetails = plot.getPlotNumber() + " - " + distance + "m - " + direction + " - " + bearing;
+			String plotDetails = "PLot no: " + plot.getPlotNumber() + " in " + distance + "m away towards " + bearing
+					+ " " + direction + " direction.";
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 			p.setUrl(url);
 			allPlots.add(p);
 		}
 
+		return allPlots;
+	}
+
+	@GetMapping("/getProjectPlots")
+	public @ResponseBody List<PlotsDTO> getProjectPlots(@RequestParam Long projectId, @RequestParam String location) {
+		LocationDTO currentLoc = new Gson().fromJson(location, LocationDTO.class);
+		double currentLat = currentLoc.getCoords().getLatitude();
+		double currentLon = currentLoc.getCoords().getLongitude();
+		FarmProjects fPlots = projectDao.findById(projectId).get();
+		List<ProjectPlots> plots = projectPlotsDao.findAllPlotsByProject(fPlots);
+		List<PlotsDTO> allPlots = new ArrayList<>();
+		for (ProjectPlots projectPlot : plots) {
+			PlotsDTO p = new PlotsDTO();
+			FarmPlots plot = projectPlot.getPlots();
+			p.setId(plot.getPk1());
+			p.setNumber(plot.getPlotNumber());
+			LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
+			p.setLocation(plot.getLocation());
+			double plotLat = loc.getCoords().getLatitude();
+			double plotLon = loc.getCoords().getLongitude();
+			p.setLat(loc.getCoords().getLatitude());
+			p.setLon(loc.getCoords().getLongitude());
+			long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
+			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
+			p.setDistance(distance);
+			p.setBearing(bearing);
+			String direction = gpsService.calculateDirection(bearing);
+			String plotDetails = "Plot no: " + plot.getPlotNumber() + " in " + distance + "m away towards " + bearing
+					+ " " + direction + " direction.";
+			p.setUrlName(plotDetails);
+			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
+			p.setUrl(url);
+			allPlots.add(p);
+		}
 		return allPlots;
 	}
 
