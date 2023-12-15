@@ -29,10 +29,16 @@ public class ProjectSeedTreatment {
 
 	private String seedClass;
 
+
 	@ManyToOne
 	private Users createdBy;
 
 	private Timestamp createdDt;
+	
+	@ManyToOne
+	private Users updatedBy;
+
+	private Timestamp updatedDt;
 
 	@ManyToOne
 	private FarmProjects projects;
@@ -123,5 +129,21 @@ public class ProjectSeedTreatment {
 
 	public void setProjects(FarmProjects projects) {
 		this.projects = projects;
+	}
+
+	public Users getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Users updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedDt() {
+		return updatedDt;
+	}
+
+	public void setUpdatedDt(Timestamp updatedDt) {
+		this.updatedDt = updatedDt;
 	}
 }

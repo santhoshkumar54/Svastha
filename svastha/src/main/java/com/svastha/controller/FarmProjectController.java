@@ -19,8 +19,11 @@ import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.Farms;
 import com.svastha.entity.LandPreparation;
+import com.svastha.entity.MasterChemicals;
+import com.svastha.entity.MasterCropVariety;
 import com.svastha.entity.NurseryManagement;
 import com.svastha.entity.ProjectPlots;
+import com.svastha.entity.ProjectSowingData;
 import com.svastha.entity.TransplantManagement;
 import com.svastha.entity.Users;
 import com.svastha.model.ProjectModel;
@@ -28,6 +31,7 @@ import com.svastha.repository.FarmPlotsRepository;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.FarmRepository;
 import com.svastha.repository.LandPreparationRepository;
+import com.svastha.repository.MasterCropVarietyRepository;
 import com.svastha.repository.NurseryManagementRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
 import com.svastha.repository.TransplantManagementRepository;
@@ -57,6 +61,9 @@ public class FarmProjectController {
 
 	@Autowired
 	private ProjectsPlotsRepository projectPlotsDao;
+	
+	@Autowired
+	private MasterCropVarietyRepository varietyDao;
 
 	@Autowired
 	private UserRepository userDao;
@@ -177,6 +184,46 @@ public class FarmProjectController {
 			throw e;
 		}
 	}
+	
+	@GetMapping(path = "/getCropVariety")
+	public @ResponseBody Iterable<MasterCropVariety> getCropVariety(@RequestParam Long projectId) {
+		FarmProjects p = projectDao.findById(projectId).get();
+		
+		return varietyDao.findAllByCrop(p.getCrop());
+	}
+	
+//	@GetMapping(path = "/getSowedPlots")
+//	public @ResponseBody Iterable<ProjectPlots> getSowedPlots(@RequestParam Long projectId,String location) {
+//		
+//		LocationDTO currentLoc = new Gson().fromJson(location, LocationDTO.class);
+//		double currentLat = currentLoc.getCoords().getLatitude();
+//		double currentLon = currentLoc.getCoords().getLongitude();
+//		FarmProjects fPlots = projectDao.findById(projectId).get();
+//		List<ProjectSowingData> sowing = sowin.findAllPlotsByProject(fPlots);
+//		List<PlotsDTO> allPlots = new ArrayList<>();
+//		for (ProjectPlots projectPlot : plots) {
+//			PlotsDTO p = new PlotsDTO();
+//			FarmPlots plot = projectPlot.getPlots();
+//			p.setId(plot.getPk1());
+//			p.setNumber(plot.getPlotNumber());
+//			LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
+//			p.setLocation(plot.getLocation());
+//			double plotLat = loc.getCoords().getLatitude();
+//			double plotLon = loc.getCoords().getLongitude();
+//			p.setLat(loc.getCoords().getLatitude());
+//			p.setLon(loc.getCoords().getLongitude());
+//			long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
+//			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
+//			p.setDistance(distance);
+//			p.setBearing(bearing);
+//			String plotDetails = "No: " + plot.getPlotNumber() + " in " + distance + "m away towards " + bearing;
+//			p.setUrlName(plotDetails);
+//			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
+//			p.setUrl(url);
+//			allPlots.add(p);
+//		}
+//		return allPlots;
+//	}
 
 	@PostMapping("addLandPreparation")
 	public @ResponseBody String saveLandPreparations(@RequestBody Iterable<LandPreparation> landPreparation) {

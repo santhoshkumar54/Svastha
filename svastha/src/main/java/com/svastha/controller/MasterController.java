@@ -1,32 +1,49 @@
 package com.svastha.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.svastha.entity.Crops;
 import com.svastha.entity.Fertilizers;
 import com.svastha.entity.LiveStock;
+import com.svastha.entity.MasterChemicalBrandMapping;
+import com.svastha.entity.MasterChemicalBrands;
+import com.svastha.entity.MasterChemicalPestMapping;
+import com.svastha.entity.MasterChemicals;
 import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterGrainMarket;
+import com.svastha.entity.MasterPests;
 import com.svastha.entity.MasterSoiltype;
 import com.svastha.entity.MasterTools;
 import com.svastha.entity.TransplantMethods;
 import com.svastha.entity.WaterSource;
+import com.svastha.model.ChemicalBrandModel;
+import com.svastha.model.DiseaseAndPestModel;
 import com.svastha.model.MasterProjectModel;
-import com.svastha.repository.CropRepository;
 import com.svastha.repository.FertilizerRepository;
 import com.svastha.repository.LiveStockRepository;
+import com.svastha.repository.MasterChemicalBrandMappingRepository;
+import com.svastha.repository.MasterChemicalRepository;
 import com.svastha.repository.MasterCropRepository;
 import com.svastha.repository.MasterCropStageRepository;
+import com.svastha.repository.MasterDiseasesAndPestsRepository;
 import com.svastha.repository.MasterGrainMarketRepository;
+import com.svastha.repository.MasterPestChemicalMappingRepository;
 import com.svastha.repository.MasterSeasonRepository;
 import com.svastha.repository.MasterSoilTypeRepository;
 import com.svastha.repository.MasterToolsRepository;
 import com.svastha.repository.MasterYearRepository;
 import com.svastha.repository.TransplantMethodRepository;
 import com.svastha.repository.WaterSourceRepository;
+
+enum ChemicalStatusEnum {
+	recommended, restricted, unknown
+
+}
 
 @RestController
 public class MasterController {
@@ -50,9 +67,6 @@ public class MasterController {
 	private TransplantMethodRepository transplantMethodDao;
 
 	@Autowired
-	private CropRepository cropDao;
-
-	@Autowired
 	private FertilizerRepository fertilizerDao;
 
 	@Autowired
@@ -66,6 +80,21 @@ public class MasterController {
 
 	@Autowired
 	private MasterCropStageRepository masterStageDao;
+
+	@Autowired
+	private MasterDiseasesAndPestsRepository masterPestsDao;
+
+	@Autowired
+	private MasterChemicalRepository chemicalsDao;
+
+	@Autowired
+	private MasterPestChemicalMappingRepository pestChemicalDao;
+
+	@Autowired
+	private MasterChemicalBrandMappingRepository chemicalBrandDao;
+
+//	@Autowired
+//	private MasterChemicalBrandRepository brandsDao;
 
 	@GetMapping(path = "/liveStocks")
 	public @ResponseBody Iterable<LiveStock> getLiveStocks() {
@@ -103,12 +132,6 @@ public class MasterController {
 		return fertilizerDao.findAll();
 	}
 
-	@GetMapping(path = "/crops")
-	public @ResponseBody Iterable<Crops> getCrops() {
-
-		return cropDao.findAll();
-	}
-	
 	@GetMapping(path = "/cropStage")
 	public @ResponseBody Iterable<MasterCropStage> getCropStage() {
 
@@ -128,6 +151,46 @@ public class MasterController {
 		master.setSeason(seasonDao.findAll());
 		master.setCrop(masterCropDao.findAll());
 		return master;
+	}
+
+	@GetMapping(path = "/getDiseasesAndPests")
+	public @ResponseBody Iterable<DiseaseAndPestModel> getDiseasesAndPests() {
+
+		List<DiseaseAndPestModel> pests = new ArrayList<DiseaseAndPestModel>();
+
+		List<MasterPests> master = masterPestsDao.findAll();
+		for (MasterPests pest : master) {
+			DiseaseAndPestModel pestModel = new DiseaseAndPestModel();
+
+			List<MasterChemicalPestMapping> chemicals = pestChemicalDao.findAllByPests(pest);
+			List<ChemicalBrandModel> chemicalBrandModels = new ArrayList<>();
+			for (MasterChemicalPestMapping chemical : chemicals) {
+				ChemicalBrandModel chemicalBrandModel = new ChemicalBrandModel();
+
+				List<MasterChemicalBrandMapping> brandsMap = chemicalBrandDao
+						.findAllByChemicals(chemical.getChemicals());
+				List<MasterChemicalBrands> brands = new ArrayList<>();
+				for (MasterChemicalBrandMapping brand : brandsMap) {
+					MasterChemicalBrands chemicalBrand = brand.getBrands();
+					brands.add(chemicalBrand);
+				}
+				chemicalBrandModel.setChemicals(chemical.getChemicals());
+				chemicalBrandModel.setBrands(brands);
+				chemicalBrandModels.add(chemicalBrandModel);
+			}
+
+			pestModel.setPests(pest);
+			pestModel.setChemicals(chemicalBrandModels);
+			pests.add(pestModel);
+
+		}
+		return pests;
+	}
+
+	@GetMapping(path = "/getRestrictedChemicals")
+	public @ResponseBody Iterable<MasterChemicals> getChemicals() {
+
+		return chemicalsDao.findAllByStatus(ChemicalStatusEnum.restricted.toString());
 	}
 
 }

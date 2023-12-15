@@ -9,34 +9,35 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ProjectIrrigation {
+public class MasterChemicals {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
-	private int number;
+	private String chemicalName;
+	
+	private String formulation;
 
-	private String cropStage;
+	private String recommendedDosage;
+		
+	private String phi;
+	
+	private String mrl;
 
-	private String irrigationDate;
-
-	private String irrigationSource;
-
-	private String techniques;
-
+	private String riskStatus;
+	
+	private String status;
+    
 	@ManyToOne
 	private Users createdBy;
 
 	private Timestamp createdDt;
-	
+
 	@ManyToOne
 	private Users updatedBy;
 
 	private Timestamp updatedDt;
-
-	@ManyToOne
-	private FarmProjects projects;
 
 	public Long getPk1() {
 		return pk1;
@@ -46,54 +47,54 @@ public class ProjectIrrigation {
 		this.pk1 = pk1;
 	}
 
-	public int getNumber() {
-		return number;
+	public String getChemicalName() {
+		return chemicalName;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+	public void setChemicalName(String chemicalName) {
+		this.chemicalName = chemicalName;
 	}
 
-	public String getCropStage() {
-		return cropStage;
+	public String getFormulation() {
+		return formulation;
 	}
 
-	public void setCropStage(String cropStage) {
-		this.cropStage = cropStage;
+	public void setFormulation(String formulation) {
+		this.formulation = formulation;
 	}
 
-	public String getIrrigationDate() {
-		return irrigationDate;
+	public String getRecommendedDosage() {
+		return recommendedDosage;
 	}
 
-	public void setIrrigationDate(String irrigationDate) {
-		this.irrigationDate = irrigationDate;
+	public void setRecommendedDosage(String recommendedDosage) {
+		this.recommendedDosage = recommendedDosage;
 	}
 
-	public String getIrrigationSource() {
-		return irrigationSource;
+	public String getPhi() {
+		return phi;
 	}
 
-	public void setIrrigationSource(String irrigationSource) {
-		this.irrigationSource = irrigationSource;
+	public void setPhi(String phi) {
+		this.phi = phi;
 	}
 
-	public String getTechniques() {
-		return techniques;
+	public String getMrl() {
+		return mrl;
 	}
 
-	public void setTechniques(String techniques) {
-		this.techniques = techniques;
+	public void setMrl(String mrl) {
+		this.mrl = mrl;
 	}
 
-	public FarmProjects getProjects() {
-		return projects;
+	public String getRiskStatus() {
+		return riskStatus;
 	}
 
-	public void setProjects(FarmProjects projects) {
-		this.projects = projects;
+	public void setRiskStatus(String riskStatus) {
+		this.riskStatus = riskStatus;
 	}
-	
+
 	public Users getCreatedBy() {
 		return createdBy;
 	}
@@ -109,7 +110,7 @@ public class ProjectIrrigation {
 	public void setCreatedDt(Timestamp createdDt) {
 		this.createdDt = createdDt;
 	}
-	
+
 	public Users getUpdatedBy() {
 		return updatedBy;
 	}
@@ -125,6 +126,12 @@ public class ProjectIrrigation {
 	public void setUpdatedDt(Timestamp updatedDt) {
 		this.updatedDt = updatedDt;
 	}
-	
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

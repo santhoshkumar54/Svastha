@@ -74,7 +74,7 @@ public class GpsServiceImpl implements GpsService {
 
 	@Override
 	public String calculateDirection(long bearing) {
-		if( bearing >= 340 && bearing <= 20 )
+		if( bearing >= 340 || bearing <= 20 )
 		{
 			return "N";
 		}

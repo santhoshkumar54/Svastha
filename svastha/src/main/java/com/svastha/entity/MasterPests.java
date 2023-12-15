@@ -9,34 +9,25 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ProjectIrrigation {
+public class MasterPests {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
-	private int number;
+	private String name;
 
-	private String cropStage;
-
-	private String irrigationDate;
-
-	private String irrigationSource;
-
-	private String techniques;
+	private String type;
 
 	@ManyToOne
 	private Users createdBy;
 
 	private Timestamp createdDt;
-	
+
 	@ManyToOne
 	private Users updatedBy;
 
 	private Timestamp updatedDt;
-
-	@ManyToOne
-	private FarmProjects projects;
 
 	public Long getPk1() {
 		return pk1;
@@ -46,54 +37,22 @@ public class ProjectIrrigation {
 		this.pk1 = pk1;
 	}
 
-	public int getNumber() {
-		return number;
+	public String getName() {
+		return name;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getCropStage() {
-		return cropStage;
+	public String getType() {
+		return type;
 	}
 
-	public void setCropStage(String cropStage) {
-		this.cropStage = cropStage;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getIrrigationDate() {
-		return irrigationDate;
-	}
-
-	public void setIrrigationDate(String irrigationDate) {
-		this.irrigationDate = irrigationDate;
-	}
-
-	public String getIrrigationSource() {
-		return irrigationSource;
-	}
-
-	public void setIrrigationSource(String irrigationSource) {
-		this.irrigationSource = irrigationSource;
-	}
-
-	public String getTechniques() {
-		return techniques;
-	}
-
-	public void setTechniques(String techniques) {
-		this.techniques = techniques;
-	}
-
-	public FarmProjects getProjects() {
-		return projects;
-	}
-
-	public void setProjects(FarmProjects projects) {
-		this.projects = projects;
-	}
-	
 	public Users getCreatedBy() {
 		return createdBy;
 	}
@@ -109,7 +68,7 @@ public class ProjectIrrigation {
 	public void setCreatedDt(Timestamp createdDt) {
 		this.createdDt = createdDt;
 	}
-	
+
 	public Users getUpdatedBy() {
 		return updatedBy;
 	}
@@ -125,6 +84,4 @@ public class ProjectIrrigation {
 	public void setUpdatedDt(Timestamp updatedDt) {
 		this.updatedDt = updatedDt;
 	}
-	
-	
 }

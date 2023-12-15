@@ -9,21 +9,21 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ProjectIrrigation {
+public class ProjectNurseryWater {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
-	private int number;
-
-	private String cropStage;
+	private String seedlingAge;
 
 	private String irrigationDate;
 
-	private String irrigationSource;
+	@ManyToOne
+	private ProjectPlots plot;
 
-	private String techniques;
+	@ManyToOne
+	private MasterCropVariety variety;
 
 	@ManyToOne
 	private Users createdBy;
@@ -46,20 +46,13 @@ public class ProjectIrrigation {
 		this.pk1 = pk1;
 	}
 
-	public int getNumber() {
-		return number;
+
+	public String getSeedlingAge() {
+		return seedlingAge;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
-	}
-
-	public String getCropStage() {
-		return cropStage;
-	}
-
-	public void setCropStage(String cropStage) {
-		this.cropStage = cropStage;
+	public void setSeedlingAge(String seedlingAge) {
+		this.seedlingAge = seedlingAge;
 	}
 
 	public String getIrrigationDate() {
@@ -70,30 +63,22 @@ public class ProjectIrrigation {
 		this.irrigationDate = irrigationDate;
 	}
 
-	public String getIrrigationSource() {
-		return irrigationSource;
+	public ProjectPlots getPlot() {
+		return plot;
 	}
 
-	public void setIrrigationSource(String irrigationSource) {
-		this.irrigationSource = irrigationSource;
+	public void setPlot(ProjectPlots plot) {
+		this.plot = plot;
 	}
 
-	public String getTechniques() {
-		return techniques;
+	public MasterCropVariety getVariety() {
+		return variety;
 	}
 
-	public void setTechniques(String techniques) {
-		this.techniques = techniques;
+	public void setVariety(MasterCropVariety variety) {
+		this.variety = variety;
 	}
 
-	public FarmProjects getProjects() {
-		return projects;
-	}
-
-	public void setProjects(FarmProjects projects) {
-		this.projects = projects;
-	}
-	
 	public Users getCreatedBy() {
 		return createdBy;
 	}
@@ -109,7 +94,15 @@ public class ProjectIrrigation {
 	public void setCreatedDt(Timestamp createdDt) {
 		this.createdDt = createdDt;
 	}
-	
+
+	public FarmProjects getProjects() {
+		return projects;
+	}
+
+	public void setProjects(FarmProjects projects) {
+		this.projects = projects;
+	}
+
 	public Users getUpdatedBy() {
 		return updatedBy;
 	}

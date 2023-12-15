@@ -29,6 +29,11 @@ public class ProjectDSRMethod {
 	private Users createdBy;
 
 	private Timestamp createdDt;
+	
+	@ManyToOne
+	private Users updatedBy;
+
+	private Timestamp updatedDt;
 
 	@ManyToOne
 	private FarmProjects projects;
@@ -96,6 +101,24 @@ public class ProjectDSRMethod {
 	public void setCreatedDt(Timestamp createdDt) {
 		this.createdDt = createdDt;
 	}
+
+	public Users getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Users updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedDt() {
+		return updatedDt;
+	}
+
+	public void setUpdatedDt(Timestamp updatedDt) {
+		this.updatedDt = updatedDt;
+	}
+	
+	
 
 	public FarmProjects getProjects() {
 		return projects;

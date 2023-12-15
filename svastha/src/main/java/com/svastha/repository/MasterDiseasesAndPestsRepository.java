@@ -3,9 +3,9 @@ package com.svastha.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.svastha.entity.Crops;
+import com.svastha.entity.MasterPests;
 
 @Repository
-public interface CropRepository extends JpaRepository<Crops, Long>{
+public interface MasterDiseasesAndPestsRepository extends JpaRepository<MasterPests, Long>{
 
 }
