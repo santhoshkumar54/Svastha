@@ -18,23 +18,23 @@ import com.svastha.dto.ProjectsDTO;
 import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.Farms;
-import com.svastha.entity.LandPreparation;
+import com.svastha.entity.ProjectLandPreparation;
 import com.svastha.entity.MasterChemicals;
 import com.svastha.entity.MasterCropVariety;
 import com.svastha.entity.NurseryManagement;
 import com.svastha.entity.ProjectPlots;
 import com.svastha.entity.ProjectSowingData;
-import com.svastha.entity.TransplantManagement;
+import com.svastha.entity.ProjectTransplantManagement;
 import com.svastha.entity.Users;
 import com.svastha.model.ProjectModel;
 import com.svastha.repository.FarmPlotsRepository;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.FarmRepository;
-import com.svastha.repository.LandPreparationRepository;
+import com.svastha.repository.ProjectsLandPreparationRepository;
 import com.svastha.repository.MasterCropVarietyRepository;
 import com.svastha.repository.NurseryManagementRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
-import com.svastha.repository.TransplantManagementRepository;
+import com.svastha.repository.ProjectsTransplantManagementRepository;
 import com.svastha.repository.UserRepository;
 import com.svastha.service.GpsService;
 
@@ -45,13 +45,7 @@ public class FarmProjectController {
 	private FarmProjectRepository projectDao;
 
 	@Autowired
-	private LandPreparationRepository landDao;
-
-	@Autowired
 	private NurseryManagementRepository nurseryDao;
-
-	@Autowired
-	private TransplantManagementRepository transplantDao;
 
 	@Autowired
 	private FarmRepository farmDao;
@@ -82,15 +76,14 @@ public class FarmProjectController {
 		return projectDao.findByCreatedBy(u);
 	}
 
+	// * unused.
 	@GetMapping("/getProject")
 	public @ResponseBody ProjectModel getFarmById(@RequestParam Long projectId) {
 		ProjectModel projectModel = new ProjectModel();
 		FarmProjects f = projectDao.findById(projectId).get();
 		projectModel.setFarm(f);
-		List<LandPreparation> land = landDao.findAllByProject(f);
 		List<NurseryManagement> nursery = nurseryDao.findAllByProject(f);
-		List<TransplantManagement> transplant = transplantDao.findAllByProject(f);
-		projectModel.setLandPreparation(land);
+		List<ProjectTransplantManagement> transplant = transplantDao.findAllByProject(f);
 		projectModel.setNursery(nursery);
 		projectModel.setTransplant(transplant);
 		return projectModel;
@@ -119,7 +112,7 @@ public class FarmProjectController {
 			p.setDistance(distance);
 			p.setBearing(bearing);
 			String direction = gpsService.calculateDirection(bearing);
-			String plotDetails = "PLot no: " + plot.getPlotNumber() + " in " + distance + "m away towards " + bearing
+			String plotDetails = distance + "m away towards " + bearing
 					+ " " + direction + " direction.";
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
@@ -153,7 +146,7 @@ public class FarmProjectController {
 			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
 			p.setDistance(distance);
 			p.setBearing(bearing);
-			String plotDetails = "No: " + plot.getPlotNumber() + " in " + distance + "m away towards " + bearing;
+			String plotDetails = distance + "m away towards " + bearing;
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 			p.setUrl(url);
@@ -226,7 +219,7 @@ public class FarmProjectController {
 //	}
 
 	@PostMapping("addLandPreparation")
-	public @ResponseBody String saveLandPreparations(@RequestBody Iterable<LandPreparation> landPreparation) {
+	public @ResponseBody String saveLandPreparations(@RequestBody Iterable<ProjectLandPreparation> landPreparation) {
 		try {
 			landDao.saveAll(landPreparation);
 			return "Success";
@@ -240,18 +233,6 @@ public class FarmProjectController {
 	public @ResponseBody String saveNurseryManagement(@RequestBody Iterable<NurseryManagement> nurseryManagement) {
 		try {
 			nurseryDao.saveAll(nurseryManagement);
-			return "Success";
-
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	@PostMapping("addTransplantManagement")
-	public @ResponseBody String saveTransplantManagement(
-			@RequestBody Iterable<TransplantManagement> transplantManagement) {
-		try {
-			transplantDao.saveAll(transplantManagement);
 			return "Success";
 
 		} catch (Exception e) {

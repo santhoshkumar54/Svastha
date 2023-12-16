@@ -8,28 +8,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.dto.ProjectSeedTreatmentDTO;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectDSRMethod;
 import com.svastha.entity.ProjectIrrigation;
+import com.svastha.entity.ProjectLandPreparation;
 import com.svastha.entity.ProjectNurseryNutrient;
 import com.svastha.entity.ProjectNurseryPests;
 import com.svastha.entity.ProjectNurseryWater;
 import com.svastha.entity.ProjectNurseryWeed;
-import com.svastha.entity.ProjectProtection;
 import com.svastha.entity.ProjectSeedTreatment;
 import com.svastha.entity.ProjectSeedTreatmentChemical;
 import com.svastha.entity.ProjectSowingData;
+import com.svastha.entity.ProjectTransplantManagement;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsDsrRepository;
 import com.svastha.repository.ProjectsIrrigationRepository;
+import com.svastha.repository.ProjectsLandPreparationRepository;
 import com.svastha.repository.ProjectsNutrientRepository;
 import com.svastha.repository.ProjectsPestsRepository;
 import com.svastha.repository.ProjectsSeedTreatmentChemicalRepository;
 import com.svastha.repository.ProjectsSeedTreatmentRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
+import com.svastha.repository.ProjectsTransplantManagementRepository;
 import com.svastha.repository.ProjectsWaterRepository;
 import com.svastha.repository.ProjectsWeedRepository;
 
@@ -65,6 +69,12 @@ public class ProductionController {
 	
 	@Autowired
 	private ProjectsPestsRepository pestDao;
+	
+	@Autowired
+	private ProjectsLandPreparationRepository landDao;
+	
+	@Autowired
+	private ProjectsTransplantManagementRepository transplantDao;
 
 	@GetMapping("/getSeedTreatment")
 	public ProjectSeedTreatmentDTO getSeedTReatment(@RequestParam Long projectId) {
@@ -177,5 +187,38 @@ public class ProductionController {
 	public List<ProjectNurseryPests> saveNurseryPests(@RequestBody List<ProjectNurseryPests> pests) {
 
 		return pestDao.saveAll(pests);
+	}
+	
+	@GetMapping("/getLandPreparation")
+	public List<ProjectLandPreparation> getLandPreparation(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		return landDao.findAllByProject(project);
+	}
+	
+	@PostMapping("/saveLandPreparation")
+	public @ResponseBody List<ProjectLandPreparation> saveLandPreparation(@RequestBody List<ProjectLandPreparation> landPreparation) {
+		try {
+			return landDao.saveAll(landPreparation);
+
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@GetMapping("/getTransplantManagement")
+	public List<ProjectLandPreparation> getTransplantManagement(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		return landDao.findAllByProject(project);
+	}
+
+	@PostMapping("/saveTransplantManagement")
+	public @ResponseBody List<ProjectTransplantManagement> saveTransplantManagement(
+			@RequestBody List<ProjectTransplantManagement> transplantManagement) {
+		try {
+			return transplantDao.saveAll(transplantManagement);
+
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }

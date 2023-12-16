@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.svastha.entity.FarmProjects;
-import com.svastha.entity.LandPreparation;
+import com.svastha.entity.ProjectLandPreparation;
 import com.svastha.entity.NurseryManagement;
-import com.svastha.entity.TransplantManagement;
+import com.svastha.entity.ProjectTransplantManagement;
 
 public class ProjectModel implements Serializable {
 
@@ -17,11 +17,11 @@ public class ProjectModel implements Serializable {
 
 	private FarmProjects farm;
 	
-	private List<LandPreparation> landPreparation;
+	private List<ProjectLandPreparation> landPreparation;
 	
 	private List<NurseryManagement> nursery;
 	
-	private List<TransplantManagement> transplant;
+	private List<ProjectTransplantManagement> transplant;
 
 	public FarmProjects getFarm() {
 		return farm;
@@ -31,11 +31,11 @@ public class ProjectModel implements Serializable {
 		this.farm = farm;
 	}
 
-	public List<LandPreparation> getLandPreparation() {
+	public List<ProjectLandPreparation> getLandPreparation() {
 		return landPreparation;
 	}
 
-	public void setLandPreparation(List<LandPreparation> landPreparation) {
+	public void setLandPreparation(List<ProjectLandPreparation> landPreparation) {
 		this.landPreparation = landPreparation;
 	}
 
@@ -47,11 +47,11 @@ public class ProjectModel implements Serializable {
 		this.nursery = nursery;
 	}
 
-	public List<TransplantManagement> getTransplant() {
+	public List<ProjectTransplantManagement> getTransplant() {
 		return transplant;
 	}
 
-	public void setTransplant(List<TransplantManagement> transplant) {
+	public void setTransplant(List<ProjectTransplantManagement> transplant) {
 		this.transplant = transplant;
 	}
 }

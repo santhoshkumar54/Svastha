@@ -9,11 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class LandPreparation {
+public class ProjectLandPreparation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
+	
+	@ManyToOne
+	private MasterCropVariety variety;
 
 	private String dateOfPreparation;
 
@@ -21,7 +24,9 @@ public class LandPreparation {
 
 	private String method;
 
-	private String levelingStatus;
+	private String fieldPreparation;
+	
+	private String noOfTimes;
 
 	@ManyToOne
 	private FarmProjects project;
@@ -68,12 +73,28 @@ public class LandPreparation {
 		this.method = method;
 	}
 
-	public String getLevelingStatus() {
-		return levelingStatus;
+	public MasterCropVariety getVariety() {
+		return variety;
 	}
 
-	public void setLevelingStatus(String levelingStatus) {
-		this.levelingStatus = levelingStatus;
+	public void setVariety(MasterCropVariety variety) {
+		this.variety = variety;
+	}
+
+	public String getFieldPreparation() {
+		return fieldPreparation;
+	}
+
+	public void setFieldPreparation(String fieldPreparation) {
+		this.fieldPreparation = fieldPreparation;
+	}
+
+	public String getNoOfTimes() {
+		return noOfTimes;
+	}
+
+	public void setNoOfTimes(String noOfTimes) {
+		this.noOfTimes = noOfTimes;
 	}
 
 	public FarmProjects getProject() {

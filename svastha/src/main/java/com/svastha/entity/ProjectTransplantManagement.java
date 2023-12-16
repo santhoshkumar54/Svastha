@@ -9,26 +9,30 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class TransplantManagement {
+public class ProjectTransplantManagement {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
-	private String variety;
+	@ManyToOne
+	private MasterCropVariety variety;
 
 	private String dateOfTransplanting;
 
-	private String dateOfDirectSowing;
+	private String duration;
 
-	private String manualCoverage;
+	private String acres;
 
-	private String mechanicalCoverage;
+	private String seedlingAge;
 
-	private String transplanterCoverage;
+	private String spacing;
 
-	private String directCoverage;
+	private String hill;
 
+	@ManyToOne
+	private FarmPlots plots;
+	
 	@ManyToOne
 	private FarmProjects project;
 
@@ -50,11 +54,11 @@ public class TransplantManagement {
 		this.pk1 = pk1;
 	}
 
-	public String getVariety() {
+	public MasterCropVariety getVariety() {
 		return variety;
 	}
 
-	public void setVariety(String variety) {
+	public void setVariety(MasterCropVariety variety) {
 		this.variety = variety;
 	}
 
@@ -65,45 +69,53 @@ public class TransplantManagement {
 	public void setDateOfTransplanting(String dateOfTransplanting) {
 		this.dateOfTransplanting = dateOfTransplanting;
 	}
-
-	public String getDateOfDirectSowing() {
-		return dateOfDirectSowing;
+	
+	public String getDuration() {
+		return duration;
 	}
 
-	public void setDateOfDirectSowing(String dateOfDirectSowing) {
-		this.dateOfDirectSowing = dateOfDirectSowing;
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 
-	public String getManualCoverage() {
-		return manualCoverage;
+	public String getAcres() {
+		return acres;
 	}
 
-	public void setManualCoverage(String manualCoverage) {
-		this.manualCoverage = manualCoverage;
+	public void setAcres(String acres) {
+		this.acres = acres;
 	}
 
-	public String getMechanicalCoverage() {
-		return mechanicalCoverage;
+	public String getSeedlingAge() {
+		return seedlingAge;
 	}
 
-	public void setMechanicalCoverage(String mechanicalCoverage) {
-		this.mechanicalCoverage = mechanicalCoverage;
+	public void setSeedlingAge(String seedlingAge) {
+		this.seedlingAge = seedlingAge;
 	}
 
-	public String getTransplanterCoverage() {
-		return transplanterCoverage;
+	public String getSpacing() {
+		return spacing;
 	}
 
-	public void setTransplanterCoverage(String transplanterCoverage) {
-		this.transplanterCoverage = transplanterCoverage;
+	public void setSpacing(String spacing) {
+		this.spacing = spacing;
 	}
 
-	public String getDirectCoverage() {
-		return directCoverage;
+	public String getHill() {
+		return hill;
 	}
 
-	public void setDirectCoverage(String directCoverage) {
-		this.directCoverage = directCoverage;
+	public void setHill(String hill) {
+		this.hill = hill;
+	}
+
+	public FarmPlots getPlots() {
+		return plots;
+	}
+
+	public void setPlots(FarmPlots plots) {
+		this.plots = plots;
 	}
 
 	public FarmProjects getProject() {

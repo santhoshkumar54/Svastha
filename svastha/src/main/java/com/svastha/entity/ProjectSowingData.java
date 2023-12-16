@@ -15,7 +15,8 @@ public class ProjectSowingData {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
-	private String variety;
+	@ManyToOne
+	private MasterCropVariety variety;
 
 	private String sowingDate;
 
@@ -45,11 +46,11 @@ public class ProjectSowingData {
 		this.pk1 = pk1;
 	}
 
-	public String getVariety() {
+	public MasterCropVariety getVariety() {
 		return variety;
 	}
 
-	public void setVariety(String variety) {
+	public void setVariety(MasterCropVariety variety) {
 		this.variety = variety;
 	}
 
@@ -116,6 +117,4 @@ public class ProjectSowingData {
 	public void setPlots(FarmPlots plots) {
 		this.plots = plots;
 	}
-	
-	
 }
