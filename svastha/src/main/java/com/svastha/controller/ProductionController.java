@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.dto.ProjectSeedTreatmentDTO;
-import com.svastha.dto.ProjectSowingDTO;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectDSRMethod;
 import com.svastha.entity.ProjectIrrigation;
