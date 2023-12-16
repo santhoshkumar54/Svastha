@@ -20,6 +20,9 @@ public class ProjectSowingData {
 	private String sowingDate;
 
 	private String remarks;
+	
+	@ManyToOne
+	private FarmPlots plots; 
 
 	@ManyToOne
 	private FarmProjects projects;
@@ -105,4 +108,14 @@ public class ProjectSowingData {
 	public void setUpdatedDt(Timestamp updatedDt) {
 		this.updatedDt = updatedDt;
 	}
+
+	public FarmPlots getPlots() {
+		return plots;
+	}
+
+	public void setPlots(FarmPlots plots) {
+		this.plots = plots;
+	}
+	
+	
 }

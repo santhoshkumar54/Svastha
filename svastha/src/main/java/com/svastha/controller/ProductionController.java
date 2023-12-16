@@ -19,14 +19,12 @@ import com.svastha.entity.ProjectNurseryWater;
 import com.svastha.entity.ProjectSeedTreatment;
 import com.svastha.entity.ProjectSeedTreatmentChemical;
 import com.svastha.entity.ProjectSowingData;
-import com.svastha.entity.ProjectSowingPlots;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsDsrRepository;
 import com.svastha.repository.ProjectsIrrigationRepository;
 import com.svastha.repository.ProjectsSeedTreatmentChemicalRepository;
 import com.svastha.repository.ProjectsSeedTreatmentRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
-import com.svastha.repository.ProjectsSowingPlotsRepository;
 import com.svastha.repository.ProjectsWaterRepository;
 
 @RestController
@@ -45,14 +43,11 @@ public class ProductionController {
 	private ProjectsSowingDataRepository sowingDao;
 
 	@Autowired
-	private ProjectsSowingPlotsRepository sowingPlotsDao;
-
-	@Autowired
 	private FarmProjectRepository projectDao;
 
 	@Autowired
 	private ProjectsIrrigationRepository irrigationDao;
-	
+
 	@Autowired
 	private ProjectsWaterRepository waterDao;
 
@@ -96,35 +91,16 @@ public class ProductionController {
 	}
 
 	@GetMapping("/getSowingData")
-	public List<ProjectSowingDTO> getSowingData(@RequestParam Long projectId) {
+	public List<ProjectSowingData> getSowingData(@RequestParam Long projectId) {
 
-		List<ProjectSowingDTO> dtos = new ArrayList<>();
 		FarmProjects project = projectDao.findById(projectId).get();
-		List<ProjectSowingData> sowings = sowingDao.findAllSowingDataByProjects(project);
-
-		for (ProjectSowingData sowing : sowings) {
-			ProjectSowingDTO dto = new ProjectSowingDTO();
-			dto.setSowingData(sowing);
-			List<ProjectSowingPlots> plots = sowingPlotsDao.findAllPlotsBySowing(sowing);
-			dto.setPlots(plots);
-			dtos.add(dto);
-		}
-
-		return dtos;
+		return sowingDao.findAllSowingDataByProjects(project);
 	}
 
 	@PostMapping("/saveSowingData")
-	public void saveSowingData(@RequestBody List<ProjectSowingDTO> dtos) {
+	public void saveSowingData(@RequestBody List<ProjectSowingData> sowings) {
 
-		for (ProjectSowingDTO dto : dtos) {
-			ProjectSowingData sowing = sowingDao.save(dto.getSowingData());
-			List<ProjectSowingPlots> plotsEntity = new ArrayList<>();
-			for (ProjectSowingPlots plots : dto.getPlots()) {
-				plots.setSowing(sowing);
-				plotsEntity.add(plots);
-			}
-			sowingPlotsDao.saveAll(plotsEntity);
-		}
+		sowingDao.saveAll(sowings);
 	}
 
 	@GetMapping("/getIrrigation")
@@ -138,7 +114,7 @@ public class ProductionController {
 
 		return irrigationDao.saveAll(irrigation);
 	}
-	
+
 	@GetMapping("/getNurseryWater")
 	public List<ProjectNurseryWater> getNurseryWater(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -150,6 +126,5 @@ public class ProductionController {
 
 		return waterDao.saveAll(water);
 	}
-	
-	
+
 }
