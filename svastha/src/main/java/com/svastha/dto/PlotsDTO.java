@@ -19,6 +19,8 @@ public class PlotsDTO {
 	private String urlName;
 
 	private String url;
+	
+	private String cropStage;
 
 	public long getId() {
 		return id;
@@ -90,5 +92,13 @@ public class PlotsDTO {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getCropStage() {
+		return cropStage;
+	}
+
+	public void setCropStage(String cropStage) {
+		this.cropStage = cropStage;
 	}
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.dto.ProjectSeedTreatmentDTO;
 import com.svastha.entity.FarmProjects;
+import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.ProjectDSRMethod;
 import com.svastha.entity.ProjectIrrigation;
 import com.svastha.entity.ProjectLandPreparation;
@@ -24,6 +25,7 @@ import com.svastha.entity.ProjectSeedTreatment;
 import com.svastha.entity.ProjectSeedTreatmentChemical;
 import com.svastha.entity.ProjectSowingData;
 import com.svastha.entity.ProjectTransplantManagement;
+import com.svastha.entity.ProjectWeedManagement;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsDsrRepository;
 import com.svastha.repository.ProjectsIrrigationRepository;
@@ -35,6 +37,7 @@ import com.svastha.repository.ProjectsSeedTreatmentRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
 import com.svastha.repository.ProjectsTransplantManagementRepository;
 import com.svastha.repository.ProjectsWaterRepository;
+import com.svastha.repository.ProjectsWeedManagementRepository;
 import com.svastha.repository.ProjectsWeedRepository;
 
 @RestController
@@ -75,6 +78,9 @@ public class ProductionController {
 	
 	@Autowired
 	private ProjectsTransplantManagementRepository transplantDao;
+	
+	@Autowired
+	private ProjectsWeedManagementRepository weedMgtDao;
 
 	@GetMapping("/getSeedTreatment")
 	public ProjectSeedTreatmentDTO getSeedTReatment(@RequestParam Long projectId) {
@@ -220,5 +226,18 @@ public class ProductionController {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	@GetMapping("/getWeedManagement")
+	public List<ProjectWeedManagement> getWeedManagement(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+
+		return weedMgtDao.findAllByProjects(project);
+	}
+
+	@PostMapping("/saveWeedManagement")
+	public List<ProjectWeedManagement> saveWeedManagement(@RequestBody List<ProjectWeedManagement> weed) {
+
+		return weedMgtDao.saveAll(weed);
 	}
 }

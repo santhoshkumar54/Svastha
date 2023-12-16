@@ -1,9 +1,14 @@
 package com.svastha.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,23 +23,21 @@ import com.svastha.dto.ProjectsDTO;
 import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.Farms;
-import com.svastha.entity.ProjectLandPreparation;
-import com.svastha.entity.MasterChemicals;
+import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterCropVariety;
 import com.svastha.entity.NurseryManagement;
 import com.svastha.entity.ProjectPlots;
 import com.svastha.entity.ProjectSowingData;
-import com.svastha.entity.ProjectTransplantManagement;
 import com.svastha.entity.Users;
 import com.svastha.model.ProjectModel;
 import com.svastha.repository.FarmPlotsRepository;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.FarmRepository;
-import com.svastha.repository.ProjectsLandPreparationRepository;
+import com.svastha.repository.MasterCropStageRepository;
 import com.svastha.repository.MasterCropVarietyRepository;
 import com.svastha.repository.NurseryManagementRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
-import com.svastha.repository.ProjectsTransplantManagementRepository;
+import com.svastha.repository.ProjectsSowingDataRepository;
 import com.svastha.repository.UserRepository;
 import com.svastha.service.GpsService;
 
@@ -55,12 +58,18 @@ public class FarmProjectController {
 
 	@Autowired
 	private ProjectsPlotsRepository projectPlotsDao;
-	
+
 	@Autowired
 	private MasterCropVarietyRepository varietyDao;
 
 	@Autowired
 	private UserRepository userDao;
+
+	@Autowired
+	private ProjectsSowingDataRepository sowingDao;
+
+	@Autowired
+	private MasterCropStageRepository stageDao;
 
 	@Autowired
 	private GpsService gpsService;
@@ -110,15 +119,47 @@ public class FarmProjectController {
 			p.setDistance(distance);
 			p.setBearing(bearing);
 			String direction = gpsService.calculateDirection(bearing);
-			String plotDetails = distance + "m away towards " + bearing
-					+ " " + direction + " direction.";
+			String plotDetails = "Plot No: "+ plot.getPlotNumber()+" - "+ distance + "m away towards " + bearing + " " + direction + " direction.";
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 			p.setUrl(url);
+			p.setCropStage(getCropStage(plot));
 			allPlots.add(p);
 		}
 
 		return allPlots;
+	}
+
+	public String getCropStage(FarmPlots plot) {
+		Sort sort = Sort.by(Sort.Direction.ASC, "sowingDate");
+		List<ProjectSowingData> sowings = sowingDao.findAllByplots(plot, sort);
+		if (!sowings.isEmpty()) {
+			String date = sowings.get(0).getSowingDate();
+			Date d = convertToDate(date);
+			return getStage(d);
+		}
+		return "";
+	}
+
+	public Date convertToDate(String dateString) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/M/dd");
+
+		try {
+			Date date = dateFormat.parse(dateString);
+			return date;
+		} catch (ParseException e) {
+			return new Date();
+		}
+	}
+
+	public String getStage(Date d) {
+		long differenceInMillis = new Date().getTime() - d.getTime();
+		int differenceInDays = Math.toIntExact(TimeUnit.MILLISECONDS.toDays(differenceInMillis));
+		List<MasterCropStage> stage = stageDao.findByCustomQuery(differenceInDays);
+		if (!stage.isEmpty()) {
+			return stage.get(0).getCropStage();
+		}
+		return "";
 	}
 
 	@GetMapping("/getProjectPlots")
@@ -175,14 +216,14 @@ public class FarmProjectController {
 			throw e;
 		}
 	}
-	
+
 	@GetMapping(path = "/getCropVariety")
 	public @ResponseBody Iterable<MasterCropVariety> getCropVariety(@RequestParam Long projectId) {
 		FarmProjects p = projectDao.findById(projectId).get();
-		
+
 		return varietyDao.findAllByCrop(p.getCrop());
 	}
-	
+
 //	@GetMapping(path = "/getSowedPlots")
 //	public @ResponseBody Iterable<ProjectPlots> getSowedPlots(@RequestParam Long projectId,String location) {
 //		
