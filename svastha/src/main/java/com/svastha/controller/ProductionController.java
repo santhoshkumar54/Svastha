@@ -15,8 +15,10 @@ import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectDSRMethod;
 import com.svastha.entity.ProjectIrrigation;
 import com.svastha.entity.ProjectNurseryNutrient;
+import com.svastha.entity.ProjectNurseryPests;
 import com.svastha.entity.ProjectNurseryWater;
 import com.svastha.entity.ProjectNurseryWeed;
+import com.svastha.entity.ProjectProtection;
 import com.svastha.entity.ProjectSeedTreatment;
 import com.svastha.entity.ProjectSeedTreatmentChemical;
 import com.svastha.entity.ProjectSowingData;
@@ -24,6 +26,7 @@ import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsDsrRepository;
 import com.svastha.repository.ProjectsIrrigationRepository;
 import com.svastha.repository.ProjectsNutrientRepository;
+import com.svastha.repository.ProjectsPestsRepository;
 import com.svastha.repository.ProjectsSeedTreatmentChemicalRepository;
 import com.svastha.repository.ProjectsSeedTreatmentRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
@@ -59,6 +62,9 @@ public class ProductionController {
 	
 	@Autowired
 	private ProjectsNutrientRepository nutrientDao;
+	
+	@Autowired
+	private ProjectsPestsRepository pestDao;
 
 	@GetMapping("/getSeedTreatment")
 	public ProjectSeedTreatmentDTO getSeedTReatment(@RequestParam Long projectId) {
@@ -159,5 +165,17 @@ public class ProductionController {
 
 		return nutrientDao.saveAll(nutrient);
 	}
+	
+	@GetMapping("/getNurseryPests")
+	public List<ProjectNurseryPests> getNurseryPests(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
 
+		return pestDao.findAllPestsByProjects(project);
+	}
+
+	@PostMapping("/saveNurseryPests")
+	public List<ProjectNurseryPests> saveNurseryPests(@RequestBody List<ProjectNurseryPests> pests) {
+
+		return pestDao.saveAll(pests);
+	}
 }
