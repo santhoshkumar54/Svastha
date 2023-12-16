@@ -3,9 +3,9 @@ package com.svastha.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.svastha.entity.MasterFertilizers;
+import com.svastha.entity.MasterWeedicide;
 
 @Repository
-public interface MasterFertilizerRepository extends JpaRepository<MasterFertilizers, Long>{
+public interface MasterWeedicideRepository extends JpaRepository<MasterWeedicide, Long> {
 
 }

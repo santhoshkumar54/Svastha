@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Fertilizers {
+public class MasterFertilizers {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;

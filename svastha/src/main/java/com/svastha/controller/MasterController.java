@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.svastha.entity.Fertilizers;
+import com.svastha.entity.MasterFertilizers;
 import com.svastha.entity.LiveStock;
 import com.svastha.entity.MasterChemicalBrandMapping;
 import com.svastha.entity.MasterChemicalBrands;
@@ -24,7 +24,7 @@ import com.svastha.entity.WaterSource;
 import com.svastha.model.ChemicalBrandModel;
 import com.svastha.model.DiseaseAndPestModel;
 import com.svastha.model.MasterProjectModel;
-import com.svastha.repository.FertilizerRepository;
+import com.svastha.repository.MasterFertilizerRepository;
 import com.svastha.repository.LiveStockRepository;
 import com.svastha.repository.MasterChemicalBrandMappingRepository;
 import com.svastha.repository.MasterChemicalRepository;
@@ -67,7 +67,7 @@ public class MasterController {
 	private TransplantMethodRepository transplantMethodDao;
 
 	@Autowired
-	private FertilizerRepository fertilizerDao;
+	private MasterFertilizerRepository fertilizerDao;
 
 	@Autowired
 	private MasterCropRepository masterCropDao;
@@ -127,7 +127,7 @@ public class MasterController {
 	}
 
 	@GetMapping(path = "/fertilizers")
-	public @ResponseBody Iterable<Fertilizers> getFertilizers() {
+	public @ResponseBody Iterable<MasterFertilizers> getFertilizers() {
 
 		return fertilizerDao.findAll();
 	}

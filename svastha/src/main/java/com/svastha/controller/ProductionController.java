@@ -14,17 +14,21 @@ import com.svastha.dto.ProjectSeedTreatmentDTO;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectDSRMethod;
 import com.svastha.entity.ProjectIrrigation;
+import com.svastha.entity.ProjectNurseryNutrient;
 import com.svastha.entity.ProjectNurseryWater;
+import com.svastha.entity.ProjectNurseryWeed;
 import com.svastha.entity.ProjectSeedTreatment;
 import com.svastha.entity.ProjectSeedTreatmentChemical;
 import com.svastha.entity.ProjectSowingData;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsDsrRepository;
 import com.svastha.repository.ProjectsIrrigationRepository;
+import com.svastha.repository.ProjectsNutrientRepository;
 import com.svastha.repository.ProjectsSeedTreatmentChemicalRepository;
 import com.svastha.repository.ProjectsSeedTreatmentRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
 import com.svastha.repository.ProjectsWaterRepository;
+import com.svastha.repository.ProjectsWeedRepository;
 
 @RestController
 public class ProductionController {
@@ -49,6 +53,12 @@ public class ProductionController {
 
 	@Autowired
 	private ProjectsWaterRepository waterDao;
+	
+	@Autowired
+	private ProjectsWeedRepository weedDao;
+	
+	@Autowired
+	private ProjectsNutrientRepository nutrientDao;
 
 	@GetMapping("/getSeedTreatment")
 	public ProjectSeedTreatmentDTO getSeedTReatment(@RequestParam Long projectId) {
@@ -124,6 +134,30 @@ public class ProductionController {
 	public List<ProjectNurseryWater> saveNurseryWater(@RequestBody List<ProjectNurseryWater> water) {
 
 		return waterDao.saveAll(water);
+	}
+
+	@GetMapping("/getNurseryWeed")
+	public List<ProjectNurseryWeed> getNurseryWeed(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		return weedDao.findAllWeedByProjects(project);
+	}
+
+	@PostMapping("/saveNurseryWeed")
+	public List<ProjectNurseryWeed> saveNurseryWeed(@RequestBody List<ProjectNurseryWeed> weed) {
+
+		return weedDao.saveAll(weed);
+	}
+	
+	@GetMapping("/getNurseryNutrient")
+	public List<ProjectNurseryNutrient> getNurseryNutrient(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		return nutrientDao.findAllNutrientByProjects(project);
+	}
+	
+	@PostMapping("/saveNurseryNutrient")
+	public List<ProjectNurseryNutrient> saveNurseryNutrient(@RequestBody List<ProjectNurseryNutrient> nutrient) {
+
+		return nutrientDao.saveAll(nutrient);
 	}
 
 }
