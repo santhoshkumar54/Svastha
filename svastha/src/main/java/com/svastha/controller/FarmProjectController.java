@@ -83,7 +83,6 @@ public class FarmProjectController {
 		FarmProjects f = projectDao.findById(projectId).get();
 		projectModel.setFarm(f);
 		List<NurseryManagement> nursery = nurseryDao.findAllByProject(f);
-		List<ProjectTransplantManagement> transplant = transplantDao.findAllByProject(f);
 		projectModel.setNursery(nursery);
 		projectModel.setTransplant(transplant);
 		return projectModel;
@@ -217,17 +216,6 @@ public class FarmProjectController {
 //		}
 //		return allPlots;
 //	}
-
-	@PostMapping("addLandPreparation")
-	public @ResponseBody String saveLandPreparations(@RequestBody Iterable<ProjectLandPreparation> landPreparation) {
-		try {
-			landDao.saveAll(landPreparation);
-			return "Success";
-
-		} catch (Exception e) {
-			throw e;
-		}
-	}
 
 	@PostMapping("addNurseryManagement")
 	public @ResponseBody String saveNurseryManagement(@RequestBody Iterable<NurseryManagement> nurseryManagement) {
