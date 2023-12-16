@@ -84,7 +84,6 @@ public class FarmProjectController {
 		projectModel.setFarm(f);
 		List<NurseryManagement> nursery = nurseryDao.findAllByProject(f);
 		projectModel.setNursery(nursery);
-		projectModel.setTransplant(transplant);
 		return projectModel;
 	}
 
