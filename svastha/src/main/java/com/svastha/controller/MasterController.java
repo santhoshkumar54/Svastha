@@ -19,6 +19,7 @@ import com.svastha.entity.MasterGrainMarket;
 import com.svastha.entity.MasterPests;
 import com.svastha.entity.MasterSoiltype;
 import com.svastha.entity.MasterTools;
+import com.svastha.entity.MasterWeedicide;
 import com.svastha.entity.TransplantMethods;
 import com.svastha.entity.WaterSource;
 import com.svastha.model.ChemicalBrandModel;
@@ -36,6 +37,7 @@ import com.svastha.repository.MasterPestChemicalMappingRepository;
 import com.svastha.repository.MasterSeasonRepository;
 import com.svastha.repository.MasterSoilTypeRepository;
 import com.svastha.repository.MasterToolsRepository;
+import com.svastha.repository.MasterWeedicideRepository;
 import com.svastha.repository.MasterYearRepository;
 import com.svastha.repository.TransplantMethodRepository;
 import com.svastha.repository.WaterSourceRepository;
@@ -92,6 +94,9 @@ public class MasterController {
 
 	@Autowired
 	private MasterChemicalBrandMappingRepository chemicalBrandDao;
+
+	@Autowired
+	private MasterWeedicideRepository weedicideDao;
 
 //	@Autowired
 //	private MasterChemicalBrandRepository brandsDao;
@@ -191,6 +196,12 @@ public class MasterController {
 	public @ResponseBody Iterable<MasterChemicals> getChemicals() {
 
 		return chemicalsDao.findAllByStatus(ChemicalStatusEnum.restricted.toString());
+	}
+
+	@GetMapping(path = "/getWeedicide")
+	public @ResponseBody Iterable<MasterWeedicide> getWeedicide() {
+
+		return weedicideDao.findAll();
 	}
 
 }
