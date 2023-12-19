@@ -20,7 +20,7 @@ public class ProjectNurseryWater {
 	private String irrigationDate;
 
 	@ManyToOne
-	private ProjectPlots plot;
+	private FarmPlots plot;
 
 	@ManyToOne
 	private MasterCropVariety variety;
@@ -63,11 +63,11 @@ public class ProjectNurseryWater {
 		this.irrigationDate = irrigationDate;
 	}
 
-	public ProjectPlots getPlot() {
+	public FarmPlots getPlot() {
 		return plot;
 	}
 
-	public void setPlot(ProjectPlots plot) {
+	public void setPlot(FarmPlots plot) {
 		this.plot = plot;
 	}
 
