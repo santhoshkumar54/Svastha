@@ -44,6 +44,8 @@ public class ProjectProtection {
 	
 	private String reason;
 	
+	private String type;
+	
 	@ManyToOne
 	private Users createdBy;
 
@@ -200,4 +202,14 @@ public class ProjectProtection {
 	public void setUpdatedDt(Timestamp updatedDt) {
 		this.updatedDt = updatedDt;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	
 }
