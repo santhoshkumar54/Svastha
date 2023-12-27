@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.entity.MasterFertilizers;
 import com.svastha.entity.LiveStock;
+import com.svastha.entity.MasterBioFertilizer;
 import com.svastha.entity.MasterChemicalBrandMapping;
 import com.svastha.entity.MasterChemicalBrands;
 import com.svastha.entity.MasterChemicalPestMapping;
 import com.svastha.entity.MasterChemicals;
 import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterGrainMarket;
+import com.svastha.entity.MasterOrganicManure;
 import com.svastha.entity.MasterPests;
 import com.svastha.entity.MasterSoiltype;
 import com.svastha.entity.MasterTools;
@@ -27,12 +29,14 @@ import com.svastha.model.DiseaseAndPestModel;
 import com.svastha.model.MasterProjectModel;
 import com.svastha.repository.MasterFertilizerRepository;
 import com.svastha.repository.LiveStockRepository;
+import com.svastha.repository.MasterBioFertilizerRepository;
 import com.svastha.repository.MasterChemicalBrandMappingRepository;
 import com.svastha.repository.MasterChemicalRepository;
 import com.svastha.repository.MasterCropRepository;
 import com.svastha.repository.MasterCropStageRepository;
 import com.svastha.repository.MasterDiseasesAndPestsRepository;
 import com.svastha.repository.MasterGrainMarketRepository;
+import com.svastha.repository.MasterManureRepository;
 import com.svastha.repository.MasterPestChemicalMappingRepository;
 import com.svastha.repository.MasterSeasonRepository;
 import com.svastha.repository.MasterSoilTypeRepository;
@@ -72,6 +76,12 @@ public class MasterController {
 	private MasterFertilizerRepository fertilizerDao;
 
 	@Autowired
+	private MasterBioFertilizerRepository bioFertilizerDao;
+
+	@Autowired
+	private MasterManureRepository manureDao;
+
+	@Autowired
 	private MasterCropRepository masterCropDao;
 
 	@Autowired
@@ -97,9 +107,6 @@ public class MasterController {
 
 	@Autowired
 	private MasterWeedicideRepository weedicideDao;
-
-//	@Autowired
-//	private MasterChemicalBrandRepository brandsDao;
 
 	@GetMapping(path = "/liveStocks")
 	public @ResponseBody Iterable<LiveStock> getLiveStocks() {
@@ -135,6 +142,18 @@ public class MasterController {
 	public @ResponseBody Iterable<MasterFertilizers> getFertilizers() {
 
 		return fertilizerDao.findAll();
+	}
+
+	@GetMapping(path = "/biofertilizers")
+	public @ResponseBody Iterable<MasterBioFertilizer> getBioFertilizers() {
+
+		return bioFertilizerDao.findAll();
+	}
+
+	@GetMapping(path = "/organicmanures")
+	public @ResponseBody Iterable<MasterOrganicManure> getManures() {
+
+		return manureDao.findAll();
 	}
 
 	@GetMapping(path = "/cropStage")

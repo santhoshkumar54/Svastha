@@ -9,27 +9,27 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class MasterFertilizers {
+public class ProjectBioFertilizers {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
-	private String name;
+	@ManyToOne
+	private MasterCropStage stage;
 
-	private String ingredients;
+	private String usedDate;
 
 	private String dose;
 
-	private String firstDose;
+	private String method;
 
-	private String secondDose;
+	@ManyToOne
+	private FarmPlots plot;
 
-	private String thirdDose;
+	@ManyToOne
+	private MasterBioFertilizer fertilizer;
 
-	private String fourthDose;
-
-	private String applicationMethod;
-	
 	@ManyToOne
 	private Users createdBy;
 
@@ -40,28 +40,15 @@ public class MasterFertilizers {
 
 	private Timestamp updatedDt;
 
+	@ManyToOne
+	private FarmProjects projects;
+
 	public Long getPk1() {
 		return pk1;
 	}
 
 	public void setPk1(Long pk1) {
 		this.pk1 = pk1;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getIngredients() {
-		return ingredients;
-	}
-
-	public void setIngredients(String ingredients) {
-		this.ingredients = ingredients;
 	}
 
 	public String getDose() {
@@ -72,46 +59,22 @@ public class MasterFertilizers {
 		this.dose = dose;
 	}
 
-	public String getFirstDose() {
-		return firstDose;
+	public String getMethod() {
+		return method;
 	}
 
-	public void setFirstDose(String firstDose) {
-		this.firstDose = firstDose;
+	public void setMethod(String method) {
+		this.method = method;
 	}
 
-	public String getSecondDose() {
-		return secondDose;
+	public FarmPlots getPlot() {
+		return plot;
 	}
 
-	public void setSecondDose(String secondDose) {
-		this.secondDose = secondDose;
+	public void setPlot(FarmPlots plot) {
+		this.plot = plot;
 	}
 
-	public String getThirdDose() {
-		return thirdDose;
-	}
-
-	public void setThirdDose(String thirdDose) {
-		this.thirdDose = thirdDose;
-	}
-
-	public String getFourthDose() {
-		return fourthDose;
-	}
-
-	public void setFourthDose(String fourthDose) {
-		this.fourthDose = fourthDose;
-	}
-
-	public String getApplicationMethod() {
-		return applicationMethod;
-	}
-
-	public void setApplicationMethod(String applicationMethod) {
-		this.applicationMethod = applicationMethod;
-	}
-	
 	public Users getCreatedBy() {
 		return createdBy;
 	}
@@ -126,6 +89,14 @@ public class MasterFertilizers {
 
 	public void setCreatedDt(Timestamp createdDt) {
 		this.createdDt = createdDt;
+	}
+
+	public FarmProjects getProjects() {
+		return projects;
+	}
+
+	public void setProjects(FarmProjects projects) {
+		this.projects = projects;
 	}
 
 	public Users getUpdatedBy() {
@@ -143,4 +114,29 @@ public class MasterFertilizers {
 	public void setUpdatedDt(Timestamp updatedDt) {
 		this.updatedDt = updatedDt;
 	}
+
+	public MasterCropStage getStage() {
+		return stage;
+	}
+
+	public void setStage(MasterCropStage stage) {
+		this.stage = stage;
+	}
+
+	public String getUsedDate() {
+		return usedDate;
+	}
+
+	public void setUsedDate(String usedDate) {
+		this.usedDate = usedDate;
+	}
+
+	public MasterBioFertilizer getFertilizer() {
+		return fertilizer;
+	}
+
+	public void setFertilizer(MasterBioFertilizer fertilizer) {
+		this.fertilizer = fertilizer;
+	}
+
 }

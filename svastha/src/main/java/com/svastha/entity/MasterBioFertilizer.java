@@ -9,24 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class MasterFertilizers {
+public class MasterBioFertilizer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
 
 	private String name;
 
-	private String ingredients;
-
 	private String dose;
 
-	private String firstDose;
-
-	private String secondDose;
-
-	private String thirdDose;
-
-	private String fourthDose;
+	private String stage;
 
 	private String applicationMethod;
 	
@@ -56,14 +48,6 @@ public class MasterFertilizers {
 		this.name = name;
 	}
 
-	public String getIngredients() {
-		return ingredients;
-	}
-
-	public void setIngredients(String ingredients) {
-		this.ingredients = ingredients;
-	}
-
 	public String getDose() {
 		return dose;
 	}
@@ -72,44 +56,20 @@ public class MasterFertilizers {
 		this.dose = dose;
 	}
 
-	public String getFirstDose() {
-		return firstDose;
-	}
-
-	public void setFirstDose(String firstDose) {
-		this.firstDose = firstDose;
-	}
-
-	public String getSecondDose() {
-		return secondDose;
-	}
-
-	public void setSecondDose(String secondDose) {
-		this.secondDose = secondDose;
-	}
-
-	public String getThirdDose() {
-		return thirdDose;
-	}
-
-	public void setThirdDose(String thirdDose) {
-		this.thirdDose = thirdDose;
-	}
-
-	public String getFourthDose() {
-		return fourthDose;
-	}
-
-	public void setFourthDose(String fourthDose) {
-		this.fourthDose = fourthDose;
-	}
-
 	public String getApplicationMethod() {
 		return applicationMethod;
 	}
 
 	public void setApplicationMethod(String applicationMethod) {
 		this.applicationMethod = applicationMethod;
+	}
+
+	public String getStage() {
+		return stage;
+	}
+
+	public void setStage(String stage) {
+		this.stage = stage;
 	}
 	
 	public Users getCreatedBy() {

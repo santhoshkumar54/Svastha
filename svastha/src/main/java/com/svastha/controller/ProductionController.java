@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.dto.ProjectSeedTreatmentDTO;
 import com.svastha.entity.FarmProjects;
+import com.svastha.entity.ProjectBioFertilizers;
 import com.svastha.entity.ProjectDSRMethod;
 import com.svastha.entity.ProjectIrrigation;
 import com.svastha.entity.ProjectLandPreparation;
@@ -20,20 +21,25 @@ import com.svastha.entity.ProjectNurseryNutrient;
 import com.svastha.entity.ProjectNurseryPests;
 import com.svastha.entity.ProjectNurseryWater;
 import com.svastha.entity.ProjectNurseryWeed;
+import com.svastha.entity.ProjectOrganicManure;
 import com.svastha.entity.ProjectSeedTreatment;
 import com.svastha.entity.ProjectSeedTreatmentChemical;
 import com.svastha.entity.ProjectSowingData;
+import com.svastha.entity.ProjectSyntheticFertilizers;
 import com.svastha.entity.ProjectTransplantManagement;
 import com.svastha.entity.ProjectWeedManagement;
 import com.svastha.repository.FarmProjectRepository;
+import com.svastha.repository.ProjectsBioFertilizerRepository;
 import com.svastha.repository.ProjectsDsrRepository;
 import com.svastha.repository.ProjectsIrrigationRepository;
 import com.svastha.repository.ProjectsLandPreparationRepository;
+import com.svastha.repository.ProjectsManureRepository;
 import com.svastha.repository.ProjectsNutrientRepository;
 import com.svastha.repository.ProjectsPestsRepository;
 import com.svastha.repository.ProjectsSeedTreatmentChemicalRepository;
 import com.svastha.repository.ProjectsSeedTreatmentRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
+import com.svastha.repository.ProjectsSyntheticFertilizerRepository;
 import com.svastha.repository.ProjectsTransplantManagementRepository;
 import com.svastha.repository.ProjectsWaterRepository;
 import com.svastha.repository.ProjectsWeedManagementRepository;
@@ -80,6 +86,15 @@ public class ProductionController {
 
 	@Autowired
 	private ProjectsWeedManagementRepository weedMgtDao;
+
+	@Autowired
+	private ProjectsManureRepository manureDao;
+
+	@Autowired
+	private ProjectsBioFertilizerRepository bioDao;
+
+	@Autowired
+	private ProjectsSyntheticFertilizerRepository syntheticDao;
 
 	@GetMapping("/getSeedTreatment")
 	public ProjectSeedTreatmentDTO getSeedTReatment(@RequestParam Long projectId) {
@@ -226,6 +241,46 @@ public class ProductionController {
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+
+	@GetMapping("/getNutrientManures")
+	public List<ProjectOrganicManure> getNutrientManures(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+
+		return manureDao.findAllByProjects(project);
+	}
+
+	@PostMapping("/saveNutrientManures")
+	public List<ProjectOrganicManure> saveNutrientManures(@RequestBody List<ProjectOrganicManure> manure) {
+
+		return manureDao.saveAll(manure);
+	}
+
+	@GetMapping("/getNutrientBioFertilizers")
+	public List<ProjectBioFertilizers> getNutrientBioFertilizers(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+
+		return bioDao.findAllByProjects(project);
+	}
+
+	@PostMapping("/saveNutrientBioFertilizers")
+	public List<ProjectBioFertilizers> saveNutrientBioFertilizers(@RequestBody List<ProjectBioFertilizers> bio) {
+
+		return bioDao.saveAll(bio);
+	}
+
+	@GetMapping("/getNutrientFertilizers")
+	public List<ProjectSyntheticFertilizers> getNutrientFertilizers(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+
+		return syntheticDao.findAllByProjects(project);
+	}
+
+	@PostMapping("/saveNutrientFertilizers")
+	public List<ProjectSyntheticFertilizers> saveNutrientFertilizers(
+			@RequestBody List<ProjectSyntheticFertilizers> synthetic) {
+
+		return syntheticDao.saveAll(synthetic);
 	}
 
 	@GetMapping("/getWeedManagement")
