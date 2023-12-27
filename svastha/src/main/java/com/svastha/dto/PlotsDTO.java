@@ -19,8 +19,10 @@ public class PlotsDTO {
 	private String urlName;
 
 	private String url;
-	
+
 	private String cropStage;
+
+	private String sowingDate;
 
 	public long getId() {
 		return id;
@@ -100,5 +102,13 @@ public class PlotsDTO {
 
 	public void setCropStage(String cropStage) {
 		this.cropStage = cropStage;
+	}
+
+	public String getSowingDate() {
+		return sowingDate;
+	}
+
+	public void setSowingDate(String sowingDate) {
+		this.sowingDate = sowingDate;
 	}
 }

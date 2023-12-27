@@ -129,19 +129,18 @@ public class FarmProjectController {
 		return allPlots;
 	}
 
-	public String getCropStage(FarmPlots plot) {
+	public String getSowingDate( FarmPlots plot )
+	{
 		Sort sort = Sort.by(Sort.Direction.ASC, "sowingDate");
 		List<ProjectSowingData> sowings = sowingDao.findAllByplots(plot, sort);
 		if (!sowings.isEmpty()) {
 
-			String date = sowings.get(0).getSowingDate();
-
-			Date d = convertToDate(date);
-
-			return getStage(d);
+			return sowings.get(0).getSowingDate();
 		}
-
-		return "";
+		else
+		{
+			return "";
+		}
 	}
 
 	public Date convertToDate(String dateString) {
@@ -200,7 +199,9 @@ public class FarmProjectController {
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 			p.setUrl(url);
-			p.setCropStage(getCropStage(plot));
+			String sowingDate = getSowingDate(plot);
+			p.setSowingDate(sowingDate);
+			p.setCropStage(getStage(convertToDate(sowingDate)));
 			allPlots.add(p);
 		}
 		return allPlots;
