@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.dto.ProjectSeedTreatmentDTO;
 import com.svastha.entity.FarmProjects;
-import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.ProjectDSRMethod;
 import com.svastha.entity.ProjectIrrigation;
 import com.svastha.entity.ProjectLandPreparation;
@@ -63,22 +62,22 @@ public class ProductionController {
 
 	@Autowired
 	private ProjectsWaterRepository waterDao;
-	
+
 	@Autowired
 	private ProjectsWeedRepository weedDao;
-	
+
 	@Autowired
 	private ProjectsNutrientRepository nutrientDao;
-	
+
 	@Autowired
 	private ProjectsPestsRepository pestDao;
-	
+
 	@Autowired
 	private ProjectsLandPreparationRepository landDao;
-	
+
 	@Autowired
 	private ProjectsTransplantManagementRepository transplantDao;
-	
+
 	@Autowired
 	private ProjectsWeedManagementRepository weedMgtDao;
 
@@ -169,19 +168,19 @@ public class ProductionController {
 
 		return weedDao.saveAll(weed);
 	}
-	
+
 	@GetMapping("/getNurseryNutrient")
 	public List<ProjectNurseryNutrient> getNurseryNutrient(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return nutrientDao.findAllNutrientByProjects(project);
 	}
-	
+
 	@PostMapping("/saveNurseryNutrient")
 	public List<ProjectNurseryNutrient> saveNurseryNutrient(@RequestBody List<ProjectNurseryNutrient> nutrient) {
 
 		return nutrientDao.saveAll(nutrient);
 	}
-	
+
 	@GetMapping("/getNurseryPests")
 	public List<ProjectNurseryPests> getNurseryPests(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -194,15 +193,16 @@ public class ProductionController {
 
 		return pestDao.saveAll(pests);
 	}
-	
+
 	@GetMapping("/getLandPreparation")
 	public List<ProjectLandPreparation> getLandPreparation(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return landDao.findAllByProject(project);
 	}
-	
+
 	@PostMapping("/saveLandPreparation")
-	public @ResponseBody List<ProjectLandPreparation> saveLandPreparation(@RequestBody List<ProjectLandPreparation> landPreparation) {
+	public @ResponseBody List<ProjectLandPreparation> saveLandPreparation(
+			@RequestBody List<ProjectLandPreparation> landPreparation) {
 		try {
 			return landDao.saveAll(landPreparation);
 
@@ -227,7 +227,7 @@ public class ProductionController {
 			throw e;
 		}
 	}
-	
+
 	@GetMapping("/getWeedManagement")
 	public List<ProjectWeedManagement> getWeedManagement(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();

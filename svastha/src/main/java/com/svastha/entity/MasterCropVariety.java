@@ -16,7 +16,7 @@ public class MasterCropVariety {
 	private String variety;
 
 	@ManyToOne
-	private MasterCrop crop;
+	private MasterSeason season;
 
 	public int getPk1() {
 		return pk1;
@@ -34,12 +34,12 @@ public class MasterCropVariety {
 		this.variety = variety;
 	}
 
-	public MasterCrop getCrop() {
-		return crop;
+	public MasterSeason getSeason() {
+		return season;
 	}
 
-	public void setCrop(MasterCrop crop) {
-		this.crop = crop;
+	public void setSeason(MasterSeason season) {
+		this.season = season;
 	}
 
 	

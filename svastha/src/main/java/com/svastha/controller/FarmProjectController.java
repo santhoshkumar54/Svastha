@@ -119,11 +119,10 @@ public class FarmProjectController {
 			p.setDistance(distance);
 			p.setBearing(bearing);
 			String direction = gpsService.calculateDirection(bearing);
-			String plotDetails = "Plot No: "+ plot.getPlotNumber()+" - "+ distance + "m away towards " + bearing + " " + direction + " direction.";
+			String plotDetails = distance + "m away towards " + bearing + " " + direction + " direction.";
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 			p.setUrl(url);
-			p.setCropStage(getCropStage(plot));
 			allPlots.add(p);
 		}
 
@@ -134,10 +133,14 @@ public class FarmProjectController {
 		Sort sort = Sort.by(Sort.Direction.ASC, "sowingDate");
 		List<ProjectSowingData> sowings = sowingDao.findAllByplots(plot, sort);
 		if (!sowings.isEmpty()) {
+
 			String date = sowings.get(0).getSowingDate();
+
 			Date d = convertToDate(date);
+
 			return getStage(d);
 		}
+
 		return "";
 	}
 
@@ -146,19 +149,27 @@ public class FarmProjectController {
 
 		try {
 			Date date = dateFormat.parse(dateString);
+
 			return date;
 		} catch (ParseException e) {
+			System.out.println("sowing date ex:"+e);
+
 			return new Date();
 		}
 	}
 
 	public String getStage(Date d) {
 		long differenceInMillis = new Date().getTime() - d.getTime();
+
 		int differenceInDays = Math.toIntExact(TimeUnit.MILLISECONDS.toDays(differenceInMillis));
+
 		List<MasterCropStage> stage = stageDao.findByCustomQuery(differenceInDays);
+
 		if (!stage.isEmpty()) {
 			return stage.get(0).getCropStage();
+
 		}
+
 		return "";
 	}
 
@@ -185,10 +196,11 @@ public class FarmProjectController {
 			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
 			p.setDistance(distance);
 			p.setBearing(bearing);
-			String plotDetails = distance + "m away towards " + bearing;
+			String plotDetails = "Plot No: "+ plot.getPlotNumber()+" - "+ distance + "m away towards " + bearing;
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 			p.setUrl(url);
+			p.setCropStage(getCropStage(plot));
 			allPlots.add(p);
 		}
 		return allPlots;
@@ -221,7 +233,7 @@ public class FarmProjectController {
 	public @ResponseBody Iterable<MasterCropVariety> getCropVariety(@RequestParam Long projectId) {
 		FarmProjects p = projectDao.findById(projectId).get();
 
-		return varietyDao.findAllByCrop(p.getCrop());
+		return varietyDao.findAllBySeason(p.getSeason());
 	}
 
 //	@GetMapping(path = "/getSowedPlots")

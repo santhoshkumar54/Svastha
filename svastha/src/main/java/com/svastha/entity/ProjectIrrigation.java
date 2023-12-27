@@ -17,11 +17,13 @@ public class ProjectIrrigation {
 
 	private int number;
 
-	private String cropStage;
+	@ManyToOne
+	private MasterCropStage cropStage;
 
 	private String irrigationDate;
 
-	private String irrigationSource;
+	@ManyToOne
+	private WaterSource irrigationSource;
 
 	private String techniques;
 
@@ -54,11 +56,11 @@ public class ProjectIrrigation {
 		this.number = number;
 	}
 
-	public String getCropStage() {
+	public MasterCropStage getCropStage() {
 		return cropStage;
 	}
 
-	public void setCropStage(String cropStage) {
+	public void setCropStage(MasterCropStage cropStage) {
 		this.cropStage = cropStage;
 	}
 
@@ -70,11 +72,11 @@ public class ProjectIrrigation {
 		this.irrigationDate = irrigationDate;
 	}
 
-	public String getIrrigationSource() {
+	public WaterSource getIrrigationSource() {
 		return irrigationSource;
 	}
 
-	public void setIrrigationSource(String irrigationSource) {
+	public void setIrrigationSource(WaterSource irrigationSource) {
 		this.irrigationSource = irrigationSource;
 	}
 

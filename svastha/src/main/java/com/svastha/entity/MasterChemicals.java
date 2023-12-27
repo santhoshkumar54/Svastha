@@ -27,6 +27,8 @@ public class MasterChemicals {
 
 	private String riskStatus;
 	
+	private String mode;
+	
 	private String status;
     
 	@ManyToOne
@@ -133,5 +135,13 @@ public class MasterChemicals {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 }

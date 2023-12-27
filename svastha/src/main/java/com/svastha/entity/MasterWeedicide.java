@@ -17,6 +17,12 @@ public class MasterWeedicide {
 
 	private String name;
 
+	private String brand;
+
+	private String dose;
+
+	private String time;
+
 	@ManyToOne
 	private Users createdBy;
 
@@ -74,4 +80,29 @@ public class MasterWeedicide {
 	public void setUpdatedDt(Timestamp updatedDt) {
 		this.updatedDt = updatedDt;
 	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String getDose() {
+		return dose;
+	}
+
+	public void setDose(String dose) {
+		this.dose = dose;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
 }
