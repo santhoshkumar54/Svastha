@@ -227,9 +227,9 @@ public class ProductionController {
 	}
 
 	@GetMapping("/getTransplantManagement")
-	public List<ProjectLandPreparation> getTransplantManagement(@RequestParam Long projectId) {
+	public List<ProjectTransplantManagement> getTransplantManagement(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
-		return landDao.findAllByProject(project);
+		return transplantDao.findAllByProject(project);
 	}
 
 	@PostMapping("/saveTransplantManagement")

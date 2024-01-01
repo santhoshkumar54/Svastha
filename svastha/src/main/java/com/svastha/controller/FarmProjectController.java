@@ -1,5 +1,7 @@
 package com.svastha.controller;
 
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.svastha.dto.LocationDTO;
@@ -26,6 +29,7 @@ import com.svastha.entity.Farms;
 import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterCropVariety;
 import com.svastha.entity.NurseryManagement;
+import com.svastha.entity.ProjectImages;
 import com.svastha.entity.ProjectPlots;
 import com.svastha.entity.ProjectSowingData;
 import com.svastha.entity.Users;
@@ -36,9 +40,11 @@ import com.svastha.repository.FarmRepository;
 import com.svastha.repository.MasterCropStageRepository;
 import com.svastha.repository.MasterCropVarietyRepository;
 import com.svastha.repository.NurseryManagementRepository;
+import com.svastha.repository.ProjectImagesRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
 import com.svastha.repository.UserRepository;
+import com.svastha.service.FilesStorageService;
 import com.svastha.service.GpsService;
 
 @RestController
@@ -74,6 +80,12 @@ public class FarmProjectController {
 	@Autowired
 	private GpsService gpsService;
 
+	@Autowired
+	FilesStorageService storageService;
+
+	@Autowired
+	private ProjectImagesRepository imageDao;
+
 	@GetMapping("/projects")
 	public @ResponseBody Iterable<FarmProjects> getAllProjects() {
 		return projectDao.findAll();
@@ -108,37 +120,39 @@ public class FarmProjectController {
 			PlotsDTO p = new PlotsDTO();
 			p.setId(plot.getPk1());
 			p.setNumber(plot.getPlotNumber());
-			LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
-			p.setLocation(plot.getLocation());
-			double plotLat = loc.getCoords().getLatitude();
-			double plotLon = loc.getCoords().getLongitude();
-			p.setLat(loc.getCoords().getLatitude());
-			p.setLon(loc.getCoords().getLongitude());
-			long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
-			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
-			p.setDistance(distance);
-			p.setBearing(bearing);
-			String direction = gpsService.calculateDirection(bearing);
-			String plotDetails = distance + "m away towards " + bearing + " " + direction + " direction.";
-			p.setUrlName(plotDetails);
-			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
-			p.setUrl(url);
+//			if (plot.getLocation() == null || plot.getLocation().isBlank() || plot.getLocation().isEmpty()) {
+//				p.setUrlName("Plot Location Not available");
+//				p.setUrl("Plot Location Not available");
+//			} else {
+				LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
+				p.setLocation(plot.getLocation());
+				double plotLat = loc.getCoords().getLatitude();
+				double plotLon = loc.getCoords().getLongitude();
+				p.setLat(loc.getCoords().getLatitude());
+				p.setLon(loc.getCoords().getLongitude());
+				long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
+				long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
+				p.setDistance(distance);
+				p.setBearing(bearing);
+				String direction = gpsService.calculateDirection(bearing);
+				String plotDetails = distance + "m away towards " + bearing + " " + direction + " direction.";
+				p.setUrlName(plotDetails);
+				String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
+				p.setUrl(url);
+//			}
 			allPlots.add(p);
 		}
 
 		return allPlots;
 	}
 
-	public String getSowingDate( FarmPlots plot )
-	{
+	public String getSowingDate(FarmPlots plot) {
 		Sort sort = Sort.by(Sort.Direction.ASC, "sowingDate");
 		List<ProjectSowingData> sowings = sowingDao.findAllByplots(plot, sort);
 		if (!sowings.isEmpty()) {
 
 			return sowings.get(0).getSowingDate();
-		}
-		else
-		{
+		} else {
 			return "";
 		}
 	}
@@ -151,7 +165,7 @@ public class FarmProjectController {
 
 			return date;
 		} catch (ParseException e) {
-			System.out.println("sowing date ex:"+e);
+			System.out.println("sowing date ex:" + e);
 
 			return new Date();
 		}
@@ -195,7 +209,7 @@ public class FarmProjectController {
 			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
 			p.setDistance(distance);
 			p.setBearing(bearing);
-			String plotDetails = "Plot No: "+ plot.getPlotNumber()+" - "+ distance + "m away towards " + bearing;
+			String plotDetails = "Plot No: " + plot.getPlotNumber() + " - " + distance + "m away towards " + bearing;
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 			p.setUrl(url);
@@ -237,47 +251,40 @@ public class FarmProjectController {
 		return varietyDao.findAllBySeason(p.getSeason());
 	}
 
-//	@GetMapping(path = "/getSowedPlots")
-//	public @ResponseBody Iterable<ProjectPlots> getSowedPlots(@RequestParam Long projectId,String location) {
-//		
-//		LocationDTO currentLoc = new Gson().fromJson(location, LocationDTO.class);
-//		double currentLat = currentLoc.getCoords().getLatitude();
-//		double currentLon = currentLoc.getCoords().getLongitude();
-//		FarmProjects fPlots = projectDao.findById(projectId).get();
-//		List<ProjectSowingData> sowing = sowin.findAllPlotsByProject(fPlots);
-//		List<PlotsDTO> allPlots = new ArrayList<>();
-//		for (ProjectPlots projectPlot : plots) {
-//			PlotsDTO p = new PlotsDTO();
-//			FarmPlots plot = projectPlot.getPlots();
-//			p.setId(plot.getPk1());
-//			p.setNumber(plot.getPlotNumber());
-//			LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
-//			p.setLocation(plot.getLocation());
-//			double plotLat = loc.getCoords().getLatitude();
-//			double plotLon = loc.getCoords().getLongitude();
-//			p.setLat(loc.getCoords().getLatitude());
-//			p.setLon(loc.getCoords().getLongitude());
-//			long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
-//			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
-//			p.setDistance(distance);
-//			p.setBearing(bearing);
-//			String plotDetails = "No: " + plot.getPlotNumber() + " in " + distance + "m away towards " + bearing;
-//			p.setUrlName(plotDetails);
-//			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
-//			p.setUrl(url);
-//			allPlots.add(p);
-//		}
-//		return allPlots;
-//	}
+	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
-	@PostMapping("addNurseryManagement")
-	public @ResponseBody String saveNurseryManagement(@RequestBody Iterable<NurseryManagement> nurseryManagement) {
-		try {
-			nurseryDao.saveAll(nurseryManagement);
-			return "Success";
+	@PostMapping("/uploadProjectImages")
+	public @ResponseBody String uploadPhoto(@RequestParam MultipartFile[] file, @RequestParam String projectId,
+			@RequestParam String userId) {
+		Long fid = Long.parseLong(projectId);
+		Long uid = Long.parseLong(userId);
+		FarmProjects f = projectDao.findById(fid).get();
+		Users u = userDao.findById(uid).get();
 
-		} catch (Exception e) {
-			throw e;
+		String folderPath = SEPARATOR + "projectImage" + SEPARATOR + projectId;
+		Path p = storageService.createFolder(folderPath);
+
+		for (MultipartFile multipartFile : file) {
+			ProjectImages i = new ProjectImages();
+			i.setCreatedBy(u);
+			i.setProject(f);
+			String filePath = storageService.save(multipartFile, p);
+			i.setFileName(filePath);
+			i.setPath(p.toString());
+			i.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+			imageDao.save(i);
 		}
+		return "Success";
+	}
+
+	@GetMapping("/getProjectImages")
+	public @ResponseBody List<String> getPhotos(@RequestParam Long projectId) {
+		FarmProjects f = projectDao.findById(projectId).get();
+		List<ProjectImages> images = imageDao.findAllImagesByProject(f);
+		List<String> photos = new ArrayList<>();
+		for (ProjectImages image : images) {
+			photos.add(image.getImageUrl());
+		}
+		return photos;
 	}
 }
