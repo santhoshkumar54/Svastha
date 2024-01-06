@@ -12,11 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectDispatch;
 import com.svastha.entity.ProjectPacking;
+import com.svastha.entity.ProjectPostPurchase;
+import com.svastha.entity.ProjectPrePurchase;
 import com.svastha.entity.ProjectProcurement;
+import com.svastha.entity.ProjectStorage;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsDispatchRepository;
 import com.svastha.repository.ProjectsPackingRepository;
+import com.svastha.repository.ProjectsPostPurchaseRepository;
+import com.svastha.repository.ProjectsPrePurchaseRepository;
 import com.svastha.repository.ProjectsProcurementRepository;
+import com.svastha.repository.ProjectsStorageRepository;
 
 @RestController
 public class HarvestController {
@@ -32,6 +38,15 @@ public class HarvestController {
 
 	@Autowired
 	private ProjectsDispatchRepository dispatchDao;
+
+	@Autowired
+	private ProjectsStorageRepository storageDao;
+
+	@Autowired
+	private ProjectsPrePurchaseRepository preDao;
+
+	@Autowired
+	private ProjectsPostPurchaseRepository postDao;
 
 	@GetMapping("/getPacking")
 	public List<ProjectPacking> getPacking(@RequestParam Long projectId) {
@@ -71,4 +86,44 @@ public class HarvestController {
 
 		return dispatchDao.saveAll(dispatch);
 	}
+
+	@GetMapping("/getStorage")
+	public List<ProjectStorage> getStorage(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+
+		return storageDao.findAllByProjects(project);
+	}
+
+	@PostMapping("/saveStorage")
+	public List<ProjectStorage> saveStorage(@RequestBody List<ProjectStorage> storage) {
+
+		return storageDao.saveAll(storage);
+	}
+
+	@GetMapping("/getPrePurchase")
+	public List<ProjectPrePurchase> getPrePurchase(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+
+		return preDao.findAllByProjects(project);
+	}
+
+	@PostMapping("/savePrePurchase")
+	public List<ProjectPrePurchase> savePrePurchase(@RequestBody List<ProjectPrePurchase> prePurchase) {
+
+		return preDao.saveAll(prePurchase);
+	}
+
+	@GetMapping("/getPostPurchase")
+	public List<ProjectPostPurchase> getPostPurchase(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+
+		return postDao.findAllByProjects(project);
+	}
+
+	@PostMapping("/savePostPurchase")
+	public List<ProjectPostPurchase> savePostPurchase(@RequestBody List<ProjectPostPurchase> postPurchase) {
+
+		return postDao.saveAll(postPurchase);
+	}
+
 }
