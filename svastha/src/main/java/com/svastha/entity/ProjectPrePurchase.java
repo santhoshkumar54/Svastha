@@ -18,12 +18,19 @@ public class ProjectPrePurchase {
 	@ManyToOne
 	private MasterCropVariety variety;
 
-	private String sowingDate;
+	private String samplingDate;
 
-	private String remarks;
-	
-	@ManyToOne
-	private FarmPlots plots; 
+	private String farmerCode;
+
+	private String lotQty;
+
+	private String samplePrepDate;
+
+	private String sampleTestDate;
+
+	private String sampleCode;
+
+	private String result;
 
 	@ManyToOne
 	private FarmProjects projects;
@@ -52,22 +59,6 @@ public class ProjectPrePurchase {
 
 	public void setVariety(MasterCropVariety variety) {
 		this.variety = variety;
-	}
-
-	public String getSowingDate() {
-		return sowingDate;
-	}
-
-	public void setSowingDate(String sowingDate) {
-		this.sowingDate = sowingDate;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
 	}
 
 	public FarmProjects getProjects() {
@@ -110,11 +101,59 @@ public class ProjectPrePurchase {
 		this.updatedDt = updatedDt;
 	}
 
-	public FarmPlots getPlots() {
-		return plots;
+	public String getSamplingDate() {
+		return samplingDate;
 	}
 
-	public void setPlots(FarmPlots plots) {
-		this.plots = plots;
+	public void setSamplingDate(String samplingDate) {
+		this.samplingDate = samplingDate;
+	}
+
+	public String getFarmerCode() {
+		return farmerCode;
+	}
+
+	public void setFarmerCode(String farmerCode) {
+		this.farmerCode = farmerCode;
+	}
+
+	public String getLotQty() {
+		return lotQty;
+	}
+
+	public void setLotQty(String lotQty) {
+		this.lotQty = lotQty;
+	}
+
+	public String getSamplePrepDate() {
+		return samplePrepDate;
+	}
+
+	public void setSamplePrepDate(String samplePrepDate) {
+		this.samplePrepDate = samplePrepDate;
+	}
+
+	public String getSampleTestDate() {
+		return sampleTestDate;
+	}
+
+	public void setSampleTestDate(String sampleTestDate) {
+		this.sampleTestDate = sampleTestDate;
+	}
+
+	public String getSampleCode() {
+		return sampleCode;
+	}
+
+	public void setSampleCode(String sampleCode) {
+		this.sampleCode = sampleCode;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
 	}
 }

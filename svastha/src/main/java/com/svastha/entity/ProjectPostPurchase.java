@@ -18,12 +18,21 @@ public class ProjectPostPurchase {
 	@ManyToOne
 	private MasterCropVariety variety;
 
-	private String sowingDate;
+	private String stackNumber;
 
-	private String remarks;
-	
-	@ManyToOne
-	private FarmPlots plots; 
+	private String location;
+
+	private String product;
+
+	private String sampleCode;
+
+	private String sampleTestDate;
+
+	private String reportDate;
+
+	private String mrl;
+
+	private String result;
 
 	@ManyToOne
 	private FarmProjects projects;
@@ -52,22 +61,6 @@ public class ProjectPostPurchase {
 
 	public void setVariety(MasterCropVariety variety) {
 		this.variety = variety;
-	}
-
-	public String getSowingDate() {
-		return sowingDate;
-	}
-
-	public void setSowingDate(String sowingDate) {
-		this.sowingDate = sowingDate;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
 	}
 
 	public FarmProjects getProjects() {
@@ -110,11 +103,68 @@ public class ProjectPostPurchase {
 		this.updatedDt = updatedDt;
 	}
 
-	public FarmPlots getPlots() {
-		return plots;
+	public String getStackNumber() {
+		return stackNumber;
 	}
 
-	public void setPlots(FarmPlots plots) {
-		this.plots = plots;
+	public void setStackNumber(String stackNumber) {
+		this.stackNumber = stackNumber;
 	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public String getSampleCode() {
+		return sampleCode;
+	}
+
+	public void setSampleCode(String sampleCode) {
+		this.sampleCode = sampleCode;
+	}
+
+	public String getSampleTestDate() {
+		return sampleTestDate;
+	}
+
+	public void setSampleTestDate(String sampleTestDate) {
+		this.sampleTestDate = sampleTestDate;
+	}
+
+	public String getReportDate() {
+		return reportDate;
+	}
+
+	public void setReportDate(String reportDate) {
+		this.reportDate = reportDate;
+	}
+
+	public String getMrl() {
+		return mrl;
+	}
+
+	public void setMrl(String mrl) {
+		this.mrl = mrl;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
 }
