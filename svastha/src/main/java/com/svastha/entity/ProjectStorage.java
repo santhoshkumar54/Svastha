@@ -18,12 +18,33 @@ public class ProjectStorage {
 	@ManyToOne
 	private MasterCropVariety variety;
 
-	private String sowingDate;
+	private String storageDate;
 
-	private String remarks;
-	
-	@ManyToOne
-	private FarmPlots plots; 
+	private String stackNumber;
+
+	private String numberOfBags;
+
+	private String packSize;
+
+	private String grossWeight;
+
+	private String storageLocation;
+
+	private String godownName;
+
+	private String labelled;
+
+	private String separateStacks;
+
+	private String chemicalName;
+
+	private String dose;
+
+	private String fumigationDate;
+
+	private String exposureDate;
+
+	private String agencyName;
 
 	@ManyToOne
 	private FarmProjects projects;
@@ -54,20 +75,116 @@ public class ProjectStorage {
 		this.variety = variety;
 	}
 
-	public String getSowingDate() {
-		return sowingDate;
+	public String getStorageDate() {
+		return storageDate;
 	}
 
-	public void setSowingDate(String sowingDate) {
-		this.sowingDate = sowingDate;
+	public void setStorageDate(String storageDate) {
+		this.storageDate = storageDate;
 	}
 
-	public String getRemarks() {
-		return remarks;
+	public String getStackNumber() {
+		return stackNumber;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setStackNumber(String stackNumber) {
+		this.stackNumber = stackNumber;
+	}
+
+	public String getNumberOfBags() {
+		return numberOfBags;
+	}
+
+	public void setNumberOfBags(String numberOfBags) {
+		this.numberOfBags = numberOfBags;
+	}
+
+	public String getPackSize() {
+		return packSize;
+	}
+
+	public void setPackSize(String packSize) {
+		this.packSize = packSize;
+	}
+
+	public String getGrossWeight() {
+		return grossWeight;
+	}
+
+	public void setGrossWeight(String grossWeight) {
+		this.grossWeight = grossWeight;
+	}
+
+	public String getStorageLocation() {
+		return storageLocation;
+	}
+
+	public void setStorageLocation(String storageLocation) {
+		this.storageLocation = storageLocation;
+	}
+
+	public String getGodownName() {
+		return godownName;
+	}
+
+	public void setGodownName(String godownName) {
+		this.godownName = godownName;
+	}
+
+	public String getLabelled() {
+		return labelled;
+	}
+
+	public void setLabelled(String labelled) {
+		this.labelled = labelled;
+	}
+
+	public String getSeparateStacks() {
+		return separateStacks;
+	}
+
+	public void setSeparateStacks(String separateStacks) {
+		this.separateStacks = separateStacks;
+	}
+
+	public String getChemicalName() {
+		return chemicalName;
+	}
+
+	public void setChemicalName(String chemicalName) {
+		this.chemicalName = chemicalName;
+	}
+
+	public String getDose() {
+		return dose;
+	}
+
+	public void setDose(String dose) {
+		this.dose = dose;
+	}
+
+	public String getFumigationDate() {
+		return fumigationDate;
+	}
+
+	public void setFumigationDate(String fumigationDate) {
+		this.fumigationDate = fumigationDate;
+	}
+
+	public String getExposureDate() {
+		return exposureDate;
+	}
+
+	public void setExposureDate(String exposureDate) {
+		this.exposureDate = exposureDate;
+	}
+
+	public String getAgencyName() {
+		return agencyName;
+	}
+
+	public void setAgencyName(String agencyName) {
+		this.agencyName = agencyName;
 	}
 
 	public FarmProjects getProjects() {
@@ -108,13 +225,5 @@ public class ProjectStorage {
 
 	public void setUpdatedDt(Timestamp updatedDt) {
 		this.updatedDt = updatedDt;
-	}
-
-	public FarmPlots getPlots() {
-		return plots;
-	}
-
-	public void setPlots(FarmPlots plots) {
-		this.plots = plots;
 	}
 }
