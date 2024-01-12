@@ -208,7 +208,7 @@ public class FarmProjectController {
 			p.setId(plot.getPk1());
 			p.setNumber(plot.getPlotNumber());
 			if (plot.getLocation() == null || plot.getLocation().isBlank() || plot.getLocation().isEmpty()) {
-				p.setUrlName("Plot location not available");
+				p.setUrlName("Plot No: " + plot.getPlotNumber());
 				p.setUrl(null);
 			} else {
 				try
@@ -230,7 +230,7 @@ public class FarmProjectController {
 				}
 				catch(Exception ex)
 				{
-					p.setUrlName("Problem fetching plot location");
+					p.setUrlName("Plot No: " + plot.getPlotNumber());
 					p.setUrl(null);	
 				}
 			}
