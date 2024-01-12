@@ -120,10 +120,12 @@ public class FarmProjectController {
 			PlotsDTO p = new PlotsDTO();
 			p.setId(plot.getPk1());
 			p.setNumber(plot.getPlotNumber());
-//			if (plot.getLocation() == null || plot.getLocation().isBlank() || plot.getLocation().isEmpty()) {
-//				p.setUrlName("Plot Location Not available");
-//				p.setUrl("Plot Location Not available");
-//			} else {
+			if (plot.getLocation() == null || plot.getLocation().isBlank() || plot.getLocation().isEmpty()) {
+				p.setUrlName("Plot location not available");
+				p.setUrl(null);
+			} else {
+				try
+				{
 				LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
 				p.setLocation(plot.getLocation());
 				double plotLat = loc.getCoords().getLatitude();
@@ -139,7 +141,13 @@ public class FarmProjectController {
 				p.setUrlName(plotDetails);
 				String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 				p.setUrl(url);
-//			}
+				}
+				catch(Exception ex)
+				{
+					p.setUrlName("Problem fetching plot location");
+					p.setUrl(null);	
+				}
+			}
 			allPlots.add(p);
 		}
 
@@ -199,6 +207,12 @@ public class FarmProjectController {
 			FarmPlots plot = projectPlot.getPlots();
 			p.setId(plot.getPk1());
 			p.setNumber(plot.getPlotNumber());
+			if (plot.getLocation() == null || plot.getLocation().isBlank() || plot.getLocation().isEmpty()) {
+				p.setUrlName("Plot location not available");
+				p.setUrl(null);
+			} else {
+				try
+				{
 			LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
 			p.setLocation(plot.getLocation());
 			double plotLat = loc.getCoords().getLatitude();
@@ -213,9 +227,17 @@ public class FarmProjectController {
 			p.setUrlName(plotDetails);
 			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
 			p.setUrl(url);
+				}
+				catch(Exception ex)
+				{
+					p.setUrlName("Problem fetching plot location");
+					p.setUrl(null);	
+				}
+			}
 			String sowingDate = getSowingDate(plot);
 			p.setSowingDate(sowingDate);
 			p.setCropStage(getStage(convertToDate(sowingDate)));
+				
 			allPlots.add(p);
 		}
 		return allPlots;
