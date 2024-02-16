@@ -38,6 +38,16 @@ public class ProjectDSRMethod {
 	@ManyToOne
 	private FarmProjects projects;
 
+	private String cost;
+
+	public String getCost() {
+		return cost;
+	}
+
+	public void setCost(String cost) {
+		this.cost = cost;
+	}
+
 	public Long getPk1() {
 		return pk1;
 	}
