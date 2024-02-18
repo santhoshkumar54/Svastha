@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -17,11 +18,18 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.svastha.entity.Manual;
+import com.svastha.repository.MasterManualRepository;
+
 @RestController
 public class HomeController {
 
 	@Autowired
 	 private JavaMailSender mailSender;
+	
+	@Autowired
+	private MasterManualRepository manualDao;
+	
 	@GetMapping("/hello")
 	public String index() {
 		return "Hello Deepan!";
@@ -39,6 +47,11 @@ public class HomeController {
 				.headers(httpHeaders).body(resource);
 	}
 	
+    @GetMapping("/getManual")
+    public List<Manual> getManual()
+    {
+    	return manualDao.findAll();
+    }
 	//under construction
 	public void sendEmailToMultipleRecepients(String[] to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
