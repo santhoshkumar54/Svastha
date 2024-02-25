@@ -57,6 +57,8 @@ public class Farms {
 	
 	private String farmerImage;
 
+	private String completion;
+
 	@ManyToOne
 	private Users createdBy;
 
@@ -252,5 +254,13 @@ public class Farms {
 
 	public void setFarmerImage(String farmerImage) {
 		this.farmerImage = farmerImage;
+	}
+
+	public String getCompletion() {
+		return completion;
+	}
+
+	public void setCompletion(String completion) {
+		this.completion = completion;
 	}
 }
