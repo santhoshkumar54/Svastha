@@ -1,10 +1,12 @@
 package com.svastha.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class viewHeadlines {
 
+	@Id
 	private String farmer;
 
 	private String projects;
