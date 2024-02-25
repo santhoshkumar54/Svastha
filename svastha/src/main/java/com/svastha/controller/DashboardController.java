@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.svastha.entity.ViewFarmerThaluk;
 import com.svastha.entity.viewFarmerCreatedweek;
 import com.svastha.entity.viewFarmerProjectByuser;
+import com.svastha.entity.viewHeadlines;
 import com.svastha.repository.ViewFarmerCreatedWeekRepository;
 import com.svastha.repository.ViewFarmerProjectByuserRepository;
 import com.svastha.repository.ViewFarmerThalukRepository;
+import com.svastha.repository.ViewHeadlinesRepository;
 
 @RestController
 @RequestMapping("/dashboard")
@@ -26,6 +28,9 @@ public class DashboardController {
 	
 	@Autowired
     private ViewFarmerProjectByuserRepository projectDao;
+	
+	@Autowired
+    private ViewHeadlinesRepository headlinesDao;
 	
 	@GetMapping("/farmerThaluk")
     public List<ViewFarmerThaluk> getFarmerThaluk()
@@ -43,5 +48,11 @@ public class DashboardController {
     public List<viewFarmerProjectByuser> getFarmerProject()
     {
 		return projectDao.findAll();
+    }
+    
+    @GetMapping("/getHeadlines")
+    public List<viewHeadlines> getHeadlines()
+    {
+		return headlinesDao.findAll();
     }
 }
