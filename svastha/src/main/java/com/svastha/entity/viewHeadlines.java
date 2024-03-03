@@ -7,7 +7,7 @@ import javax.persistence.Id;
 public class viewHeadlines {
 
 	@Id
-	private String farmer;
+	private String farmers;
 
 	private String projects;
 
@@ -15,12 +15,12 @@ public class viewHeadlines {
 
 	private String acres;
 
-	public String getFarmer() {
-		return farmer;
+	public String getFarmers() {
+		return farmers;
 	}
 
-	public void setFarmer(String farmer) {
-		this.farmer = farmer;
+	public void setFarmers(String farmers) {
+		this.farmers = farmers;
 	}
 
 	public String getProjects() {

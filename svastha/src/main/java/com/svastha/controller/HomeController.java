@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -20,15 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.svastha.dto.Daily;
+import com.svastha.dto.GeoMapDTO;
 import com.svastha.dto.WeatherDTO;
 import com.svastha.entity.District;
 import com.svastha.entity.Manual;
 import com.svastha.entity.Thaluk;
 import com.svastha.entity.Village;
+import com.svastha.entity.Weather;
 import com.svastha.repository.DistrictRepository;
+import com.svastha.repository.FarmRepository;
 import com.svastha.repository.MasterManualRepository;
 import com.svastha.repository.ThalukRepository;
 import com.svastha.repository.VillageRepository;
+import com.svastha.repository.WeatherRepository;
 
 @RestController
 public class HomeController {
@@ -47,6 +54,12 @@ public class HomeController {
 
 	@Autowired
 	private ThalukRepository thalukDao;
+
+	@Autowired
+	private FarmRepository farmDao;
+
+	@Autowired
+	private WeatherRepository weatherDao;
 
 	@GetMapping("/hello")
 	public String index() {
@@ -86,19 +99,72 @@ public class HomeController {
 		return districtDao.findAll();
 	}
 
+	@GetMapping("fetchWeather")
 	public void fetchWeather() {
-		String apiUrl = "https://api.tomorrow.io/v4/weather/forecast";
-		String location = "11.2304,79.5133";
+
+		Map<String, String> locations = getThaluks();
 		String timesteps = "1d";
 		String apikey = "04sfV0yFAOZ5EQyTQ7jrexo9dTXt7SIx";
 
-		// Build the URL with parameters
-		apiUrl = UriComponentsBuilder.fromHttpUrl(apiUrl).queryParam("location", location)
-				.queryParam("timesteps", timesteps).queryParam("apikey", apikey).build().toUriString();
-		RestTemplate restTemplate = new RestTemplate();
-		WeatherDTO w = restTemplate.getForObject(apiUrl, WeatherDTO.class);
+		for (Map.Entry<String, String> entry : locations.entrySet()) {
+			try {
+				String apiUrl = "https://api.tomorrow.io/v4/weather/forecast";
+				String key = entry.getKey();
+				String val = entry.getValue();
+				System.out.println(key + "   " + val);
 
-		System.out.println(w.getTimelines().getDaily().get(0).getValues().getTemperatureMin());
+				apiUrl = UriComponentsBuilder.fromHttpUrl(apiUrl).queryParam("location", val)
+						.queryParam("timesteps", timesteps).queryParam("apikey", apikey).build().toUriString();
+				RestTemplate restTemplate = new RestTemplate();
+				WeatherDTO wd = restTemplate.getForObject(apiUrl, WeatherDTO.class);
+				List<Daily> daily = wd.getTimelines().getDaily();
+				for (Daily d : daily) {
+					Weather w = new Weather();
+					w.setCapturedDate(d.getTime());
+					w.setThaluk(key);
+					w.setMinTemp(d.getValues().getTemperatureMin());
+					w.setMaxTemp(d.getValues().getTemperatureMax());
+					w.setMinHumidity(d.getValues().getHumidityMin());
+					w.setMaxHumidity(d.getValues().getHumidityMax());
+					w.setMinPrec(d.getValues().getPrecipitationProbabilityMin());
+					w.setMaxPrec(d.getValues().getPrecipitationProbabilityMax());
+					w.setMinUvIndex(d.getValues().getUvIndexMin());
+					w.setMaxUvIndex(d.getValues().getUvIndexMax());
+					weatherDao.save(w);
+				}
+
+			} catch (Exception e) {
+				System.out.println("Error in fetching weather " + e);
+			}
+		}
+		// Build the URL with parameters
+
+	}
+
+	public Map<String, String> getThaluks() {
+		Map<String, String> locations = new HashMap<>();
+
+		String apiKey = "65e4896cbe6a7019036672grs89364e";
+		List<String> thaluks = farmDao.findDistinctThaluks();
+		for (String thaluk : thaluks) {
+			try {
+				System.out.println(thaluk);
+				String apiURL = "https://geocode.maps.co/search";
+				apiURL = UriComponentsBuilder.fromHttpUrl(apiURL).queryParam("q", thaluk).queryParam("api_key", apiKey)
+						.build().toUriString();
+				System.out.println(apiURL);
+
+				RestTemplate restTemplate = new RestTemplate();
+				GeoMapDTO[] w = restTemplate.getForObject(apiURL, GeoMapDTO[].class);
+				System.out.println(w[0].getLat());
+				locations.put(thaluk, w[0].getLat() + "," + w[0].getLon());
+				Thread.sleep(1000);
+
+			} catch (Exception e) {
+				System.out.println("error in fetching geo location " + e);
+			}
+		}
+		return locations;
 	}
 
 	// under construction

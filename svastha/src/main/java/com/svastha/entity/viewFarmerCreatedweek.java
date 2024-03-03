@@ -7,34 +7,23 @@ import javax.persistence.Id;
 public class viewFarmerCreatedweek {
 
 	@Id
-	private String name;
+	private String week;
+	private String count;
 
-	private String farmcount;
-
-	private String projectcount;
-
-	public String getName() {
-		return name;
+	public String getWeek() {
+		return week;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setWeek(String week) {
+		this.week = week;
 	}
 
-	public String getFarmcount() {
-		return farmcount;
+	public String getCount() {
+		return count;
 	}
 
-	public void setFarmcount(String farmcount) {
-		this.farmcount = farmcount;
-	}
-
-	public String getProjectcount() {
-		return projectcount;
-	}
-
-	public void setProjectcount(String projectcount) {
-		this.projectcount = projectcount;
+	public void setCount(String count) {
+		this.count = count;
 	}
 
 }
