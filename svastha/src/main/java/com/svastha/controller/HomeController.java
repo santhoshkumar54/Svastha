@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -31,7 +33,6 @@ import com.svastha.entity.Thaluk;
 import com.svastha.entity.Village;
 import com.svastha.entity.Weather;
 import com.svastha.repository.DistrictRepository;
-import com.svastha.repository.FarmRepository;
 import com.svastha.repository.MasterManualRepository;
 import com.svastha.repository.ThalukRepository;
 import com.svastha.repository.VillageRepository;
@@ -56,14 +57,16 @@ public class HomeController {
 	private ThalukRepository thalukDao;
 
 	@Autowired
-	private FarmRepository farmDao;
-
-	@Autowired
 	private WeatherRepository weatherDao;
+
+	@Scheduled(cron = "0 0 10 * * ?") // Execute at 10:00 AM every day
+	public void callAPI() {
+		System.out.println("Weather fetched at " + new Date());
+		fetchWeather();
+	}
 
 	@GetMapping("/hello")
 	public String index() {
-		fetchWeather();
 		return "Hello Deepan!";
 	}
 
@@ -99,7 +102,7 @@ public class HomeController {
 		return districtDao.findAll();
 	}
 
-	@GetMapping("fetchWeather")
+	@GetMapping("/fetchWeather")
 	public void fetchWeather() {
 
 		Map<String, String> locations = getThaluks();
@@ -118,46 +121,42 @@ public class HomeController {
 				RestTemplate restTemplate = new RestTemplate();
 				WeatherDTO wd = restTemplate.getForObject(apiUrl, WeatherDTO.class);
 				List<Daily> daily = wd.getTimelines().getDaily();
-				for (Daily d : daily) {
-					Weather w = new Weather();
-					w.setCapturedDate(d.getTime());
-					w.setThaluk(key);
-					w.setMinTemp(d.getValues().getTemperatureMin());
-					w.setMaxTemp(d.getValues().getTemperatureMax());
-					w.setMinHumidity(d.getValues().getHumidityMin());
-					w.setMaxHumidity(d.getValues().getHumidityMax());
-					w.setMinPrec(d.getValues().getPrecipitationProbabilityMin());
-					w.setMaxPrec(d.getValues().getPrecipitationProbabilityMax());
-					w.setMinUvIndex(d.getValues().getUvIndexMin());
-					w.setMaxUvIndex(d.getValues().getUvIndexMax());
-					weatherDao.save(w);
-				}
+				Daily d = daily.get(0);
+				Weather w = new Weather();
+				w.setCapturedDate(d.getTime());
+				w.setThaluk(key);
+				w.setMinTemp(d.getValues().getTemperatureMin());
+				w.setMaxTemp(d.getValues().getTemperatureMax());
+				w.setMinHumidity(d.getValues().getHumidityMin());
+				w.setMaxHumidity(d.getValues().getHumidityMax());
+				w.setMinPrec(d.getValues().getPrecipitationProbabilityMin());
+				w.setMaxPrec(d.getValues().getPrecipitationProbabilityMax());
+				w.setMinUvIndex(d.getValues().getUvIndexMin());
+				w.setMaxUvIndex(d.getValues().getUvIndexMax());
+				weatherDao.save(w);
 
 			} catch (Exception e) {
 				System.out.println("Error in fetching weather " + e);
 			}
 		}
-		// Build the URL with parameters
-
 	}
 
 	public Map<String, String> getThaluks() {
 		Map<String, String> locations = new HashMap<>();
 
 		String apiKey = "65e4896cbe6a7019036672grs89364e";
-		List<String> thaluks = farmDao.findDistinctThaluks();
-		for (String thaluk : thaluks) {
+		List<Thaluk> thaluks = thalukDao.findAll();
+		for (Thaluk thaluk : thaluks) {
 			try {
-				System.out.println(thaluk);
 				String apiURL = "https://geocode.maps.co/search";
-				apiURL = UriComponentsBuilder.fromHttpUrl(apiURL).queryParam("q", thaluk).queryParam("api_key", apiKey)
-						.build().toUriString();
+				apiURL = UriComponentsBuilder.fromHttpUrl(apiURL).queryParam("q", thaluk.getName())
+						.queryParam("api_key", apiKey).build().toUriString();
 				System.out.println(apiURL);
 
 				RestTemplate restTemplate = new RestTemplate();
 				GeoMapDTO[] w = restTemplate.getForObject(apiURL, GeoMapDTO[].class);
 				System.out.println(w[0].getLat());
-				locations.put(thaluk, w[0].getLat() + "," + w[0].getLon());
+				locations.put(thaluk.getName(), w[0].getLat() + "," + w[0].getLon());
 				Thread.sleep(1000);
 
 			} catch (Exception e) {
