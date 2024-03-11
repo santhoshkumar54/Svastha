@@ -33,13 +33,22 @@ public class Farms {
 
 	private String landline;
 
+	@ManyToOne
+	private Thaluk thalukId;
+
+	@ManyToOne
+	private Village villageId;
+
+	@ManyToOne
+	private District districtId;
+
 	private String village;
+
+	private String thaluk;
 
 	private String doorNumber;
 
 	private String Street;
-
-	private String thaluk;
 
 	private String District;
 
@@ -54,7 +63,7 @@ public class Farms {
 	private String ifsc;
 
 	private String location;
-	
+
 	private String farmerImage;
 
 	private String completion;
@@ -263,4 +272,29 @@ public class Farms {
 	public void setCompletion(String completion) {
 		this.completion = completion;
 	}
+
+	public Thaluk getThalukId() {
+		return thalukId;
+	}
+
+	public void setThalukId(Thaluk thalukId) {
+		this.thalukId = thalukId;
+	}
+
+	public Village getVillageId() {
+		return villageId;
+	}
+
+	public void setVillageId(Village villageId) {
+		this.villageId = villageId;
+	}
+
+	public District getDistrictId() {
+		return districtId;
+	}
+
+	public void setDistrictId(District districtId) {
+		this.districtId = districtId;
+	}
+
 }
