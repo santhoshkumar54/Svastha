@@ -12,6 +12,8 @@ import javax.servlet.annotation.MultipartConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -86,13 +88,21 @@ public class FarmController {
 
 	@Autowired
 	private FarmImagesRepository imageDao;
+	
+	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
 	@GetMapping("/farms")
-	public @ResponseBody Iterable<Farms> getAllFarms() {
-		return farmDao.findAll();
+	public @ResponseBody Page<Farms> getAllFarms(Pageable pageable) {
+		Page<Farms> farms = farmDao.findAll(pageable);
+		return farms;
+	}
+	
+	@GetMapping("/exportFarms")
+	public @ResponseBody List<Farms> exportFarms() {
+		List<Farms> farms = farmDao.findAll();
+		return farms;
 	}
 
-	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
 	
 	@GetMapping("/listFarms")
