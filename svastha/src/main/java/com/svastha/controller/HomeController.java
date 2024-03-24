@@ -2,10 +2,11 @@ package com.svastha.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -59,14 +61,32 @@ public class HomeController {
 	@Autowired
 	private WeatherRepository weatherDao;
 
-	@Scheduled(cron = "0 0 10 * * ?") // Execute at 10:00 AM every day
+	@Scheduled(cron = "0 9 1 * * ?") // Execute at 10:00 AM every day
 	public void callAPI() {
-		System.out.println("Weather fetched at " + new Date());
+		System.out.println("Weather");
 		fetchWeather();
 	}
 
 	@GetMapping("/hello")
-	public String index() {
+	public String index() throws IllegalArgumentException, IllegalAccessException {
+		Field[] fields = Thaluk.class.getDeclaredFields();
+		List<Thaluk> thaluk = thalukDao.findAll();
+		for (Thaluk th : thaluk) {
+			 for (Field field : fields) {
+				 field.setAccessible(true);
+				 Object value = field.get(th);
+				 if (value instanceof District) {
+                     District district = (District) value;
+                     if(district != null)
+                     {
+                     System.out.println(district.getName()); 
+                     }
+                 } else {
+                	 if(value != null)
+                	 System.out.println(value.toString());
+                 }
+			 }
+		}
 		return "Hello Deepan!";
 	}
 
@@ -100,6 +120,12 @@ public class HomeController {
 	@GetMapping("/getDistrict")
 	public List<District> getDistrict() {
 		return districtDao.findAll();
+	}
+	
+	@GetMapping("/getWeather")
+	public List<Weather> getWeather(@RequestParam(required = false) String thaluk,@RequestParam(required = false) Date capturedDateStart,@RequestParam(required = false) Date capturedDateEnd)
+	{
+		return weatherDao.findByDateAndLocation(thaluk,capturedDateStart,capturedDateEnd,5);
 	}
 
 	@GetMapping("/fetchWeather")
