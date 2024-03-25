@@ -14,6 +14,14 @@ public class District {
 
 	private String name;
 
+	public Long getPk1() {
+		return pk1;
+	}
+
+	public void setPk1(Long pk1) {
+		this.pk1 = pk1;
+	}
+
 	public String getName() {
 		return name;
 	}

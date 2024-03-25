@@ -88,23 +88,26 @@ public class FarmController {
 
 	@Autowired
 	private FarmImagesRepository imageDao;
-	
+
 	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
 	@GetMapping("/farms")
-	public @ResponseBody Page<Farms> getAllFarms(Pageable pageable) {
-		Page<Farms> farms = farmDao.findAll(pageable);
+	public @ResponseBody Page<Farms> getAllFarms(@RequestParam(required = false) Long districtId,
+			@RequestParam(required = false) Long thalukId, @RequestParam(required = false) Long villageId,
+			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
+			Pageable pageable) {
+		Page<Farms> farms = farmDao.findWithFilters(thalukId, districtId, villageId, key, userId, pageable);
 		return farms;
 	}
-	
+
 	@GetMapping("/exportFarms")
-	public @ResponseBody List<Farms> exportFarms() {
-		List<Farms> farms = farmDao.findAll();
+	public @ResponseBody List<Farms> exportFarms(@RequestParam(required = false) Long districtId,
+			@RequestParam(required = false) Long thalukId, @RequestParam(required = false) Long villageId,
+			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId) {
+		List<Farms> farms = farmDao.findWithFilters(thalukId, districtId, villageId, key, userId);
 		return farms;
 	}
 
-
-	
 	@GetMapping("/listFarms")
 	public @ResponseBody List<Farms> getFarmByUserId(@RequestParam Long userId) {
 		Users u = userDao.findByPk1(userId);
