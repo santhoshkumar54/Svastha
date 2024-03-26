@@ -18,7 +18,7 @@ public class ProjectImages {
 	private String path;
 
 	private String fileName;
-	
+
 	private String imageUrl;
 
 	@ManyToOne
@@ -28,6 +28,27 @@ public class ProjectImages {
 	private Users createdBy;
 
 	private Timestamp createdDt;
+
+	@ManyToOne
+	private Users updatedBy;
+
+	private Timestamp updatedDt;
+
+	public Users getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Users updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedDt() {
+		return updatedDt;
+	}
+
+	public void setUpdatedDt(Timestamp updatedDt) {
+		this.updatedDt = updatedDt;
+	}
 
 	public Long getPk1() {
 		return pk1;

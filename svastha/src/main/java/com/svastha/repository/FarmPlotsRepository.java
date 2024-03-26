@@ -11,4 +11,6 @@ public interface FarmPlotsRepository extends JpaRepository<FarmPlots, Long> {
 
 	List<FarmPlots> findAllPlotsByFarm(Farms farm);
 
+    List<FarmPlots> findByFarmIn(List<Farms> farms);
+
 }

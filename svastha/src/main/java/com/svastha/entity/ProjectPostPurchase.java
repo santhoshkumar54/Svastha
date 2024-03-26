@@ -47,6 +47,7 @@ public class ProjectPostPurchase {
 
 	private Timestamp updatedDt;
 
+	
 	public Long getPk1() {
 		return pk1;
 	}

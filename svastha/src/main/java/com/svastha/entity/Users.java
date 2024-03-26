@@ -1,5 +1,6 @@
 package com.svastha.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
@@ -7,29 +8,30 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity
 @Table(name = "users")
 public class Users {
 
-
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
-	
+
 	private String first_name;
-	
+
 	private String last_name;
-	
+
 	private String username;
-	
+
 	@JsonIgnore
 	private String password;
-	
+
 	private String phone_number;
-	
+
 	@ManyToOne
 	private Roles role;
+
+	@ManyToOne
+	private Users createdBy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createddt;
@@ -37,6 +39,27 @@ public class Users {
 	@PrePersist
 	protected void onCreate() {
 		createddt = new Date(); // Set the current timestamp before persisting
+	}
+
+	@ManyToOne
+	private Users updatedBy;
+
+	private Timestamp updatedDt;
+
+	public Users getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Users updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedDt() {
+		return updatedDt;
+	}
+
+	public void setUpdatedDt(Timestamp updatedDt) {
+		this.updatedDt = updatedDt;
 	}
 
 	public Long getPk1() {
@@ -101,6 +124,22 @@ public class Users {
 
 	public void setCreateddt(Date createddt) {
 		this.createddt = createddt;
+	}
+
+	public Roles getRole() {
+		return role;
+	}
+
+	public void setRole(Roles role) {
+		this.role = role;
+	}
+
+	public Users getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Users createdBy) {
+		this.createdBy = createdBy;
 	}
 
 }

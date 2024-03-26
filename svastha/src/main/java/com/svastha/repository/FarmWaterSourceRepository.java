@@ -10,4 +10,6 @@ import com.svastha.entity.Farms;
 public interface FarmWaterSourceRepository extends JpaRepository<FarmWaterSource, Long> {
 
 	List<FarmWaterSource> findAllWaterSourceByFarm( Farms farm );
+	
+	List<FarmWaterSource> findByFarmIn(List<Farms> farms);
 }

@@ -10,6 +10,11 @@ import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
 
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -46,6 +51,7 @@ import com.svastha.repository.FarmWaterSourceRepository;
 import com.svastha.repository.FarmWorkersRepository;
 import com.svastha.repository.LandDetailsRepository;
 import com.svastha.repository.UserRepository;
+import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.MasterService;
 
@@ -89,6 +95,9 @@ public class FarmController {
 	@Autowired
 	private FarmImagesRepository imageDao;
 
+	@Autowired
+	private ExcelWriter excel;
+
 	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
 	@GetMapping("/farms")
@@ -101,11 +110,15 @@ public class FarmController {
 	}
 
 	@GetMapping("/exportFarms")
-	public @ResponseBody List<Farms> exportFarms(@RequestParam(required = false) Long districtId,
+	public @ResponseBody String exportFarms(@RequestParam(required = false) Long districtId,
 			@RequestParam(required = false) Long thalukId, @RequestParam(required = false) Long villageId,
-			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId) {
-		List<Farms> farms = farmDao.findWithFilters(thalukId, districtId, villageId, key, userId);
-		return farms;
+			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,@RequestParam String email) {
+		try {
+          excel.startFarmExport(districtId, thalukId, villageId, key, userId,email);
+			return "The exported data will be sent to your email.";
+		} catch (Exception e) {
+			return "Failed to trigger batch job: " + e.getMessage();
+		}
 	}
 
 	@GetMapping("/listFarms")

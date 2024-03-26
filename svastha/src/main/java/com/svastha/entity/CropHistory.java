@@ -24,10 +24,40 @@ public class CropHistory {
 	@ManyToOne
 	private Farms farm;
 
-	
+	@ManyToOne
+	private Users createdBy;
 
 	private Timestamp createdDt;
+	
+	public Users getCreatedBy() {
+		return createdBy;
+	}
 
+	public void setCreatedBy(Users createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	@ManyToOne
+	private Users updatedBy;
+
+	private Timestamp updatedDt;
+
+	public Users getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Users updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedDt() {
+		return updatedDt;
+	}
+
+	public void setUpdatedDt(Timestamp updatedDt) {
+		this.updatedDt = updatedDt;
+	}
+	
 	public Long getPk1() {
 		return pk1;
 	}

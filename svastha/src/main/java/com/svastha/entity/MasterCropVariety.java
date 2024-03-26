@@ -1,5 +1,7 @@
 package com.svastha.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +19,16 @@ public class MasterCropVariety {
 
 	@ManyToOne
 	private MasterSeason season;
+
+	@ManyToOne
+	private Users createdBy;
+
+	private Timestamp createdDt;
+
+	@ManyToOne
+	private Users updatedBy;
+
+	private Timestamp updatedDt;
 
 	public int getPk1() {
 		return pk1;
@@ -42,6 +54,36 @@ public class MasterCropVariety {
 		this.season = season;
 	}
 
-	
+	public Users getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Users createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Timestamp getCreatedDt() {
+		return createdDt;
+	}
+
+	public void setCreatedDt(Timestamp createdDt) {
+		this.createdDt = createdDt;
+	}
+
+	public Users getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Users updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedDt() {
+		return updatedDt;
+	}
+
+	public void setUpdatedDt(Timestamp updatedDt) {
+		this.updatedDt = updatedDt;
+	}
 
 }
