@@ -32,7 +32,10 @@ public class Farms {
 	private String mobileType;
 
 	private String landline;
+	
+	private String aadhaar;
 
+	private String farmerType;
 	@ManyToOne
 	private Thaluk thalukId;
 
@@ -318,4 +321,19 @@ public class Farms {
 		this.districtId = districtId;
 	}
 
+	public String getAadhaar() {
+		return aadhaar;
+	}
+
+	public void setAadhaar(String aadhaar) {
+		this.aadhaar = aadhaar;
+	}
+
+	public String getFarmerType() {
+		return farmerType;
+	}
+
+	public void setFarmerType(String farmerType) {
+		this.farmerType = farmerType;
+	}
 }

@@ -22,15 +22,17 @@ public interface FarmRepository extends JpaRepository<Farms, Long> {
 			+ "and (:district is NULL or f.districtId.pk1 = :district) "
 			+ "and (:village is NULL or f.villageId.pk1 = :village) "
 			+ "and (:key is NULL or f.farmerName like %:key%) or (:key is NULL or f.regNumber = :key) "
-			+ "and (:user is NULL or f.createdBy.pk1 = :user)")
+			+ "and (:user is NULL or f.createdBy.pk1 = :user)" + "and (:type is NULL or f.farmerType = :type)")
 	Page<Farms> findWithFilters(@Param("thaluk") Long thaluk, @Param("district") Long district,
-			@Param("village") Long village, @Param("key") String key, @Param("user") Long user, Pageable pageable);
+			@Param("village") Long village, @Param("key") String key, @Param("user") Long user,
+			@Param("type") String type, Pageable pageable);
 
 	@Query("SELECT f FROM Farms f WHERE (:thaluk IS NULL OR f.thalukId.pk1 = :thaluk) "
 			+ "and (:district is NULL or f.districtId.pk1 = :district) "
 			+ "and (:village is NULL or f.villageId.pk1 = :village) "
 			+ "and (:key is NULL or f.farmerName like %:key%) or (:key is NULL or f.regNumber = :key) "
-			+ "and (:user is NULL or f.createdBy.pk1 = :user)")
+			+ "and (:user is NULL or f.createdBy.pk1 = :user)"
+			+ "and (:type is NULL or f.farmerType = :type)" )
 	List<Farms> findWithFilters(@Param("thaluk") Long thaluk, @Param("district") Long district,
-			@Param("village") Long village, @Param("key") String key, @Param("user") Long user);
+			@Param("village") Long village, @Param("key") String key, @Param("user") Long user,@Param("type") String type);
 }

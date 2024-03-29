@@ -22,6 +22,8 @@ public class FarmPlots {
 	private String surveyNumber;
 
 	private String location;
+	
+	private String areaInAcres;
 
 	@ManyToOne
 	private Farms farm;
@@ -114,5 +116,13 @@ public class FarmPlots {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public String getAreaInAcres() {
+		return areaInAcres;
+	}
+
+	public void setAreaInAcres(String areaInAcres) {
+		this.areaInAcres = areaInAcres;
 	}
 }

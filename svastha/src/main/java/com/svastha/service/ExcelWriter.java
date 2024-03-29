@@ -76,9 +76,9 @@ public class ExcelWriter {
 	private JavaMailSender mailSender;
 
 	@Async
-	public void startFarmExport(Long districtId, Long thalukId, Long villageId, String key, Long userId, String email) {
+	public void startFarmExport(Long districtId, Long thalukId, Long villageId, String key, Long userId, String type, String email) {
 
-		List<Farms> farms = farmDao.findWithFilters(thalukId, districtId, villageId, key, userId);
+		List<Farms> farms = farmDao.findWithFilters(thalukId, districtId, villageId, key, userId, type);
 		List<LandDetails> lands = landDetailsDao.findByFarmIn(farms);
 		List<FarmPlots> plots = plotsDao.findByFarmIn(farms);
 		String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\farmers_"

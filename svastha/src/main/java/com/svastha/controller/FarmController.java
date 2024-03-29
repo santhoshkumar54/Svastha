@@ -104,17 +104,18 @@ public class FarmController {
 	public @ResponseBody Page<Farms> getAllFarms(@RequestParam(required = false) Long districtId,
 			@RequestParam(required = false) Long thalukId, @RequestParam(required = false) Long villageId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
-			Pageable pageable) {
-		Page<Farms> farms = farmDao.findWithFilters(thalukId, districtId, villageId, key, userId, pageable);
+			@RequestParam(required = false) String type, Pageable pageable) {
+		Page<Farms> farms = farmDao.findWithFilters(thalukId, districtId, villageId, key, userId, type, pageable);
 		return farms;
 	}
 
 	@GetMapping("/exportFarms")
 	public @ResponseBody String exportFarms(@RequestParam(required = false) Long districtId,
 			@RequestParam(required = false) Long thalukId, @RequestParam(required = false) Long villageId,
-			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,@RequestParam String email) {
+			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
+			@RequestParam String email, @RequestParam(required = false) String type) {
 		try {
-          excel.startFarmExport(districtId, thalukId, villageId, key, userId,email);
+			excel.startFarmExport(districtId, thalukId, villageId, key, userId, type, email);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();
