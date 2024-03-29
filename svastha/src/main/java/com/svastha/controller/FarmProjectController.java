@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +46,7 @@ import com.svastha.repository.ProjectImagesRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
 import com.svastha.repository.UserRepository;
+import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.GpsService;
 
@@ -86,9 +89,28 @@ public class FarmProjectController {
 	@Autowired
 	private ProjectImagesRepository imageDao;
 
+	@Autowired
+	private ExcelWriter excel;
+
 	@GetMapping("/projects")
-	public @ResponseBody Iterable<FarmProjects> getAllProjects() {
-		return projectDao.findAll();
+	public @ResponseBody Page<FarmProjects> getAllProjects(@RequestParam(required = false) Long yearId,
+			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
+			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
+			Pageable pageable) {
+		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, pageable);
+		return projects;
+	}
+
+	@GetMapping("/exportProjects")
+	public @ResponseBody String exportProjects(@RequestParam(required = false) Long yearId,
+			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
+			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,@RequestParam String email) {
+		try {
+          excel.startProjectExport(yearId, seasonId, cropId, key, userId,email);
+			return "The exported data will be sent to your email.";
+		} catch (Exception e) {
+			return "Failed to trigger batch job: " + e.getMessage();
+		}
 	}
 
 	@GetMapping("/listProjects")

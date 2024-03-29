@@ -11,4 +11,6 @@ public interface ProjectsPlotsRepository extends JpaRepository<ProjectPlots, Lon
 
 	List<ProjectPlots> findAllPlotsByProject(FarmProjects projects);
 
+	List<ProjectPlots> findByProjectIn(List<FarmProjects> projects);
+
 }
