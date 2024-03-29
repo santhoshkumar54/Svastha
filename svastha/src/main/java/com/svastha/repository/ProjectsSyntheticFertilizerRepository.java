@@ -11,4 +11,6 @@ public interface ProjectsSyntheticFertilizerRepository extends JpaRepository<Pro
 
 	List<ProjectSyntheticFertilizers> findAllByProjects(FarmProjects projects);
 
+	List<ProjectSyntheticFertilizers> findByProjectsIn(List<FarmProjects> projects);
+
 }

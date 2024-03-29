@@ -11,4 +11,6 @@ public interface ProjectsDispatchRepository extends JpaRepository<ProjectDispatc
 
 	List<ProjectDispatch> findAllByProjects(FarmProjects projects);
 
+	List<ProjectDispatch> findByProjectsIn(List<FarmProjects> projects);
+
 }

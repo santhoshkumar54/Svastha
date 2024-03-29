@@ -11,4 +11,5 @@ public interface ProjectsProcurementRepository extends JpaRepository<ProjectProc
 
 	List<ProjectProcurement> findAllByProjects(FarmProjects projects);
 
+	List<ProjectProcurement> findByProjectsIn(List<FarmProjects> projects);
 }

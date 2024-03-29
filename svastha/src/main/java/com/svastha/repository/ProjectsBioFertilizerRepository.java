@@ -11,4 +11,5 @@ public interface ProjectsBioFertilizerRepository extends JpaRepository<ProjectBi
 
 	List<ProjectBioFertilizers> findAllByProjects(FarmProjects projects);
 
+	List<ProjectBioFertilizers> findByProjectsIn(List<FarmProjects> projects);
 }

@@ -11,4 +11,5 @@ public interface ProjectsProtectionRepository extends JpaRepository<ProjectProte
 
 	List<ProjectProtection> findAllProtectionsByProjects(FarmProjects projects);
 
+	List<ProjectProtection> findByProjectsIn(List<FarmProjects> projects);
 }

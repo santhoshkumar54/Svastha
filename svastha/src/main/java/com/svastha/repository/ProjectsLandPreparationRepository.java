@@ -11,4 +11,6 @@ public interface ProjectsLandPreparationRepository extends JpaRepository<Project
 
 	List<ProjectLandPreparation> findAllByProject(FarmProjects project);
 
+	List<ProjectLandPreparation> findByProjectIn(List<FarmProjects> projects);
+
 }

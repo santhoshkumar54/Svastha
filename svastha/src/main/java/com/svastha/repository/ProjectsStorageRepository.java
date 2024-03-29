@@ -11,4 +11,5 @@ public interface ProjectsStorageRepository extends JpaRepository<ProjectStorage,
 
 	List<ProjectStorage> findAllByProjects(FarmProjects projects);
 
+	List<ProjectStorage> findByProjectsIn(List<FarmProjects> projects);
 }

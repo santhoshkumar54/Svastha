@@ -11,4 +11,5 @@ public interface ProjectsPostPurchaseRepository extends JpaRepository<ProjectPos
 
 	List<ProjectPostPurchase> findAllByProjects(FarmProjects projects);
 
+	List<ProjectPostPurchase> findByProjectsIn(List<FarmProjects> projects);
 }

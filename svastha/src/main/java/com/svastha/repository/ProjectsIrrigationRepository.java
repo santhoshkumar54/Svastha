@@ -11,4 +11,5 @@ public interface ProjectsIrrigationRepository extends JpaRepository<ProjectIrrig
 
 	List<ProjectIrrigation> findAllIrrigationsByProjects(FarmProjects projects);
 
+	List<ProjectIrrigation> findByProjectsIn(List<FarmProjects> projects);
 }

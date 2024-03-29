@@ -11,4 +11,6 @@ public interface ProjectsPackingRepository extends JpaRepository<ProjectPacking,
 
 	List<ProjectPacking> findAllByProjects(FarmProjects projects);
 
+	List<ProjectPacking> findByProjectsIn(List<FarmProjects> projects);
+
 }

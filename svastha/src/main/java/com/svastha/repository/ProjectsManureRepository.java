@@ -11,4 +11,5 @@ public interface ProjectsManureRepository extends JpaRepository<ProjectOrganicMa
 
 	List<ProjectOrganicManure> findAllByProjects(FarmProjects projects);
 
+	List<ProjectOrganicManure> findByProjectsIn(List<FarmProjects> projects);
 }
