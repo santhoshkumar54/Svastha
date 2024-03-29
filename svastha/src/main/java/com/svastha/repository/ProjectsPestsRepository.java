@@ -11,4 +11,5 @@ public interface ProjectsPestsRepository extends JpaRepository<ProjectNurseryPes
 
 	List<ProjectNurseryPests> findAllPestsByProjects(FarmProjects projects);
 
+	List<ProjectNurseryPests> findByProjectsIn(List<FarmProjects> projects);
 }

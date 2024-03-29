@@ -11,4 +11,5 @@ public interface ProjectsNutrientRepository extends JpaRepository<ProjectNursery
 
 	List<ProjectNurseryNutrient> findAllNutrientByProjects(FarmProjects projects);
 
+	List<ProjectNurseryNutrient> findByProjectsIn(List<FarmProjects> projects);
 }

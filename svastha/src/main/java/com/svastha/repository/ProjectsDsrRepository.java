@@ -1,5 +1,7 @@
 package com.svastha.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.svastha.entity.FarmProjects;
@@ -9,4 +11,5 @@ public interface ProjectsDsrRepository extends JpaRepository<ProjectDSRMethod, L
 
 	ProjectDSRMethod findDsrByProjects(FarmProjects projects);
 
+	List<ProjectDSRMethod> findByProjectsIn(List<FarmProjects> projects);
 }

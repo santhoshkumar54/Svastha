@@ -11,4 +11,5 @@ public interface ProjectsWaterRepository extends JpaRepository<ProjectNurseryWat
 
 	List<ProjectNurseryWater> findAllWaterByProjects(FarmProjects projects);
 
+	List<ProjectNurseryWater> findByProjectsIn(List<FarmProjects> projects);
 }

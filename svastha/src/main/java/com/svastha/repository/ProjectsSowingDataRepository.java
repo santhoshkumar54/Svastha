@@ -11,8 +11,10 @@ import com.svastha.entity.ProjectSowingData;
 
 public interface ProjectsSowingDataRepository extends JpaRepository<ProjectSowingData, Long> {
 
-    List<ProjectSowingData> findAllByplots(FarmPlots plots, Sort sort);
+	List<ProjectSowingData> findAllByplots(FarmPlots plots, Sort sort);
 
-    List<ProjectSowingData> findAllSowingDataByProjects(FarmProjects projects);
+	List<ProjectSowingData> findAllSowingDataByProjects(FarmProjects projects);
+
+	List<ProjectSowingData> findByProjectsIn(List<FarmProjects> projects);
 
 }

@@ -11,4 +11,5 @@ public interface ProjectsWeedRepository extends JpaRepository<ProjectNurseryWeed
 
 	List<ProjectNurseryWeed> findAllWeedByProjects(FarmProjects projects);
 
+	List<ProjectNurseryWeed> findByProjectsIn(List<FarmProjects> projects);
 }

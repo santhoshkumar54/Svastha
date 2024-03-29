@@ -32,7 +32,15 @@ import com.svastha.entity.FarmWaterSource;
 import com.svastha.entity.FarmWorkers;
 import com.svastha.entity.Farms;
 import com.svastha.entity.LandDetails;
+import com.svastha.entity.ProjectDSRMethod;
+import com.svastha.entity.ProjectNurseryNutrient;
+import com.svastha.entity.ProjectNurseryPests;
+import com.svastha.entity.ProjectNurseryWater;
+import com.svastha.entity.ProjectNurseryWeed;
 import com.svastha.entity.ProjectPlots;
+import com.svastha.entity.ProjectSeedTreatment;
+import com.svastha.entity.ProjectSeedTreatmentChemical;
+import com.svastha.entity.ProjectSowingData;
 import com.svastha.repository.FarmGrainMarketRepository;
 import com.svastha.repository.FarmLiveStockRepository;
 import com.svastha.repository.FarmPlotsRepository;
@@ -42,7 +50,22 @@ import com.svastha.repository.FarmToolsRepository;
 import com.svastha.repository.FarmWaterSourceRepository;
 import com.svastha.repository.FarmWorkersRepository;
 import com.svastha.repository.LandDetailsRepository;
+import com.svastha.repository.ProjectsBioFertilizerRepository;
+import com.svastha.repository.ProjectsDsrRepository;
+import com.svastha.repository.ProjectsIrrigationRepository;
+import com.svastha.repository.ProjectsLandPreparationRepository;
+import com.svastha.repository.ProjectsManureRepository;
+import com.svastha.repository.ProjectsNutrientRepository;
+import com.svastha.repository.ProjectsPestsRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
+import com.svastha.repository.ProjectsSeedTreatmentChemicalRepository;
+import com.svastha.repository.ProjectsSeedTreatmentRepository;
+import com.svastha.repository.ProjectsSowingDataRepository;
+import com.svastha.repository.ProjectsSyntheticFertilizerRepository;
+import com.svastha.repository.ProjectsTransplantManagementRepository;
+import com.svastha.repository.ProjectsWaterRepository;
+import com.svastha.repository.ProjectsWeedManagementRepository;
+import com.svastha.repository.ProjectsWeedRepository;
 
 @Component
 public class ExcelWriter {
@@ -78,10 +101,56 @@ public class ExcelWriter {
 	private ProjectsPlotsRepository projectPlotsDao;
 
 	@Autowired
+	private ProjectsSeedTreatmentRepository seedTreatmentDao;
+
+	@Autowired
+	private ProjectsSeedTreatmentChemicalRepository seedTreatmentChemicalDao;
+
+	@Autowired
+	private ProjectsDsrRepository dsrDao;
+
+	@Autowired
+	private ProjectsSowingDataRepository sowingDao;
+
+	@Autowired
+	private ProjectsIrrigationRepository irrigationDao;
+
+	@Autowired
+	private ProjectsWaterRepository waterDao;
+
+	@Autowired
+	private ProjectsWeedRepository weedDao;
+
+	@Autowired
+	private ProjectsNutrientRepository nutrientDao;
+
+	@Autowired
+	private ProjectsPestsRepository pestDao;
+
+	@Autowired
+	private ProjectsLandPreparationRepository landDao;
+
+	@Autowired
+	private ProjectsTransplantManagementRepository transplantDao;
+
+	@Autowired
+	private ProjectsWeedManagementRepository weedMgtDao;
+
+	@Autowired
+	private ProjectsManureRepository manureDao;
+
+	@Autowired
+	private ProjectsBioFertilizerRepository bioDao;
+
+	@Autowired
+	private ProjectsSyntheticFertilizerRepository syntheticDao;
+
+	@Autowired
 	private JavaMailSender mailSender;
 
 	@Async
-	public void startFarmExport(Long districtId, Long thalukId, Long villageId, String key, Long userId, String type, String email) {
+	public void startFarmExport(Long districtId, Long thalukId, Long villageId, String key, Long userId, String type,
+			String email) {
 
 		List<Farms> farms = farmDao.findWithFilters(thalukId, districtId, villageId, key, userId, type);
 		List<LandDetails> lands = landDetailsDao.findByFarmIn(farms);
@@ -91,11 +160,11 @@ public class ExcelWriter {
 		List<FarmTools> tools = toolsDao.findByFarmIn(farms);
 		List<FarmWorkers> worker = workerDao.findByFarmIn(farms);
 		List<FarmGrainMarket> grainMarket = grainMarketDao.findByFarmIn(farms);
-		
-		String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\farmers_"
-				+ System.currentTimeMillis() + ".xlsx";
+
+		String excelName = "farmers_"+ System.currentTimeMillis() + ".xlsx";
+		String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\"+excelName;
 		System.out.println("excel writer called");
-		
+
 		try (Workbook workbook = new XSSFWorkbook()) {
 			Thread.sleep(5000); // Sleep for 5 seconds
 
@@ -110,7 +179,7 @@ public class ExcelWriter {
 			try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
 				workbook.write(outputStream);
 				sendEmail(email, "Exported Farmer Data", "Please find the attched farmer data.",
-						FileUtils.readFileToByteArray(new File(excelFilePath)), excelFilePath);
+						FileUtils.readFileToByteArray(new File(excelFilePath)), excelName);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -242,7 +311,7 @@ public class ExcelWriter {
 			// TODO: handle exception
 		}
 	}
-	
+
 	public void generateWaterSheet(Workbook workbook, List<FarmWaterSource> water) {
 		try {
 			Sheet sheet = workbook.createSheet("Water Source");
@@ -265,7 +334,7 @@ public class ExcelWriter {
 			// TODO: handle exception
 		}
 	}
-	
+
 	public void generateLiveStockSheet(Workbook workbook, List<FarmLiveStock> liveStock) {
 		try {
 			Sheet sheet = workbook.createSheet("Livestock Details");
@@ -315,7 +384,7 @@ public class ExcelWriter {
 			// TODO: handle exception
 		}
 	}
-	
+
 	public void generateWorkerSheet(Workbook workbook, List<FarmWorkers> workers) {
 		try {
 			Sheet sheet = workbook.createSheet("Worker Details");
@@ -340,7 +409,7 @@ public class ExcelWriter {
 			// TODO: handle exception
 		}
 	}
-	
+
 	public void generateMarketSheet(Workbook workbook, List<FarmGrainMarket> market) {
 		try {
 			Sheet sheet = workbook.createSheet("Grain Market Details");
@@ -379,26 +448,50 @@ public class ExcelWriter {
 			// TODO: handle exception
 		}
 	}
-	
-	
+
 	@Async
 	public void startProjectExport(Long yearId, Long seasonId, Long cropId, String key, Long userId, String email) {
 		List<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId);
 		List<ProjectPlots> plots = projectPlotsDao.findByProjectIn(projects);
 
+		System.out.println("project size="+projects.size()+    "   plot size-"+plots.size());
 		Map<FarmProjects, List<String>> projectsMap = generateProjectPlotMap(plots);
 
-		String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\projects_"
-				+ System.currentTimeMillis() + ".xlsx";
+		List<ProjectSeedTreatment> seed = seedTreatmentDao.findByProjectsIn(projects);
+
+		List<ProjectSeedTreatmentChemical> seedChem = seedTreatmentChemicalDao.findBySeedTreatmentIn(seed);
+
+		List<ProjectDSRMethod> dsr = dsrDao.findByProjectsIn(projects);
+
+		List<ProjectSowingData> sowing = sowingDao.findByProjectsIn(projects);
+
+		List<ProjectNurseryWater> water = waterDao.findByProjectsIn(projects);
+
+		List<ProjectNurseryWeed> weed = weedDao.findByProjectsIn(projects);
+
+		List<ProjectNurseryNutrient> nutrient = nutrientDao.findByProjectsIn(projects);
+
+		List<ProjectNurseryPests> pset = pestDao.findByProjectsIn(projects);
+
+		String excelName = "projects_"+ System.currentTimeMillis() + ".xlsx";
+		String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\"+ excelName;
 		System.out.println("excel writer called");
 		try (Workbook workbook = new XSSFWorkbook()) {
 			Thread.sleep(5000); // Sleep for 5 seconds
 
 			generateProjectSheet(workbook, projectsMap);
+			generateSeedTreatment(workbook, seed);
+			generateSeedTreatmentChemicals(workbook, seedChem);
+			generateDsrMethod(workbook, dsr);
+			generateDsrSowingMethod(workbook, sowing);
+			generateNurseryWaterMethod(workbook, water);
+			generateNurseryWeed(workbook, weed);
+			generateNurseryNutrient(workbook, nutrient);
+			generateNurseryPest(workbook, pset);
 			try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
 				workbook.write(outputStream);
 				sendEmail(email, "Exported Farmer Data", "Please find the attched farmer data.",
-						FileUtils.readFileToByteArray(new File(excelFilePath)), excelFilePath);
+						FileUtils.readFileToByteArray(new File(excelFilePath)), excelName);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -468,21 +561,290 @@ public class ExcelWriter {
 		}
 	}
 
-	public void generateSeedTreatment(Workbook workbook, List<LandDetails> lands) {
+	public void generateSeedTreatment(Workbook workbook, List<ProjectSeedTreatment> objs) {
 		try {
-			Sheet sheet = workbook.createSheet("Land Details");
+			Sheet sheet = workbook.createSheet("Seed Treatment");
 			Row headerRow = sheet.createRow(0);
-			headerRow.createCell(0).setCellValue("Farmer No.");
-			headerRow.createCell(1).setCellValue("Owned Area");
-			headerRow.createCell(2).setCellValue("Leased Area");
-			headerRow.createCell(3).setCellValue("Cultivable Area");
+			headerRow.createCell(0).setCellValue("ID");
+			headerRow.createCell(1).setCellValue("Project ID");
+			headerRow.createCell(2).setCellValue("Farmer Reg No");
+			headerRow.createCell(3).setCellValue("Seed Rate/Acre");
+			headerRow.createCell(4).setCellValue("Salt Solution Applied?");
+			headerRow.createCell(5).setCellValue("Seed Treated?");
+			headerRow.createCell(6).setCellValue("Seed Source");
+			headerRow.createCell(7).setCellValue("Brand");
+			headerRow.createCell(8).setCellValue("Company");
+			headerRow.createCell(9).setCellValue("Class");
+			headerRow.createCell(10).setCellValue("cost");
+			headerRow.createCell(11).setCellValue("Created By");
+			headerRow.createCell(12).setCellValue("Created Date");
 			int rowNum = 1;
-			for (LandDetails land : lands) {
+			for (ProjectSeedTreatment obj : objs) {
 				Row row = sheet.createRow(rowNum++);
-				row.createCell(0).setCellValue(land.getFarm().getRegNumber());
-				row.createCell(1).setCellValue(land.getAreaAcres());
-				row.createCell(2).setCellValue(land.getAreaLeased());
-				row.createCell(3).setCellValue(land.getAreaCultivable());
+				row.createCell(0).setCellValue(obj.getPk1());
+				row.createCell(1).setCellValue(obj.getProjects().getPk1());
+				row.createCell(2).setCellValue(obj.getProjects().getFarm().getRegNumber());
+				row.createCell(3).setCellValue(obj.getSeedRate());
+				row.createCell(4).setCellValue(obj.getSaltSolution());
+				row.createCell(5).setCellValue(obj.getSeedTreatment());
+				row.createCell(6).setCellValue(obj.getSeedSource());
+				row.createCell(7).setCellValue(obj.getBrand());
+				row.createCell(8).setCellValue(obj.getCompany());
+				row.createCell(9).setCellValue(obj.getSeedClass());
+				row.createCell(10).setCellValue(obj.getCost());
+				row.createCell(11).setCellValue(obj.getCreatedBy().getUsername());
+				row.createCell(12).setCellValue(obj.getCreatedDt());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void generateSeedTreatmentChemicals(Workbook workbook, List<ProjectSeedTreatmentChemical> objs) {
+		try {
+			Sheet sheet = workbook.createSheet("Seed Treatment");
+			Row headerRow = sheet.createRow(0);
+			headerRow.createCell(0).setCellValue("ID");
+			headerRow.createCell(1).setCellValue("Project ID");
+			headerRow.createCell(2).setCellValue("Farmer Reg No");
+			headerRow.createCell(3).setCellValue("Chemical Used");
+			headerRow.createCell(4).setCellValue("Chemical Dose");
+			headerRow.createCell(5).setCellValue("Bio Agent?");
+			headerRow.createCell(6).setCellValue("BioAgent Dose");
+			headerRow.createCell(7).setCellValue("Bio Fertilizer");
+			headerRow.createCell(8).setCellValue("Biofertilizer Dose");
+			headerRow.createCell(9).setCellValue("cost");
+			headerRow.createCell(10).setCellValue("Created By");
+			headerRow.createCell(11).setCellValue("Created Date");
+			int rowNum = 1;
+			for (ProjectSeedTreatmentChemical obj : objs) {
+				Row row = sheet.createRow(rowNum++);
+				row.createCell(0).setCellValue(obj.getPk1());
+				row.createCell(1).setCellValue(obj.getSeedTreatment().getProjects().getPk1());
+				row.createCell(2).setCellValue(obj.getSeedTreatment().getProjects().getFarm().getRegNumber());
+				row.createCell(3).setCellValue(obj.getChemicalName());
+				row.createCell(4).setCellValue(obj.getChemicalDose());
+				row.createCell(5).setCellValue(obj.getBioAgent());
+				row.createCell(6).setCellValue(obj.getBioAgentDose());
+				row.createCell(7).setCellValue(obj.getBioFertilizer());
+				row.createCell(8).setCellValue(obj.getBioFertilizerDose());
+				row.createCell(9).setCellValue(obj.getCost());
+				row.createCell(10).setCellValue(obj.getCreatedBy().getUsername());
+				row.createCell(11).setCellValue(obj.getCreatedDt());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void generateDsrMethod(Workbook workbook, List<ProjectDSRMethod> objs) {
+		try {
+			Sheet sheet = workbook.createSheet("DSR Method");
+			Row headerRow = sheet.createRow(0);
+			headerRow.createCell(0).setCellValue("ID");
+			headerRow.createCell(1).setCellValue("Project ID");
+			headerRow.createCell(2).setCellValue("Farmer Reg No");
+			headerRow.createCell(3).setCellValue("Seed Rate/Acre");
+			headerRow.createCell(4).setCellValue("Acres under DSR?");
+			headerRow.createCell(5).setCellValue("Soaking Time");
+			headerRow.createCell(6).setCellValue("Nursery Area");
+			headerRow.createCell(7).setCellValue("cost");
+			headerRow.createCell(8).setCellValue("Created By");
+			headerRow.createCell(9).setCellValue("Created Date");
+			int rowNum = 1;
+			for (ProjectDSRMethod obj : objs) {
+				Row row = sheet.createRow(rowNum++);
+				row.createCell(0).setCellValue(obj.getPk1());
+				row.createCell(1).setCellValue(obj.getProjects().getPk1());
+				row.createCell(2).setCellValue(obj.getProjects().getFarm().getRegNumber());
+				row.createCell(3).setCellValue(obj.getSeedRate());
+				row.createCell(4).setCellValue(obj.getAcres());
+				row.createCell(5).setCellValue(obj.getSoakingTime());
+				row.createCell(6).setCellValue(obj.getNurseryArea());
+				row.createCell(7).setCellValue(obj.getCost());
+				row.createCell(8).setCellValue(obj.getCreatedBy().getUsername());
+				row.createCell(9).setCellValue(obj.getCreatedDt());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void generateDsrSowingMethod(Workbook workbook, List<ProjectSowingData> objs) {
+		try {
+			Sheet sheet = workbook.createSheet("Sowing Data");
+			Row headerRow = sheet.createRow(0);
+			headerRow.createCell(0).setCellValue("ID");
+			headerRow.createCell(1).setCellValue("Project ID");
+			headerRow.createCell(2).setCellValue("Farmer Reg No");
+			headerRow.createCell(3).setCellValue("Variety");
+			headerRow.createCell(4).setCellValue("Plots");
+			headerRow.createCell(5).setCellValue("Sowing Date");
+			headerRow.createCell(6).setCellValue("Remarks");
+			headerRow.createCell(7).setCellValue("cost");
+			headerRow.createCell(8).setCellValue("Created By");
+			headerRow.createCell(9).setCellValue("Created Date");
+			int rowNum = 1;
+			for (ProjectSowingData obj : objs) {
+				Row row = sheet.createRow(rowNum++);
+				row.createCell(0).setCellValue(obj.getPk1());
+				row.createCell(1).setCellValue(obj.getProjects().getPk1());
+				row.createCell(2).setCellValue(obj.getProjects().getFarm().getRegNumber());
+				row.createCell(3).setCellValue(obj.getVariety().getVariety());
+				row.createCell(4).setCellValue(obj.getPlots().getPlotNumber());
+				row.createCell(5).setCellValue(obj.getSowingDate());
+				row.createCell(6).setCellValue(obj.getRemarks());
+				row.createCell(7).setCellValue(obj.getCost());
+				row.createCell(8).setCellValue(obj.getCreatedBy().getUsername());
+				row.createCell(9).setCellValue(obj.getCreatedDt());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void generateNurseryWaterMethod(Workbook workbook, List<ProjectNurseryWater> objs) {
+		try {
+			Sheet sheet = workbook.createSheet("Nursery Water Management");
+			Row headerRow = sheet.createRow(0);
+			headerRow.createCell(0).setCellValue("ID");
+			headerRow.createCell(1).setCellValue("Project ID");
+			headerRow.createCell(2).setCellValue("Farmer Reg No");
+			headerRow.createCell(3).setCellValue("Variety");
+			headerRow.createCell(4).setCellValue("Plots");
+			headerRow.createCell(5).setCellValue("Age of Seedling");
+			headerRow.createCell(6).setCellValue("Irrigation Date");
+			headerRow.createCell(7).setCellValue("cost");
+			headerRow.createCell(8).setCellValue("Created By");
+			headerRow.createCell(9).setCellValue("Created Date");
+			int rowNum = 1;
+			for (ProjectNurseryWater obj : objs) {
+				Row row = sheet.createRow(rowNum++);
+				row.createCell(0).setCellValue(obj.getPk1());
+				row.createCell(1).setCellValue(obj.getProjects().getPk1());
+				row.createCell(2).setCellValue(obj.getProjects().getFarm().getRegNumber());
+				row.createCell(3).setCellValue(obj.getVariety().getVariety());
+				row.createCell(4).setCellValue(obj.getPlot().getPlotNumber());
+				row.createCell(5).setCellValue(obj.getSeedlingAge());
+				row.createCell(6).setCellValue(obj.getIrrigationDate());
+				row.createCell(7).setCellValue(obj.getCost());
+				row.createCell(8).setCellValue(obj.getCreatedBy().getUsername());
+				row.createCell(9).setCellValue(obj.getCreatedDt());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void generateNurseryWeed(Workbook workbook, List<ProjectNurseryWeed> objs) {
+		try {
+			Sheet sheet = workbook.createSheet("Nursery Weed Management");
+			Row headerRow = sheet.createRow(0);
+			headerRow.createCell(0).setCellValue("ID");
+			headerRow.createCell(1).setCellValue("Project ID");
+			headerRow.createCell(2).setCellValue("Farmer Reg No");
+			headerRow.createCell(3).setCellValue("Plots");
+			headerRow.createCell(4).setCellValue("Weedicide");
+			headerRow.createCell(5).setCellValue("Type");
+			headerRow.createCell(6).setCellValue("method");
+			headerRow.createCell(7).setCellValue("Dose");
+			headerRow.createCell(8).setCellValue("Applied Date");
+			headerRow.createCell(9).setCellValue("cost");
+			headerRow.createCell(10).setCellValue("Created By");
+			headerRow.createCell(11).setCellValue("Created Date");
+			int rowNum = 1;
+			for (ProjectNurseryWeed obj : objs) {
+				Row row = sheet.createRow(rowNum++);
+				row.createCell(0).setCellValue(obj.getPk1());
+				row.createCell(1).setCellValue(obj.getProjects().getPk1());
+				row.createCell(2).setCellValue(obj.getProjects().getFarm().getRegNumber());
+				row.createCell(3).setCellValue(obj.getPlot().getPlotNumber());
+				row.createCell(4).setCellValue(obj.getWeedicide().getName());
+				row.createCell(5).setCellValue(obj.getManagement());
+				row.createCell(6).setCellValue(obj.getMethod());
+				row.createCell(7).setCellValue(obj.getDose());
+				row.createCell(8).setCellValue(obj.getWeedingDate());
+				row.createCell(9).setCellValue(obj.getCost());
+				row.createCell(10).setCellValue(obj.getCreatedBy().getUsername());
+				row.createCell(11).setCellValue(obj.getCreatedDt());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void generateNurseryNutrient(Workbook workbook, List<ProjectNurseryNutrient> objs) {
+		try {
+			Sheet sheet = workbook.createSheet("Sowing Data");
+			Row headerRow = sheet.createRow(0);
+			headerRow.createCell(0).setCellValue("ID");
+			headerRow.createCell(1).setCellValue("Project ID");
+			headerRow.createCell(2).setCellValue("Farmer Reg No");
+			headerRow.createCell(3).setCellValue("Plots");
+			headerRow.createCell(4).setCellValue("Fertilizer Name");
+			headerRow.createCell(5).setCellValue("Applied Date");
+			headerRow.createCell(6).setCellValue("Dose");
+			headerRow.createCell(7).setCellValue("cost");
+			headerRow.createCell(8).setCellValue("Created By");
+			headerRow.createCell(9).setCellValue("Created Date");
+			int rowNum = 1;
+			for (ProjectNurseryNutrient obj : objs) {
+				Row row = sheet.createRow(rowNum++);
+				row.createCell(0).setCellValue(obj.getPk1());
+				row.createCell(1).setCellValue(obj.getProjects().getPk1());
+				row.createCell(2).setCellValue(obj.getProjects().getFarm().getRegNumber());
+				row.createCell(3).setCellValue(obj.getPlot().getPlotNumber());
+				row.createCell(4).setCellValue(obj.getFertilizer().getName());
+				row.createCell(5).setCellValue(obj.getAppliedDate());
+				row.createCell(6).setCellValue(obj.getDose());
+				row.createCell(7).setCellValue(obj.getCost());
+				row.createCell(8).setCellValue(obj.getCreatedBy().getUsername());
+				row.createCell(9).setCellValue(obj.getCreatedDt());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void generateNurseryPest(Workbook workbook, List<ProjectNurseryPests> objs) {
+		try {
+			Sheet sheet = workbook.createSheet("Nursery Pest Management");
+			Row headerRow = sheet.createRow(0);
+			headerRow.createCell(0).setCellValue("ID");
+			headerRow.createCell(1).setCellValue("Project ID");
+			headerRow.createCell(2).setCellValue("Farmer Reg No");
+			headerRow.createCell(3).setCellValue("Plots");
+			headerRow.createCell(4).setCellValue("Pest Type");
+			headerRow.createCell(5).setCellValue("Chemical Used");
+			headerRow.createCell(6).setCellValue("Brand Name");
+			headerRow.createCell(7).setCellValue("PHI Recommended");
+			headerRow.createCell(8).setCellValue("MRL Recommended");
+			headerRow.createCell(9).setCellValue("Dose Recommended");
+			headerRow.createCell(10).setCellValue("Dose Applied");
+			headerRow.createCell(11).setCellValue("Age of Seedling");
+			headerRow.createCell(12).setCellValue("Method Applied");
+			headerRow.createCell(13).setCellValue("cost");
+			headerRow.createCell(14).setCellValue("Created By");
+			headerRow.createCell(15).setCellValue("Created Date");
+			int rowNum = 1;
+			for (ProjectNurseryPests obj : objs) {
+				Row row = sheet.createRow(rowNum++);
+				row.createCell(0).setCellValue(obj.getPk1());
+				row.createCell(1).setCellValue(obj.getProjects().getPk1());
+				row.createCell(2).setCellValue(obj.getProjects().getFarm().getRegNumber());
+				row.createCell(3).setCellValue(obj.getPlots().getPlotNumber());
+				row.createCell(4).setCellValue(obj.getPests().getName());
+				row.createCell(5).setCellValue(obj.getChemicals().getChemicalName());
+				row.createCell(6).setCellValue(obj.getBrands().getTradeName() + " - " + obj.getBrands().getTradeName());
+				row.createCell(7).setCellValue(obj.getChemicals().getPhi());
+				row.createCell(8).setCellValue(obj.getChemicals().getMrl());
+				row.createCell(9).setCellValue(obj.getChemicals().getRecommendedDosage());
+				row.createCell(10).setCellValue(obj.getAppliedDose());
+				row.createCell(11).setCellValue(obj.getAgeOfSeedling());
+				row.createCell(12).setCellValue(obj.getAppliedMethod());
+				row.createCell(13).setCellValue(obj.getCost());
+				row.createCell(14).setCellValue(obj.getCreatedBy().getUsername());
+				row.createCell(15).setCellValue(obj.getCreatedDt());
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

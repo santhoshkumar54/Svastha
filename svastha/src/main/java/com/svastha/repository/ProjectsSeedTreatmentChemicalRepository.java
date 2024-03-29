@@ -11,4 +11,5 @@ public interface ProjectsSeedTreatmentChemicalRepository extends JpaRepository<P
 
 	List<ProjectSeedTreatmentChemical> findAllChemicalBySeedTreatment(ProjectSeedTreatment seedTreatment);
 
+	List<ProjectSeedTreatmentChemical> findBySeedTreatmentIn(List<ProjectSeedTreatment> seedTreatment);
 }
