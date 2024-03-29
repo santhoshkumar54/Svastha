@@ -9,5 +9,7 @@ import com.svastha.entity.Farms;
 
 public interface FarmLiveStockRepository extends JpaRepository<FarmLiveStock, Long> {
 
-	List<FarmLiveStock> findAllLiveStocksByFarm( Farms farm );
+	List<FarmLiveStock> findAllLiveStocksByFarm(Farms farm);
+
+	List<FarmLiveStock> findByFarmIn(List<Farms> farms);
 }

@@ -9,6 +9,7 @@ import com.svastha.entity.Farms;
 
 public interface FarmToolsRepository extends JpaRepository<FarmTools, Long> {
 
-	List<FarmTools> findAllToolsByFarm( Farms farm );
+	List<FarmTools> findAllToolsByFarm(Farms farm);
 
+	List<FarmTools> findByFarmIn(List<Farms> farms);
 }

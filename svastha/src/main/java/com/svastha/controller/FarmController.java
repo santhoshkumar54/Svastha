@@ -10,11 +10,6 @@ import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
 
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -151,18 +146,9 @@ public class FarmController {
 		try {
 			Farms farm = new Gson().fromJson(farmObj, Farms.class);
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			StringBuilder code = new StringBuilder();
-			code.append(farm.getFarmerName());
-			code.append("-");
-			code.append(farm.getVillage());
-			code.append("-");
-			code.append(timestamp.getYear());
-			code.append("-");
-			code.append(timestamp.getTime());
-			farm.setRegNumber(code.toString());
 			farm.setDateOfReg(timestamp.toString());
 			Farms f = farmDao.save(farm);
-
+            f.setRegNumber(String.format("%04d", f.getPk1()));
 			if (file != null && !file.isEmpty()) {
 				FarmImages i = new FarmImages();
 				System.out.println(" Into for loop : 00");
