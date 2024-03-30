@@ -104,9 +104,12 @@ public class FarmProjectController {
 	@GetMapping("/exportProjects")
 	public @ResponseBody String exportProjects(@RequestParam(required = false) Long yearId,
 			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
-			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,@RequestParam String email) {
+			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
+			@RequestParam String email) {
 		try {
-          excel.startProjectExport(yearId, seasonId, cropId, key, userId,email);
+			System.out.println("year-" + yearId + " season-" + seasonId + " crop-" + cropId + " key-" + key + " user-"
+					+ userId + " email-" + email);
+			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();
@@ -131,10 +134,9 @@ public class FarmProjectController {
 	}
 
 	@GetMapping("/getFarmerPlots")
-	public @ResponseBody List<PlotsDTO> getFarmerPlots(@RequestParam Long farmerId, @RequestParam String location) {
-		LocationDTO currentLoc = new Gson().fromJson(location, LocationDTO.class);
-		double currentLat = currentLoc.getCoords().getLatitude();
-		double currentLon = currentLoc.getCoords().getLongitude();
+	public @ResponseBody List<PlotsDTO> getFarmerPlots(@RequestParam Long farmerId,
+			@RequestParam(required = false) String location) {
+
 		Farms f = farmDao.findById(farmerId).get();
 		List<FarmPlots> plots = plotsDao.findAllPlotsByFarm(f);
 		List<PlotsDTO> allPlots = new ArrayList<>();
@@ -142,32 +144,33 @@ public class FarmProjectController {
 			PlotsDTO p = new PlotsDTO();
 			p.setId(plot.getPk1());
 			p.setNumber(plot.getPlotNumber());
-			if (plot.getLocation() == null || plot.getLocation().isBlank() || plot.getLocation().isEmpty()) {
+			if (plot.getLocation() == null || plot.getLocation().isBlank() || plot.getLocation().isEmpty()
+					|| location == null || location.isBlank() || location.isEmpty()) {
 				p.setUrlName("Plot location not available");
 				p.setUrl(null);
 			} else {
-				try
-				{
-				LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
-				p.setLocation(plot.getLocation());
-				double plotLat = loc.getCoords().getLatitude();
-				double plotLon = loc.getCoords().getLongitude();
-				p.setLat(loc.getCoords().getLatitude());
-				p.setLon(loc.getCoords().getLongitude());
-				long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
-				long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
-				p.setDistance(distance);
-				p.setBearing(bearing);
-				String direction = gpsService.calculateDirection(bearing);
-				String plotDetails = distance + "m away towards " + bearing + " " + direction + " direction.";
-				p.setUrlName(plotDetails);
-				String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
-				p.setUrl(url);
-				}
-				catch(Exception ex)
-				{
+				try {
+					LocationDTO currentLoc = new Gson().fromJson(location, LocationDTO.class);
+					double currentLat = currentLoc.getCoords().getLatitude();
+					double currentLon = currentLoc.getCoords().getLongitude();
+					LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
+					p.setLocation(plot.getLocation());
+					double plotLat = loc.getCoords().getLatitude();
+					double plotLon = loc.getCoords().getLongitude();
+					p.setLat(loc.getCoords().getLatitude());
+					p.setLon(loc.getCoords().getLongitude());
+					long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
+					long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
+					p.setDistance(distance);
+					p.setBearing(bearing);
+					String direction = gpsService.calculateDirection(bearing);
+					String plotDetails = distance + "m away towards " + bearing + " " + direction + " direction.";
+					p.setUrlName(plotDetails);
+					String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
+					p.setUrl(url);
+				} catch (Exception ex) {
 					p.setUrlName("Problem fetching plot location");
-					p.setUrl(null);	
+					p.setUrl(null);
 				}
 			}
 			allPlots.add(p);
@@ -217,10 +220,9 @@ public class FarmProjectController {
 	}
 
 	@GetMapping("/getProjectPlots")
-	public @ResponseBody List<PlotsDTO> getProjectPlots(@RequestParam Long projectId, @RequestParam String location) {
-		LocationDTO currentLoc = new Gson().fromJson(location, LocationDTO.class);
-		double currentLat = currentLoc.getCoords().getLatitude();
-		double currentLon = currentLoc.getCoords().getLongitude();
+	public @ResponseBody List<PlotsDTO> getProjectPlots(@RequestParam Long projectId,
+			@RequestParam(required = false) String location) {
+
 		FarmProjects fPlots = projectDao.findById(projectId).get();
 		List<ProjectPlots> plots = projectPlotsDao.findAllPlotsByProject(fPlots);
 		List<PlotsDTO> allPlots = new ArrayList<>();
@@ -229,37 +231,39 @@ public class FarmProjectController {
 			FarmPlots plot = projectPlot.getPlots();
 			p.setId(plot.getPk1());
 			p.setNumber(plot.getPlotNumber());
-			if (plot.getLocation() == null || plot.getLocation().isBlank() || plot.getLocation().isEmpty()) {
+			if (plot.getLocation() == null || plot.getLocation().isBlank() || plot.getLocation().isEmpty()
+					|| location == null || location.isBlank() || location.isEmpty()) {
 				p.setUrlName("Plot No: " + plot.getPlotNumber());
 				p.setUrl(null);
 			} else {
-				try
-				{
-			LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
-			p.setLocation(plot.getLocation());
-			double plotLat = loc.getCoords().getLatitude();
-			double plotLon = loc.getCoords().getLongitude();
-			p.setLat(loc.getCoords().getLatitude());
-			p.setLon(loc.getCoords().getLongitude());
-			long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
-			long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
-			p.setDistance(distance);
-			p.setBearing(bearing);
-			String plotDetails = "Plot No: " + plot.getPlotNumber() + " - " + distance + "m away towards " + bearing;
-			p.setUrlName(plotDetails);
-			String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
-			p.setUrl(url);
-				}
-				catch(Exception ex)
-				{
+				try {
+					LocationDTO currentLoc = new Gson().fromJson(location, LocationDTO.class);
+					double currentLat = currentLoc.getCoords().getLatitude();
+					double currentLon = currentLoc.getCoords().getLongitude();
+					LocationDTO loc = new Gson().fromJson(plot.getLocation(), LocationDTO.class);
+					p.setLocation(plot.getLocation());
+					double plotLat = loc.getCoords().getLatitude();
+					double plotLon = loc.getCoords().getLongitude();
+					p.setLat(loc.getCoords().getLatitude());
+					p.setLon(loc.getCoords().getLongitude());
+					long distance = gpsService.calculateDistance(currentLat, currentLon, plotLat, plotLon);
+					long bearing = gpsService.calculateBearing(currentLat, currentLon, plotLat, plotLon);
+					p.setDistance(distance);
+					p.setBearing(bearing);
+					String plotDetails = "Plot No: " + plot.getPlotNumber() + " - " + distance + "m away towards "
+							+ bearing;
+					p.setUrlName(plotDetails);
+					String url = gpsService.generateURL(plotLat, plotLon, plot.getPlotNumber());
+					p.setUrl(url);
+				} catch (Exception ex) {
 					p.setUrlName("Plot No: " + plot.getPlotNumber());
-					p.setUrl(null);	
+					p.setUrl(null);
 				}
 			}
 			String sowingDate = getSowingDate(plot);
 			p.setSowingDate(sowingDate);
 			p.setCropStage(getStage(convertToDate(sowingDate)));
-				
+
 			allPlots.add(p);
 		}
 		return allPlots;

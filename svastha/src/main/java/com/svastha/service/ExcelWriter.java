@@ -189,6 +189,10 @@ public class ExcelWriter {
 
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	//static String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\";
+	
+	static String excelFilePath = "/dev/svastha/Excels/";
 
 	@Async
 	public void startFarmExport(Long districtId, Long thalukId, Long villageId, String key, Long userId, String type,
@@ -204,7 +208,7 @@ public class ExcelWriter {
 		List<FarmGrainMarket> grainMarket = grainMarketDao.findByFarmIn(farms);
 
 		String excelName = "farmers_" + System.currentTimeMillis() + ".xlsx";
-		String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\" + excelName;
+		excelFilePath = excelFilePath + excelName;
 		System.out.println("excel writer called");
 
 		try (Workbook workbook = new XSSFWorkbook()) {
@@ -544,7 +548,7 @@ public class ExcelWriter {
 		List<ProjectPostPurchase> postPurchase = postDao.findByProjectsIn(projects);
 
 		String excelName = "projects_" + System.currentTimeMillis() + ".xlsx";
-		String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\" + excelName;
+		excelFilePath = excelFilePath + excelName;
 		System.out.println("excel writer called");
 		try (Workbook workbook = new XSSFWorkbook()) {
 			Thread.sleep(5000); // Sleep for 5 seconds
