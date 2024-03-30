@@ -7,11 +7,11 @@ import javax.persistence.Id;
 
 @Entity
 public class Roles {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int pk1;
-	
+
 	private String role;
 
 	public String getRole() {
@@ -22,4 +22,11 @@ public class Roles {
 		this.role = role;
 	}
 
+	public int getPk1() {
+		return pk1;
+	}
+
+	public void setPk1(int pk1) {
+		this.pk1 = pk1;
+	}
 }
