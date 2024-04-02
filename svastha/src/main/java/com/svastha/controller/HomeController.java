@@ -63,7 +63,7 @@ public class HomeController {
 
 	@Scheduled(cron = "0 9 1 * * ?") // Execute at 10:00 AM every day
 	public void callAPI() {
-		System.out.println("Weather");
+		System.out.println("Weather Scheduler called");
 		fetchWeather();
 	}
 
@@ -140,7 +140,7 @@ public class HomeController {
 				String apiUrl = "https://api.tomorrow.io/v4/weather/forecast";
 				String key = entry.getKey();
 				String val = entry.getValue();
-				System.out.println(key + "   " + val);
+				System.out.println("Fetching weather for"+key + "   " + val);
 
 				apiUrl = UriComponentsBuilder.fromHttpUrl(apiUrl).queryParam("location", val)
 						.queryParam("timesteps", timesteps).queryParam("apikey", apikey).build().toUriString();
