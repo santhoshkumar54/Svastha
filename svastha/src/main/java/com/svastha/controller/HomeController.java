@@ -61,7 +61,7 @@ public class HomeController {
 	@Autowired
 	private WeatherRepository weatherDao;
 
-	@Scheduled(cron = "0 10 20 * * *")
+	@Scheduled(cron = "0 30 1 * * *")
 	public void callAPI() {
 		System.out.println("Weather Scheduler called");
 		fetchWeather();
