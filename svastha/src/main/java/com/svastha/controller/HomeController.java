@@ -61,7 +61,7 @@ public class HomeController {
 	@Autowired
 	private WeatherRepository weatherDao;
 
-	@Scheduled(cron = "0 9 1 * * ?") // Execute at 10:00 AM every day
+	@Scheduled(cron = "0 10 20 * * *")
 	public void callAPI() {
 		System.out.println("Weather Scheduler called");
 		fetchWeather();
@@ -69,6 +69,8 @@ public class HomeController {
 
 	@GetMapping("/hello")
 	public String index() throws IllegalArgumentException, IllegalAccessException {
+		System.out.println("hello Scheduler called");
+
 		Field[] fields = Thaluk.class.getDeclaredFields();
 		List<Thaluk> thaluk = thalukDao.findAll();
 		for (Thaluk th : thaluk) {
@@ -130,13 +132,16 @@ public class HomeController {
 
 	@GetMapping("/fetchWeather")
 	public void fetchWeather() {
+		System.out.println("Fetching weather"+ new java.util.Date());
 
 		Map<String, String> locations = getThaluks();
+		System.out.println("Fetching weather"+locations.size());
 		String timesteps = "1d";
 		String apikey = "04sfV0yFAOZ5EQyTQ7jrexo9dTXt7SIx";
 
 		for (Map.Entry<String, String> entry : locations.entrySet()) {
 			try {
+				Thread.sleep(2000);
 				String apiUrl = "https://api.tomorrow.io/v4/weather/forecast";
 				String key = entry.getKey();
 				String val = entry.getValue();
@@ -174,6 +179,8 @@ public class HomeController {
 		List<Thaluk> thaluks = thalukDao.findAll();
 		for (Thaluk thaluk : thaluks) {
 			try {
+				Thread.sleep(2000);
+				System.out.println("Fetching weather for"+thaluk.getName());
 				String apiURL = "https://geocode.maps.co/search";
 				apiURL = UriComponentsBuilder.fromHttpUrl(apiURL).queryParam("q", thaluk.getName())
 						.queryParam("api_key", apiKey).build().toUriString();
@@ -183,7 +190,6 @@ public class HomeController {
 				GeoMapDTO[] w = restTemplate.getForObject(apiURL, GeoMapDTO[].class);
 				System.out.println(w[0].getLat());
 				locations.put(thaluk.getName(), w[0].getLat() + "," + w[0].getLon());
-				Thread.sleep(1000);
 
 			} catch (Exception e) {
 				System.out.println("error in fetching geo location " + e);
