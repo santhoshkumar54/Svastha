@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +42,7 @@ import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.FarmRepository;
 import com.svastha.repository.MasterCropStageRepository;
 import com.svastha.repository.MasterCropVarietyRepository;
+import com.svastha.repository.MasterProjectTypeRepository;
 import com.svastha.repository.NurseryManagementRepository;
 import com.svastha.repository.ProjectImagesRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
@@ -90,14 +92,21 @@ public class FarmProjectController {
 	private ProjectImagesRepository imageDao;
 
 	@Autowired
+	private MasterProjectTypeRepository projectTypeDao;
+
+	@Autowired
 	private ExcelWriter excel;
+
+	private static String PROJECT_TYPE = "BPT";
 
 	@GetMapping("/projects")
 	public @ResponseBody Page<FarmProjects> getAllProjects(@RequestParam(required = false) Long yearId,
 			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			Pageable pageable) {
-		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, pageable);
+		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
+		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
+				pageable);
 		return projects;
 	}
 
@@ -109,7 +118,8 @@ public class FarmProjectController {
 		try {
 			System.out.println("year-" + yearId + " season-" + seasonId + " crop-" + cropId + " key-" + key + " user-"
 					+ userId + " email-" + email);
-			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email);
+			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
+			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();
@@ -118,11 +128,10 @@ public class FarmProjectController {
 
 	@GetMapping("/listProjects")
 	public @ResponseBody Iterable<FarmProjects> getProjectsUserId(@RequestParam Long userId) {
-		Users u = userDao.findByPk1(userId);
-		return projectDao.findByCreatedBy(u);
+		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
+		return projectDao.findWithFilters(null, null, null, null, userId, projectTypePk1);
 	}
 
-	// * unused.
 	@GetMapping("/getProject")
 	public @ResponseBody ProjectModel getFarmById(@RequestParam Long projectId) {
 		ProjectModel projectModel = new ProjectModel();
@@ -272,7 +281,9 @@ public class FarmProjectController {
 	@PostMapping("/addProject")
 	public @ResponseBody FarmProjects saveFarm(@RequestBody ProjectsDTO projectsDTO) {
 		try {
-			FarmProjects f = projectDao.save(projectsDTO.getProjects());
+			FarmProjects f = projectsDTO.getProjects();
+			f.setStatus("WAITING");
+			f = projectDao.save(f);
 			Iterable<PlotsDTO> plots = projectsDTO.getPlots();
 			List<ProjectPlots> plotsentity = new ArrayList<>();
 			for (PlotsDTO plot : plots) {
@@ -334,5 +345,10 @@ public class FarmProjectController {
 			photos.add(image.getImageUrl());
 		}
 		return photos;
+	}
+
+	@Scheduled(cron = "0 30 16 * * *")
+	public void updateCompletion() {
+		projectDao.updateFarmProjectCompletionPercentage();
 	}
 }

@@ -496,8 +496,8 @@ public class ExcelWriter {
 	}
 
 	@Async
-	public void startProjectExport(Long yearId, Long seasonId, Long cropId, String key, Long userId, String email) {
-		List<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId);
+	public void startProjectExport(Long yearId, Long seasonId, Long cropId, String key, Long userId, String email,Long projectTypePk1) {
+		List<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId,projectTypePk1);
 		List<ProjectPlots> plots = projectPlotsDao.findByProjectIn(projects);
 
 		System.out.println("project size=" + projects.size() + "   plot size-" + plots.size());

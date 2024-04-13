@@ -34,6 +34,8 @@ public class FarmProjects {
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<ProjectPlots> plots;
 
+	private String completion;
+
 	public Set<ProjectPlots> getPlots() {
 		return plots;
 	}
@@ -57,6 +59,9 @@ public class FarmProjects {
 	private Users updatedBy;
 
 	private Timestamp updatedDt;
+
+	@ManyToOne
+	private MasterProjectType projectType;
 
 	public Long getPk1() {
 		return pk1;
@@ -154,4 +159,19 @@ public class FarmProjects {
 		this.updatedDt = updatedDt;
 	}
 
+	public String getCompletion() {
+		return completion;
+	}
+
+	public void setCompletion(String completion) {
+		this.completion = completion;
+	}
+
+	public MasterProjectType getProjectType() {
+		return projectType;
+	}
+
+	public void setProjectType(MasterProjectType projectType) {
+		this.projectType = projectType;
+	}
 }

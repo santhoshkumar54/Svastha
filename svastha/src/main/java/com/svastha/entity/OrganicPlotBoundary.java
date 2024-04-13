@@ -1,0 +1,140 @@
+package com.svastha.entity;
+
+import java.sql.Timestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class OrganicPlotBoundary {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long pk1;
+
+	private String directions;
+
+	private String farmerName;
+
+	private String practice;
+
+	private String area;
+
+	@ManyToOne
+	private MasterRiskManagement risk;
+
+	@ManyToOne
+	private Users createdBy;
+
+	private Timestamp createdDt;
+
+	@ManyToOne
+	private Users updatedBy;
+
+	private Timestamp updatedDt;
+
+	@ManyToOne
+	private FarmProjects projects;
+
+	@ManyToOne
+	private FarmPlots plots;
+
+	public Long getPk1() {
+		return pk1;
+	}
+
+	public void setPk1(Long pk1) {
+		this.pk1 = pk1;
+	}
+
+	public FarmProjects getProjects() {
+		return projects;
+	}
+
+	public void setProjects(FarmProjects projects) {
+		this.projects = projects;
+	}
+
+	public Users getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(Users createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Timestamp getCreatedDt() {
+		return createdDt;
+	}
+
+	public void setCreatedDt(Timestamp createdDt) {
+		this.createdDt = createdDt;
+	}
+
+	public Users getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(Users updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Timestamp getUpdatedDt() {
+		return updatedDt;
+	}
+
+	public void setUpdatedDt(Timestamp updatedDt) {
+		this.updatedDt = updatedDt;
+	}
+
+	public String getDirections() {
+		return directions;
+	}
+
+	public void setDirections(String directions) {
+		this.directions = directions;
+	}
+
+	public String getFarmerName() {
+		return farmerName;
+	}
+
+	public void setFarmerName(String farmerName) {
+		this.farmerName = farmerName;
+	}
+
+	public String getPractice() {
+		return practice;
+	}
+
+	public void setPractice(String practice) {
+		this.practice = practice;
+	}
+
+	public MasterRiskManagement getRisk() {
+		return risk;
+	}
+
+	public void setRisk(MasterRiskManagement risk) {
+		this.risk = risk;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public FarmPlots getPlots() {
+		return plots;
+	}
+
+	public void setPlots(FarmPlots plots) {
+		this.plots = plots;
+	}
+}

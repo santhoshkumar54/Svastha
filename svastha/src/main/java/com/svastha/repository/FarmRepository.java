@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 import com.svastha.entity.Farms;
@@ -35,4 +36,7 @@ public interface FarmRepository extends JpaRepository<Farms, Long> {
 			+ "and (:type is NULL or f.farmerType = :type)" )
 	List<Farms> findWithFilters(@Param("thaluk") Long thaluk, @Param("district") Long district,
 			@Param("village") Long village, @Param("key") String key, @Param("user") Long user,@Param("type") String type);
+
+	@Procedure(name = "UpdateFarmCompletionPercentage")
+    void updateFarmCompletionPercentage();
 }

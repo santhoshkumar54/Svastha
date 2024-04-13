@@ -8,17 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.svastha.entity.MasterFertilizers;
 import com.svastha.entity.LiveStock;
+import com.svastha.entity.MasterAnnualProgram;
 import com.svastha.entity.MasterBioFertilizer;
 import com.svastha.entity.MasterChemicalBrandMapping;
 import com.svastha.entity.MasterChemicalBrands;
 import com.svastha.entity.MasterChemicalPestMapping;
 import com.svastha.entity.MasterChemicals;
 import com.svastha.entity.MasterCropStage;
+import com.svastha.entity.MasterFertilizers;
 import com.svastha.entity.MasterGrainMarket;
 import com.svastha.entity.MasterOrganicManure;
 import com.svastha.entity.MasterPests;
+import com.svastha.entity.MasterProjectType;
 import com.svastha.entity.MasterSoiltype;
 import com.svastha.entity.MasterTools;
 import com.svastha.entity.MasterWeedicide;
@@ -27,17 +29,19 @@ import com.svastha.entity.WaterSource;
 import com.svastha.model.ChemicalBrandModel;
 import com.svastha.model.DiseaseAndPestModel;
 import com.svastha.model.MasterProjectModel;
-import com.svastha.repository.MasterFertilizerRepository;
 import com.svastha.repository.LiveStockRepository;
+import com.svastha.repository.MasterAnnualProgramRepository;
 import com.svastha.repository.MasterBioFertilizerRepository;
 import com.svastha.repository.MasterChemicalBrandMappingRepository;
 import com.svastha.repository.MasterChemicalRepository;
 import com.svastha.repository.MasterCropRepository;
 import com.svastha.repository.MasterCropStageRepository;
 import com.svastha.repository.MasterDiseasesAndPestsRepository;
+import com.svastha.repository.MasterFertilizerRepository;
 import com.svastha.repository.MasterGrainMarketRepository;
 import com.svastha.repository.MasterManureRepository;
 import com.svastha.repository.MasterPestChemicalMappingRepository;
+import com.svastha.repository.MasterProjectTypeRepository;
 import com.svastha.repository.MasterSeasonRepository;
 import com.svastha.repository.MasterSoilTypeRepository;
 import com.svastha.repository.MasterToolsRepository;
@@ -107,6 +111,12 @@ public class MasterController {
 
 	@Autowired
 	private MasterWeedicideRepository weedicideDao;
+
+	@Autowired
+	private MasterProjectTypeRepository projectTypeDao;
+
+	@Autowired
+	private MasterAnnualProgramRepository annualDao;
 
 	@GetMapping(path = "/liveStocks")
 	public @ResponseBody Iterable<LiveStock> getLiveStocks() {
@@ -223,4 +233,15 @@ public class MasterController {
 		return weedicideDao.findAll();
 	}
 
+	@GetMapping(path = "/getProjectType")
+	public @ResponseBody Iterable<MasterProjectType> getProjectType() {
+
+		return projectTypeDao.findAll();
+	}
+
+	@GetMapping(path = "/getMasterAnnualProgram")
+	public @ResponseBody Iterable<MasterAnnualProgram> getMasterAnnualProgram() {
+
+		return annualDao.findAll();
+	}
 }

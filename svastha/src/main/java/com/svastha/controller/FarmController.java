@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -148,7 +149,7 @@ public class FarmController {
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			farm.setDateOfReg(timestamp.toString());
 			Farms f = farmDao.save(farm);
-            f.setRegNumber(String.format("%04d", f.getPk1()));
+			f.setRegNumber(String.format("%04d", f.getPk1()));
 			if (file != null && !file.isEmpty()) {
 				FarmImages i = new FarmImages();
 				System.out.println(" Into for loop : 00");
@@ -317,5 +318,10 @@ public class FarmController {
 			e.printStackTrace();
 		}
 		return ResponseEntity.ok().contentLength(resource.contentLength()).contentType(mediaType).body(resource);
+	}
+
+	@Scheduled(cron = "0 30 16 * * *")
+	public void updateCompletion() {
+		farmDao.updateFarmCompletionPercentage();
 	}
 }
