@@ -18,13 +18,13 @@ public class OrganicProjectPlotModel implements Serializable {
 
 	private FarmProjects farm;
 
-	private List<OrganicAnnualProgram> annualProgram;
+	private OrganicAnnualProgram annualProgram;
 
 	private List<OrganicPlotBoundary> boundary;
 
-	private List<OrganicCropVariety> cropVariety;
+	private OrganicCropVariety cropVariety;
 
-	private List<OrganicFieldMap> fieldMap;
+	private OrganicFieldMap fieldMap;
 
 	public FarmProjects getFarm() {
 		return farm;
@@ -34,11 +34,11 @@ public class OrganicProjectPlotModel implements Serializable {
 		this.farm = farm;
 	}
 
-	public List<OrganicAnnualProgram> getAnnualProgram() {
+	public OrganicAnnualProgram getAnnualProgram() {
 		return annualProgram;
 	}
 
-	public void setAnnualProgram(List<OrganicAnnualProgram> annualProgram) {
+	public void setAnnualProgram(OrganicAnnualProgram annualProgram) {
 		this.annualProgram = annualProgram;
 	}
 
@@ -50,19 +50,19 @@ public class OrganicProjectPlotModel implements Serializable {
 		this.boundary = boundary;
 	}
 
-	public List<OrganicCropVariety> getCropVariety() {
+	public OrganicCropVariety getCropVariety() {
 		return cropVariety;
 	}
 
-	public void setCropVariety(List<OrganicCropVariety> cropVariety) {
+	public void setCropVariety(OrganicCropVariety cropVariety) {
 		this.cropVariety = cropVariety;
 	}
 
-	public List<OrganicFieldMap> getFieldMap() {
+	public OrganicFieldMap getFieldMap() {
 		return fieldMap;
 	}
 
-	public void setFieldMap(List<OrganicFieldMap> fieldMap) {
+	public void setFieldMap(OrganicFieldMap fieldMap) {
 		this.fieldMap = fieldMap;
 	}
 }

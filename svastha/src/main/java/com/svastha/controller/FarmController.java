@@ -166,9 +166,8 @@ public class FarmController {
 				System.out.println(" Into for loop : 3");
 				imageDao.save(i);
 				f.setFarmerImage("/farmer/images" + folderPath + SEPARATOR + filePath);
-				f = farmDao.save(f);
 			}
-
+			f = farmDao.save(f);
 			return f;
 
 		} catch (Exception e) {

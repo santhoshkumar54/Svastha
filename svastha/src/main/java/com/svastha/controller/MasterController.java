@@ -184,6 +184,7 @@ public class MasterController {
 		master.setYear(yearDao.findAll());
 		master.setSeason(seasonDao.findAll());
 		master.setCrop(masterCropDao.findAll());
+		master.setProjectType(projectTypeDao.findAll());
 		return master;
 	}
 

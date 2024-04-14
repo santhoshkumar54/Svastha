@@ -10,7 +10,7 @@ import com.svastha.entity.OrganicFieldMap;
 
 public interface OrganicFieldMapRepository extends JpaRepository<OrganicFieldMap, Long> {
 
-	List<OrganicFieldMap> findByProjectsAndPlots(FarmProjects projects, FarmPlots plots);
+	OrganicFieldMap findByProjectsAndPlots(FarmProjects projects, FarmPlots plots);
 
 	List<OrganicFieldMap> findByProjectsIn(List<FarmProjects> projects);
 

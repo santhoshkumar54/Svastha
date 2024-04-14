@@ -10,7 +10,7 @@ import com.svastha.entity.OrganicCropVariety;
 
 public interface OrganicCropVarietyRepository extends JpaRepository<OrganicCropVariety, Long> {
 
-	List<OrganicCropVariety> findByProjectsAndPlots(FarmProjects projects,FarmPlots plots);
+    OrganicCropVariety findByProjectsAndPlots(FarmProjects projects,FarmPlots plots);
 
 	List<OrganicCropVariety> findByProjectsIn(List<FarmProjects> projects);
 	

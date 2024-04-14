@@ -75,7 +75,7 @@ public class OrganicProjectController {
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			Pageable pageable) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
+		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1, "APPROVED",
 				pageable);
 		return projects;
 	}
@@ -115,29 +115,27 @@ public class OrganicProjectController {
 	@PostMapping("/savePlotDetails")
 	public @ResponseBody OrganicProjectPlotModel savePlotDetails(@RequestParam MultipartFile file,
 			@RequestBody OrganicProjectPlotModel model) {
-		model.setAnnualProgram(annualDao.saveAll(model.getAnnualProgram()));
+		model.setAnnualProgram(annualDao.save(model.getAnnualProgram()));
 		model.setBoundary(boundaryDao.saveAll(model.getBoundary()));
-		model.setCropVariety(varietyDao.saveAll(model.getCropVariety()));
-		List<OrganicFieldMap> fields = model.getFieldMap();
-		for (OrganicFieldMap field : fields) {
-			Long plotId = field.getPlots().getPk1();
-			Long projectId = field.getProjects().getPk1();
-			String folderPath = SEPARATOR + "fieldMap" + SEPARATOR + projectId + SEPARATOR + plotId;
-			Path p = storageService.createFolder(folderPath);
+		model.setCropVariety(varietyDao.save(model.getCropVariety()));
+		OrganicFieldMap field = model.getFieldMap();
+		Long plotId = field.getPlots().getPk1();
+		Long projectId = field.getProjects().getPk1();
+		String folderPath = SEPARATOR + "fieldMap" + SEPARATOR + projectId + SEPARATOR + plotId;
+		Path p = storageService.createFolder(folderPath);
 
-			String filePath = storageService.save(file, p);
-			field.setFileName(filePath);
-			field.setFilePath(p.toString());
-			field.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
-		}
-		model.setFieldMap(fieldDao.saveAll(model.getFieldMap()));
+		String filePath = storageService.save(file, p);
+		field.setFileName(filePath);
+		field.setFilePath(p.toString());
+		field.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		model.setFieldMap(fieldDao.save(model.getFieldMap()));
 
 		return model;
 	}
-	
+
 	@GetMapping("/getPlotDetails")
-	public @ResponseBody OrganicProjectPlotModel getPlotDetails(@RequestParam Long projectId, @RequestParam Long plotId)
-	{
+	public @ResponseBody OrganicProjectPlotModel getPlotDetails(@RequestParam Long projectId,
+			@RequestParam Long plotId) {
 		FarmProjects project = projectDao.findById(projectId).get();
 		FarmPlots plots = plotsDao.findById(plotId).get();
 		OrganicProjectPlotModel model = new OrganicProjectPlotModel();

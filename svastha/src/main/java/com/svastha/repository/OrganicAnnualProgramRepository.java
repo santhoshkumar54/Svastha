@@ -10,7 +10,7 @@ import com.svastha.entity.OrganicAnnualProgram;
 
 public interface OrganicAnnualProgramRepository extends JpaRepository<OrganicAnnualProgram, Long> {
 
-	List<OrganicAnnualProgram> findByProjectsAndPlots(FarmProjects projects,FarmPlots plots);
+	OrganicAnnualProgram findByProjectsAndPlots(FarmProjects projects,FarmPlots plots);
 
 	List<OrganicAnnualProgram> findByProjectsIn(List<FarmProjects> projects);
 	
