@@ -154,7 +154,7 @@ public class OrganicProjectController {
 	}
 
 	@PostMapping("/getAnnualProgram")
-	public @ResponseBody List<OrganicAnnualProgram> getAnnualProgram(@RequestParam Long projectId,
+	public @ResponseBody OrganicAnnualProgram getAnnualProgram(@RequestParam Long projectId,
 			@RequestParam Long plotId) {
 		FarmProjects project = projectDao.findById(projectId).get();
 		FarmPlots plot = plotsDao.findById(plotId).get();
