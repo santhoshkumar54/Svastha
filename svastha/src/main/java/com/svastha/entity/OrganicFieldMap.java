@@ -18,6 +18,8 @@ public class OrganicFieldMap {
 	private String filePath;
 	
 	private String fileName;
+	
+	private String imageUrl;
 
 	@ManyToOne
 	private Users createdBy;
@@ -105,5 +107,13 @@ public class OrganicFieldMap {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }

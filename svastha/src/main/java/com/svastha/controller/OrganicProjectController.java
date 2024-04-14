@@ -1,5 +1,7 @@
 package com.svastha.controller;
 
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +12,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.OrganicAnnualProgram;
+import com.svastha.entity.OrganicFieldMap;
 import com.svastha.model.OrganicProjectModel;
+import com.svastha.model.OrganicProjectPlotModel;
 import com.svastha.repository.FarmPlotsRepository;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.MasterProjectTypeRepository;
 import com.svastha.repository.OrganicAnnualProgramRepository;
+import com.svastha.repository.OrganicCropVarietyRepository;
+import com.svastha.repository.OrganicFieldMapRepository;
+import com.svastha.repository.OrganicPlotBoundaryRepository;
 import com.svastha.repository.UserRepository;
 import com.svastha.service.ExcelWriter;
+import com.svastha.service.FilesStorageService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -43,9 +52,22 @@ public class OrganicProjectController {
 	private OrganicAnnualProgramRepository annualDao;
 
 	@Autowired
+	private OrganicPlotBoundaryRepository boundaryDao;
+
+	@Autowired
+	private OrganicCropVarietyRepository varietyDao;
+
+	@Autowired
+	private OrganicFieldMapRepository fieldDao;
+
+	@Autowired
 	private ExcelWriter excel;
 
+	@Autowired
+	FilesStorageService storageService;
+
 	private static String PROJECT_TYPE = "Organic";
+	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
 	@GetMapping("/organicProjects")
 	public @ResponseBody Page<FarmProjects> getAllProjects(@RequestParam(required = false) Long yearId,
@@ -88,6 +110,43 @@ public class OrganicProjectController {
 		List<OrganicAnnualProgram> annual = annualDao.findByProjects(f);
 		projectModel.setAnnualProgram(annual);
 		return projectModel;
+	}
+
+	@PostMapping("/savePlotDetails")
+	public @ResponseBody OrganicProjectPlotModel savePlotDetails(@RequestParam MultipartFile file,
+			@RequestBody OrganicProjectPlotModel model) {
+		model.setAnnualProgram(annualDao.saveAll(model.getAnnualProgram()));
+		model.setBoundary(boundaryDao.saveAll(model.getBoundary()));
+		model.setCropVariety(varietyDao.saveAll(model.getCropVariety()));
+		List<OrganicFieldMap> fields = model.getFieldMap();
+		for (OrganicFieldMap field : fields) {
+			Long plotId = field.getPlots().getPk1();
+			Long projectId = field.getProjects().getPk1();
+			String folderPath = SEPARATOR + "fieldMap" + SEPARATOR + projectId + SEPARATOR + plotId;
+			Path p = storageService.createFolder(folderPath);
+
+			String filePath = storageService.save(file, p);
+			field.setFileName(filePath);
+			field.setFilePath(p.toString());
+			field.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		}
+		model.setFieldMap(fieldDao.saveAll(model.getFieldMap()));
+
+		return model;
+	}
+	
+	@GetMapping("/getPlotDetails")
+	public @ResponseBody OrganicProjectPlotModel getPlotDetails(@RequestParam Long projectId, @RequestParam Long plotId)
+	{
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plots = plotsDao.findById(plotId).get();
+		OrganicProjectPlotModel model = new OrganicProjectPlotModel();
+		model.setAnnualProgram(annualDao.findByProjectsAndPlots(project, plots));
+		model.setCropVariety(varietyDao.findByProjectsAndPlots(project, plots));
+		model.setBoundary(boundaryDao.findByProjectsAndPlots(project, plots));
+		model.setFieldMap(fieldDao.findByProjectsAndPlots(project, plots));
+		model.setFarm(project);
+		return model;
 	}
 
 	@PostMapping("/saveAnnualProgram")
