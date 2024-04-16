@@ -19,9 +19,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,9 +35,11 @@ import com.svastha.entity.Manual;
 import com.svastha.entity.Thaluk;
 import com.svastha.entity.Village;
 import com.svastha.entity.Weather;
+import com.svastha.entity.viewNotification;
 import com.svastha.repository.DistrictRepository;
 import com.svastha.repository.MasterManualRepository;
 import com.svastha.repository.ThalukRepository;
+import com.svastha.repository.ViewNotificationRepository;
 import com.svastha.repository.VillageRepository;
 import com.svastha.repository.WeatherRepository;
 
@@ -61,7 +64,10 @@ public class HomeController {
 	@Autowired
 	private WeatherRepository weatherDao;
 
-	//@Scheduled(cron = "0 30 1 * * *")
+	@Autowired
+	private ViewNotificationRepository notificationDao;
+
+	// @Scheduled(cron = "0 30 1 * * *")
 	public void callAPI() {
 		System.out.println("Weather Scheduler called");
 		fetchWeather();
@@ -74,20 +80,19 @@ public class HomeController {
 		Field[] fields = Thaluk.class.getDeclaredFields();
 		List<Thaluk> thaluk = thalukDao.findAll();
 		for (Thaluk th : thaluk) {
-			 for (Field field : fields) {
-				 field.setAccessible(true);
-				 Object value = field.get(th);
-				 if (value instanceof District) {
-                     District district = (District) value;
-                     if(district != null)
-                     {
-                     System.out.println(district.getName()); 
-                     }
-                 } else {
-                	 if(value != null)
-                	 System.out.println(value.toString());
-                 }
-			 }
+			for (Field field : fields) {
+				field.setAccessible(true);
+				Object value = field.get(th);
+				if (value instanceof District) {
+					District district = (District) value;
+					if (district != null) {
+						System.out.println(district.getName());
+					}
+				} else {
+					if (value != null)
+						System.out.println(value.toString());
+				}
+			}
 		}
 		return "Hello Deepan!";
 	}
@@ -123,19 +128,20 @@ public class HomeController {
 	public List<District> getDistrict() {
 		return districtDao.findAll();
 	}
-	
+
 	@GetMapping("/getWeather")
-	public List<Weather> getWeather(@RequestParam(required = false) String thaluk,@RequestParam(required = false) Date capturedDateStart,@RequestParam(required = false) Date capturedDateEnd)
-	{
-		return weatherDao.findByDateAndLocation(thaluk,capturedDateStart,capturedDateEnd,5);
+	public List<Weather> getWeather(@RequestParam(required = false) String thaluk,
+			@RequestParam(required = false) Date capturedDateStart,
+			@RequestParam(required = false) Date capturedDateEnd) {
+		return weatherDao.findByDateAndLocation(thaluk, capturedDateStart, capturedDateEnd, 5);
 	}
 
 	@GetMapping("/fetchWeather")
 	public void fetchWeather() {
-		System.out.println("Fetching weather"+ new java.util.Date());
+		System.out.println("Fetching weather" + new java.util.Date());
 
 		Map<String, String> locations = getThaluks();
-		System.out.println("Fetching weather"+locations.size());
+		System.out.println("Fetching weather" + locations.size());
 		String timesteps = "1d";
 		String apikey = "04sfV0yFAOZ5EQyTQ7jrexo9dTXt7SIx";
 
@@ -145,7 +151,7 @@ public class HomeController {
 				String apiUrl = "https://api.tomorrow.io/v4/weather/forecast";
 				String key = entry.getKey();
 				String val = entry.getValue();
-				System.out.println("Fetching weather for"+key + "   " + val);
+				System.out.println("Fetching weather for" + key + "   " + val);
 
 				apiUrl = UriComponentsBuilder.fromHttpUrl(apiUrl).queryParam("location", val)
 						.queryParam("timesteps", timesteps).queryParam("apikey", apikey).build().toUriString();
@@ -180,7 +186,7 @@ public class HomeController {
 		for (Thaluk thaluk : thaluks) {
 			try {
 				Thread.sleep(2000);
-				System.out.println("Fetching weather for"+thaluk.getName());
+				System.out.println("Fetching weather for" + thaluk.getName());
 				String apiURL = "https://geocode.maps.co/search";
 				apiURL = UriComponentsBuilder.fromHttpUrl(apiURL).queryParam("q", thaluk.getName())
 						.queryParam("api_key", apiKey).build().toUriString();
@@ -196,6 +202,11 @@ public class HomeController {
 			}
 		}
 		return locations;
+	}
+
+	@GetMapping("/getNotifications")
+	public @ResponseBody List<viewNotification> getNotification() {
+		return notificationDao.findAll();
 	}
 
 	// under construction
