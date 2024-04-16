@@ -15,6 +15,7 @@ import com.svastha.entity.MasterChemicalBrandMapping;
 import com.svastha.entity.MasterChemicalBrands;
 import com.svastha.entity.MasterChemicalPestMapping;
 import com.svastha.entity.MasterChemicals;
+import com.svastha.entity.MasterCrop;
 import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterFertilizers;
 import com.svastha.entity.MasterGrainMarket;
@@ -186,6 +187,11 @@ public class MasterController {
 		master.setCrop(masterCropDao.findAll());
 		master.setProjectType(projectTypeDao.findAll());
 		return master;
+	}
+
+	@GetMapping("/getMasterCrops")
+	public @ResponseBody List<MasterCrop> getMasterCrops() {
+		return masterCropDao.findAll();
 	}
 
 	@GetMapping(path = "/getDiseasesAndPests")
