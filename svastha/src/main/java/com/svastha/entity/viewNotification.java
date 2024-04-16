@@ -6,27 +6,27 @@ import javax.persistence.Id;
 @Entity
 public class viewNotification {
 
+	private Long count;
+
+	private String message;
+
 	@Id
-	private Long pk1;
-
-	private Long userId;
-
 	private String type;
 
-	public Long getPk1() {
-		return pk1;
+	public Long getCount() {
+		return count;
 	}
 
-	public void setPk1(Long pk1) {
-		this.pk1 = pk1;
+	public void setCount(Long count) {
+		this.count = count;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public String getType() {
