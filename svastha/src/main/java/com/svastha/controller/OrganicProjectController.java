@@ -18,6 +18,8 @@ import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.OrganicAnnualProgram;
 import com.svastha.entity.OrganicFieldMap;
+import com.svastha.entity.OrganicSoilAnalysis;
+import com.svastha.entity.OrganicWaterAnalysis;
 import com.svastha.model.OrganicProjectModel;
 import com.svastha.model.OrganicProjectPlotModel;
 import com.svastha.repository.FarmPlotsRepository;
@@ -27,6 +29,8 @@ import com.svastha.repository.OrganicAnnualProgramRepository;
 import com.svastha.repository.OrganicCropVarietyRepository;
 import com.svastha.repository.OrganicFieldMapRepository;
 import com.svastha.repository.OrganicPlotBoundaryRepository;
+import com.svastha.repository.OrganicSoilAnalysisRepository;
+import com.svastha.repository.OrganicWaterAnalysisRepository;
 import com.svastha.repository.UserRepository;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
@@ -61,6 +65,12 @@ public class OrganicProjectController {
 	private OrganicFieldMapRepository fieldDao;
 
 	@Autowired
+	private OrganicSoilAnalysisRepository soilDao;
+
+	@Autowired
+	private OrganicWaterAnalysisRepository waterDao;
+
+	@Autowired
 	private ExcelWriter excel;
 
 	@Autowired
@@ -75,8 +85,8 @@ public class OrganicProjectController {
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			Pageable pageable) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1, "APPROVED",
-				pageable);
+		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
+				"APPROVED", pageable);
 		return projects;
 	}
 
@@ -148,9 +158,8 @@ public class OrganicProjectController {
 	}
 
 	@PostMapping("/saveAnnualProgram")
-	public @ResponseBody List<OrganicAnnualProgram> saveAnnualProgram(
-			@RequestBody List<OrganicAnnualProgram> annualProgram) {
-		return annualDao.saveAll(annualProgram);
+	public @ResponseBody OrganicAnnualProgram saveAnnualProgram(@RequestBody OrganicAnnualProgram annualProgram) {
+		return annualDao.save(annualProgram);
 	}
 
 	@PostMapping("/getAnnualProgram")
@@ -159,5 +168,30 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return annualDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@PostMapping("/saveWaterAnalysis")
+	public @ResponseBody OrganicWaterAnalysis saveWaterAnalysis(@RequestBody OrganicWaterAnalysis waterAnalysis) {
+		return waterDao.save(waterAnalysis);
+	}
+
+	@PostMapping("/getWaterAnalysis")
+	public @ResponseBody OrganicWaterAnalysis getWaterAnalysis(@RequestParam Long projectId,
+			@RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return waterDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@PostMapping("/saveSoilAnalysis")
+	public @ResponseBody OrganicSoilAnalysis saveSoilAnalysis(@RequestBody OrganicSoilAnalysis soilAnalysis) {
+		return soilDao.save(soilAnalysis);
+	}
+
+	@PostMapping("/getSoilAnalysis")
+	public @ResponseBody OrganicSoilAnalysis getSoilAnalysis(@RequestParam Long projectId, @RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return soilDao.findByProjectsAndPlots(project, plot);
 	}
 }

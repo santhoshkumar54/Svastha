@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,7 +68,7 @@ public class HomeController {
 	@Autowired
 	private ViewNotificationRepository notificationDao;
 
-	// @Scheduled(cron = "0 30 1 * * *")
+	@Scheduled(cron = "0 30 1 * * *")
 	public void callAPI() {
 		System.out.println("Weather Scheduler called");
 		fetchWeather();

@@ -319,7 +319,7 @@ public class FarmController {
 		return ResponseEntity.ok().contentLength(resource.contentLength()).contentType(mediaType).body(resource);
 	}
 
-	@Scheduled(cron = "0 30 16 * * *")
+	@Scheduled(cron = "0 10 1 * * *")
 	public void updateCompletion() {
 		farmDao.updateFarmCompletionPercentage();
 	}
