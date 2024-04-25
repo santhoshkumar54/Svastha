@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +36,6 @@ import com.svastha.repository.UserRepository;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 public class OrganicProjectController {
@@ -162,7 +162,7 @@ public class OrganicProjectController {
 		return annualDao.save(annualProgram);
 	}
 
-	@PostMapping("/getAnnualProgram")
+	@GetMapping("/getAnnualProgram")
 	public @ResponseBody OrganicAnnualProgram getAnnualProgram(@RequestParam Long projectId,
 			@RequestParam Long plotId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -175,7 +175,7 @@ public class OrganicProjectController {
 		return waterDao.save(waterAnalysis);
 	}
 
-	@PostMapping("/getWaterAnalysis")
+	@GetMapping("/getWaterAnalysis")
 	public @ResponseBody OrganicWaterAnalysis getWaterAnalysis(@RequestParam Long projectId,
 			@RequestParam Long plotId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -188,7 +188,7 @@ public class OrganicProjectController {
 		return soilDao.save(soilAnalysis);
 	}
 
-	@PostMapping("/getSoilAnalysis")
+	@GetMapping("/getSoilAnalysis")
 	public @ResponseBody OrganicSoilAnalysis getSoilAnalysis(@RequestParam Long projectId, @RequestParam Long plotId) {
 		FarmProjects project = projectDao.findById(projectId).get();
 		FarmPlots plot = plotsDao.findById(plotId).get();

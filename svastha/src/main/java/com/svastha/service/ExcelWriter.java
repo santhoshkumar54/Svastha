@@ -1545,6 +1545,7 @@ public class ExcelWriter {
 		MimeMessageHelper helper;
 		try {
 			helper = new MimeMessageHelper(message, true);
+			helper.setFrom("ecoharvestsvastha@gmail.com");
 			helper.setTo(to);
 			helper.setSubject(subject);
 			helper.setText(body);
