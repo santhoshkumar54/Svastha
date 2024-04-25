@@ -19,7 +19,10 @@ import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.OrganicAnnualProgram;
 import com.svastha.entity.OrganicFieldMap;
+import com.svastha.entity.OrganicSeedData;
 import com.svastha.entity.OrganicSoilAnalysis;
+import com.svastha.entity.OrganicSowingData;
+import com.svastha.entity.OrganicTransplantData;
 import com.svastha.entity.OrganicWaterAnalysis;
 import com.svastha.model.OrganicProjectModel;
 import com.svastha.model.OrganicProjectPlotModel;
@@ -30,12 +33,13 @@ import com.svastha.repository.OrganicAnnualProgramRepository;
 import com.svastha.repository.OrganicCropVarietyRepository;
 import com.svastha.repository.OrganicFieldMapRepository;
 import com.svastha.repository.OrganicPlotBoundaryRepository;
+import com.svastha.repository.OrganicSeedDataRepository;
 import com.svastha.repository.OrganicSoilAnalysisRepository;
+import com.svastha.repository.OrganicSowingDataRepository;
+import com.svastha.repository.OrganicTransplantDataRepository;
 import com.svastha.repository.OrganicWaterAnalysisRepository;
-import com.svastha.repository.UserRepository;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
-
 
 @RestController
 public class OrganicProjectController {
@@ -50,7 +54,13 @@ public class OrganicProjectController {
 	private FarmPlotsRepository plotsDao;
 
 	@Autowired
-	private UserRepository userDao;
+	private OrganicSeedDataRepository seedDao;
+
+	@Autowired
+	private OrganicSowingDataRepository sowingDao;
+
+	@Autowired
+	private OrganicTransplantDataRepository transplantDao;
 
 	@Autowired
 	private OrganicAnnualProgramRepository annualDao;
@@ -193,5 +203,52 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return soilDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@PostMapping("/saveOrganicSeedData")
+	public @ResponseBody OrganicSeedData saveOrganicSeedData(@RequestParam MultipartFile file,
+			@RequestBody OrganicSeedData seedData) {
+
+		Long plotId = seedData.getPlots().getPk1();
+		Long projectId = seedData.getProjects().getPk1();
+
+		String folderPath = SEPARATOR + "seedData" + SEPARATOR + projectId + SEPARATOR + plotId;
+		Path p = storageService.createFolder(folderPath);
+
+		String filePath = storageService.save(file, p);
+		seedData.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		return seedDao.save(seedData);
+	}
+
+	@GetMapping("/getOrganicSeedData")
+	public @ResponseBody OrganicSeedData getOrganicSeedData(@RequestParam Long projectId, @RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return seedDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@PostMapping("/saveOrganicSowing")
+	public @ResponseBody OrganicSowingData saveOrganicSowing(@RequestBody OrganicSowingData sowing) {
+		return sowingDao.save(sowing);
+	}
+
+	@GetMapping("/getOrganicSowing")
+	public @ResponseBody OrganicSowingData getOrganicSowing(@RequestParam Long projectId, @RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return sowingDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@PostMapping("/saveOrganicTransplant")
+	public @ResponseBody OrganicTransplantData saveOrganicTransplant(@RequestBody OrganicTransplantData transplant) {
+		return transplantDao.save(transplant);
+	}
+
+	@GetMapping("/getOrganicTransplant")
+	public @ResponseBody OrganicTransplantData getOrganicTransplant(@RequestParam Long projectId,
+			@RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return transplantDao.findByProjectsAndPlots(project, plot);
 	}
 }
