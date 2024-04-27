@@ -19,7 +19,10 @@ import com.google.gson.Gson;
 import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.OrganicAnnualProgram;
+import com.svastha.entity.OrganicBioFertilizer;
 import com.svastha.entity.OrganicFieldMap;
+import com.svastha.entity.OrganicGrowthPromoter;
+import com.svastha.entity.OrganicOrganicManure;
 import com.svastha.entity.OrganicSeedData;
 import com.svastha.entity.OrganicSoilAnalysis;
 import com.svastha.entity.OrganicSowingData;
@@ -31,8 +34,11 @@ import com.svastha.repository.FarmPlotsRepository;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.MasterProjectTypeRepository;
 import com.svastha.repository.OrganicAnnualProgramRepository;
+import com.svastha.repository.OrganicBioFertilizerRepository;
 import com.svastha.repository.OrganicCropVarietyRepository;
 import com.svastha.repository.OrganicFieldMapRepository;
+import com.svastha.repository.OrganicGrowthPromoterRepository;
+import com.svastha.repository.OrganicOrganicManureRepository;
 import com.svastha.repository.OrganicPlotBoundaryRepository;
 import com.svastha.repository.OrganicSeedDataRepository;
 import com.svastha.repository.OrganicSoilAnalysisRepository;
@@ -80,6 +86,15 @@ public class OrganicProjectController {
 
 	@Autowired
 	private OrganicWaterAnalysisRepository waterDao;
+
+	@Autowired
+	private OrganicOrganicManureRepository manureDao;
+
+	@Autowired
+	private OrganicBioFertilizerRepository bioDao;
+
+	@Autowired
+	private OrganicGrowthPromoterRepository growthDao;
 
 	@Autowired
 	private ExcelWriter excel;
@@ -253,5 +268,74 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return transplantDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@PostMapping("/saveOrganicOrganicManure")
+	public @ResponseBody OrganicOrganicManure saveOrganicOrganicManure(
+			@RequestParam(required = false) MultipartFile file, @RequestParam String manure) {
+		OrganicOrganicManure man = new Gson().fromJson(manure, OrganicOrganicManure.class);
+		Long plotId = man.getPlots().getPk1();
+		Long projectId = man.getProjects().getPk1();
+
+		String folderPath = SEPARATOR + "manure" + SEPARATOR + projectId + SEPARATOR + plotId;
+		Path p = storageService.createFolder(folderPath);
+
+		String filePath = storageService.save(file, p);
+		man.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		return manureDao.save(man);
+	}
+
+	@GetMapping("/getOrganicOrganicManure")
+	public @ResponseBody List<OrganicOrganicManure> getOrganicOrganicManure(@RequestParam Long projectId,
+			@RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return manureDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@PostMapping("/saveOrganicGrowthPromoter")
+	public @ResponseBody OrganicGrowthPromoter saveOrganicGrowthPromoter(
+			@RequestParam(required = false) MultipartFile file, @RequestParam String growthPromoter) {
+		OrganicGrowthPromoter growth = new Gson().fromJson(growthPromoter, OrganicGrowthPromoter.class);
+		Long plotId = growth.getPlots().getPk1();
+		Long projectId = growth.getProjects().getPk1();
+
+		String folderPath = SEPARATOR + "growth promoter" + SEPARATOR + projectId + SEPARATOR + plotId;
+		Path p = storageService.createFolder(folderPath);
+
+		String filePath = storageService.save(file, p);
+		growth.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		return growthDao.save(growth);
+	}
+
+	@GetMapping("/getOrganicGrowthPromoter")
+	public @ResponseBody List<OrganicGrowthPromoter> getOrganicGrowthPromoter(@RequestParam Long projectId,
+			@RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return growthDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@PostMapping("/saveOrganicBioFertilizer")
+	public @ResponseBody OrganicBioFertilizer saveOrganicBioFertilizer(
+			@RequestParam(required = false) MultipartFile file, @RequestParam String bioFertilizer) {
+		OrganicBioFertilizer bio = new Gson().fromJson(bioFertilizer, OrganicBioFertilizer.class);
+		Long plotId = bio.getPlots().getPk1();
+		Long projectId = bio.getProjects().getPk1();
+
+		String folderPath = SEPARATOR + "Bio Fertilizer" + SEPARATOR + projectId + SEPARATOR + plotId;
+		Path p = storageService.createFolder(folderPath);
+
+		String filePath = storageService.save(file, p);
+		bio.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		return bioDao.save(bio);
+	}
+
+	@GetMapping("/getOrganicBioFertilizer")
+	public @ResponseBody List<OrganicBioFertilizer> getOrganicBioFertilizer(@RequestParam Long projectId,
+			@RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return bioDao.findByProjectsAndPlots(project, plot);
 	}
 }

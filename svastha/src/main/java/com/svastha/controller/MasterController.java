@@ -19,6 +19,7 @@ import com.svastha.entity.MasterCrop;
 import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterFertilizers;
 import com.svastha.entity.MasterGrainMarket;
+import com.svastha.entity.MasterGrowthPromoter;
 import com.svastha.entity.MasterOrganicManure;
 import com.svastha.entity.MasterPests;
 import com.svastha.entity.MasterProjectType;
@@ -41,6 +42,7 @@ import com.svastha.repository.MasterCropStageRepository;
 import com.svastha.repository.MasterDiseasesAndPestsRepository;
 import com.svastha.repository.MasterFertilizerRepository;
 import com.svastha.repository.MasterGrainMarketRepository;
+import com.svastha.repository.MasterGrowthPromoterRepository;
 import com.svastha.repository.MasterManureRepository;
 import com.svastha.repository.MasterPestChemicalMappingRepository;
 import com.svastha.repository.MasterProjectTypeRepository;
@@ -123,6 +125,9 @@ public class MasterController {
 
 	@Autowired
 	private MasterRiskManagementRepository riskDao;
+
+	@Autowired
+	private MasterGrowthPromoterRepository growthDao;
 
 	@GetMapping(path = "/liveStocks")
 	public @ResponseBody Iterable<LiveStock> getLiveStocks() {
@@ -261,5 +266,11 @@ public class MasterController {
 	public @ResponseBody Iterable<MasterRiskManagement> getMasterRiskManagement() {
 
 		return riskDao.findAll();
+	}
+
+	@GetMapping(path = "/getMasterGrowthPromoter")
+	public @ResponseBody Iterable<MasterGrowthPromoter> getMasterGrowthPromoter() {
+
+		return growthDao.findAll();
 	}
 }

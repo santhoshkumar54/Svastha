@@ -97,7 +97,7 @@ public class FarmProjectController {
 	@Autowired
 	private ExcelWriter excel;
 
-	private static String PROJECT_TYPE = "BPT";
+	private static String PROJECT_TYPE = "MRL";
 
 	@GetMapping("/projects")
 	public @ResponseBody Page<FarmProjects> getAllProjects(@RequestParam(required = false) Long yearId,
