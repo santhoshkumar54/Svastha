@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.OrganicAnnualProgram;
@@ -133,12 +134,13 @@ public class OrganicProjectController {
 	}
 
 	@PostMapping("/savePlotDetails")
-	public @ResponseBody OrganicProjectPlotModel savePlotDetails(@RequestParam MultipartFile file,
-			@RequestBody OrganicProjectPlotModel model) {
-		model.setAnnualProgram(annualDao.save(model.getAnnualProgram()));
-		model.setBoundary(boundaryDao.saveAll(model.getBoundary()));
-		model.setCropVariety(varietyDao.save(model.getCropVariety()));
-		OrganicFieldMap field = model.getFieldMap();
+	public @ResponseBody OrganicProjectPlotModel savePlotDetails(@RequestParam(required = false) MultipartFile file,
+			@RequestParam String model) {
+		OrganicProjectPlotModel omodel = new Gson().fromJson(model, OrganicProjectPlotModel.class);
+		omodel.setAnnualProgram(annualDao.save(omodel.getAnnualProgram()));
+		omodel.setBoundary(boundaryDao.saveAll(omodel.getBoundary()));
+		omodel.setCropVariety(varietyDao.save(omodel.getCropVariety()));
+		OrganicFieldMap field = omodel.getFieldMap();
 		Long plotId = field.getPlots().getPk1();
 		Long projectId = field.getProjects().getPk1();
 		String folderPath = SEPARATOR + "fieldMap" + SEPARATOR + projectId + SEPARATOR + plotId;
@@ -148,9 +150,9 @@ public class OrganicProjectController {
 		field.setFileName(filePath);
 		field.setFilePath(p.toString());
 		field.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
-		model.setFieldMap(fieldDao.save(model.getFieldMap()));
+		omodel.setFieldMap(fieldDao.save(omodel.getFieldMap()));
 
-		return model;
+		return omodel;
 	}
 
 	@GetMapping("/getPlotDetails")
@@ -206,18 +208,19 @@ public class OrganicProjectController {
 	}
 
 	@PostMapping("/saveOrganicSeedData")
-	public @ResponseBody OrganicSeedData saveOrganicSeedData(@RequestParam MultipartFile file,
-			@RequestBody OrganicSeedData seedData) {
+	public @ResponseBody OrganicSeedData saveOrganicSeedData(@RequestParam(required = false) MultipartFile file,
+			@RequestParam String seedData) {
 
-		Long plotId = seedData.getPlots().getPk1();
-		Long projectId = seedData.getProjects().getPk1();
+		OrganicSeedData seed = new Gson().fromJson(seedData, OrganicSeedData.class);
+		Long plotId = seed.getPlots().getPk1();
+		Long projectId = seed.getProjects().getPk1();
 
 		String folderPath = SEPARATOR + "seedData" + SEPARATOR + projectId + SEPARATOR + plotId;
 		Path p = storageService.createFolder(folderPath);
 
 		String filePath = storageService.save(file, p);
-		seedData.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
-		return seedDao.save(seedData);
+		seed.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		return seedDao.save(seed);
 	}
 
 	@GetMapping("/getOrganicSeedData")
