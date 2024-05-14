@@ -155,18 +155,19 @@ public class OrganicProjectController {
 		omodel.setAnnualProgram(annualDao.save(omodel.getAnnualProgram()));
 		omodel.setBoundary(boundaryDao.saveAll(omodel.getBoundary()));
 		omodel.setCropVariety(varietyDao.save(omodel.getCropVariety()));
-		OrganicFieldMap field = omodel.getFieldMap();
-		Long plotId = field.getPlots().getPk1();
-		Long projectId = field.getProjects().getPk1();
-		String folderPath = SEPARATOR + "fieldMap" + SEPARATOR + projectId + SEPARATOR + plotId;
-		Path p = storageService.createFolder(folderPath);
+		if (file != null && !file.isEmpty()) {
+			OrganicFieldMap field = omodel.getFieldMap();
+			Long plotId = field.getPlots().getPk1();
+			Long projectId = field.getProjects().getPk1();
+			String folderPath = SEPARATOR + "fieldMap" + SEPARATOR + projectId + SEPARATOR + plotId;
+			Path p = storageService.createFolder(folderPath);
 
-		String filePath = storageService.save(file, p);
-		field.setFileName(filePath);
-		field.setFilePath(p.toString());
-		field.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
-		omodel.setFieldMap(fieldDao.save(omodel.getFieldMap()));
-
+			String filePath = storageService.save(file, p);
+			field.setFileName(filePath);
+			field.setFilePath(p.toString());
+			field.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+			omodel.setFieldMap(fieldDao.save(omodel.getFieldMap()));
+		}
 		return omodel;
 	}
 
@@ -227,14 +228,17 @@ public class OrganicProjectController {
 			@RequestParam String seedData) {
 
 		OrganicSeedData seed = new Gson().fromJson(seedData, OrganicSeedData.class);
-		Long plotId = seed.getPlots().getPk1();
-		Long projectId = seed.getProjects().getPk1();
 
-		String folderPath = SEPARATOR + "seedData" + SEPARATOR + projectId + SEPARATOR + plotId;
-		Path p = storageService.createFolder(folderPath);
+		if (file != null && !file.isEmpty()) {
+			Long plotId = seed.getPlots().getPk1();
+			Long projectId = seed.getProjects().getPk1();
 
-		String filePath = storageService.save(file, p);
-		seed.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+			String folderPath = SEPARATOR + "seedData" + SEPARATOR + projectId + SEPARATOR + plotId;
+			Path p = storageService.createFolder(folderPath);
+
+			String filePath = storageService.save(file, p);
+			seed.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		}
 		return seedDao.save(seed);
 	}
 
@@ -274,14 +278,18 @@ public class OrganicProjectController {
 	public @ResponseBody OrganicOrganicManure saveOrganicOrganicManure(
 			@RequestParam(required = false) MultipartFile file, @RequestParam String manure) {
 		OrganicOrganicManure man = new Gson().fromJson(manure, OrganicOrganicManure.class);
-		Long plotId = man.getPlots().getPk1();
-		Long projectId = man.getProjects().getPk1();
 
-		String folderPath = SEPARATOR + "manure" + SEPARATOR + projectId + SEPARATOR + plotId;
-		Path p = storageService.createFolder(folderPath);
+		if (file != null && !file.isEmpty()) {
+			Long plotId = man.getPlots().getPk1();
 
-		String filePath = storageService.save(file, p);
-		man.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+			Long projectId = man.getProjects().getPk1();
+
+			String folderPath = SEPARATOR + "manure" + SEPARATOR + projectId + SEPARATOR + plotId;
+			Path p = storageService.createFolder(folderPath);
+
+			String filePath = storageService.save(file, p);
+			man.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		}
 		return manureDao.save(man);
 	}
 
@@ -297,14 +305,16 @@ public class OrganicProjectController {
 	public @ResponseBody OrganicGrowthPromoter saveOrganicGrowthPromoter(
 			@RequestParam(required = false) MultipartFile file, @RequestParam String growthPromoter) {
 		OrganicGrowthPromoter growth = new Gson().fromJson(growthPromoter, OrganicGrowthPromoter.class);
-		Long plotId = growth.getPlots().getPk1();
-		Long projectId = growth.getProjects().getPk1();
+		if (file != null && !file.isEmpty()) {
+			Long plotId = growth.getPlots().getPk1();
+			Long projectId = growth.getProjects().getPk1();
 
-		String folderPath = SEPARATOR + "growth promoter" + SEPARATOR + projectId + SEPARATOR + plotId;
-		Path p = storageService.createFolder(folderPath);
+			String folderPath = SEPARATOR + "growth promoter" + SEPARATOR + projectId + SEPARATOR + plotId;
+			Path p = storageService.createFolder(folderPath);
 
-		String filePath = storageService.save(file, p);
-		growth.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+			String filePath = storageService.save(file, p);
+			growth.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		}
 		return growthDao.save(growth);
 	}
 
@@ -320,14 +330,17 @@ public class OrganicProjectController {
 	public @ResponseBody OrganicBioFertilizer saveOrganicBioFertilizer(
 			@RequestParam(required = false) MultipartFile file, @RequestParam String bioFertilizer) {
 		OrganicBioFertilizer bio = new Gson().fromJson(bioFertilizer, OrganicBioFertilizer.class);
-		Long plotId = bio.getPlots().getPk1();
-		Long projectId = bio.getProjects().getPk1();
 
-		String folderPath = SEPARATOR + "Bio Fertilizer" + SEPARATOR + projectId + SEPARATOR + plotId;
-		Path p = storageService.createFolder(folderPath);
+		if (file != null && !file.isEmpty()) {
+			Long plotId = bio.getPlots().getPk1();
+			Long projectId = bio.getProjects().getPk1();
 
-		String filePath = storageService.save(file, p);
-		bio.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+			String folderPath = SEPARATOR + "Bio Fertilizer" + SEPARATOR + projectId + SEPARATOR + plotId;
+			Path p = storageService.createFolder(folderPath);
+
+			String filePath = storageService.save(file, p);
+			bio.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		}
 		return bioDao.save(bio);
 	}
 

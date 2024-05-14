@@ -21,7 +21,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +33,6 @@ import com.svastha.dto.WeatherDTO;
 import com.svastha.entity.District;
 import com.svastha.entity.Manual;
 import com.svastha.entity.Thaluk;
-import com.svastha.entity.Village;
 import com.svastha.entity.Weather;
 import com.svastha.entity.viewNotification;
 import com.svastha.repository.DistrictRepository;
@@ -54,12 +52,6 @@ public class HomeController {
 	private MasterManualRepository manualDao;
 
 	@Autowired
-	private VillageRepository villageDao;
-
-	@Autowired
-	private DistrictRepository districtDao;
-
-	@Autowired
 	private ThalukRepository thalukDao;
 
 	@Autowired
@@ -69,10 +61,17 @@ public class HomeController {
 	private ViewNotificationRepository notificationDao;
 
 	@Scheduled(cron = "0 30 1 * * *")
-	public void callAPI() {
+	public void fetchWeatherFirstIteration() {
 		System.out.println("Weather Scheduler called");
-		fetchWeather();
+		fetchWeather(1,3);
 	}
+	
+	@Scheduled(cron = "0 40 2 * * *")
+	public void fetchWeatherSecondIteration() {
+		System.out.println("Weather Scheduler called");
+		fetchWeather(4,7);
+	}
+
 
 	@GetMapping("/hello")
 	public String index() throws IllegalArgumentException, IllegalAccessException {
@@ -115,21 +114,6 @@ public class HomeController {
 		return manualDao.findAll();
 	}
 
-	@GetMapping("/getVillages")
-	public List<Village> getVillages() {
-		return villageDao.findAll();
-	}
-
-	@GetMapping("/getThaluk")
-	public List<Thaluk> getThaluk() {
-		return thalukDao.findAll();
-	}
-
-	@GetMapping("/getDistrict")
-	public List<District> getDistrict() {
-		return districtDao.findAll();
-	}
-
 	@GetMapping("/getWeather")
 	public List<Weather> getWeather(@RequestParam(required = false) String thaluk,
 			@RequestParam(required = false) Date capturedDateStart,
@@ -138,10 +122,10 @@ public class HomeController {
 	}
 
 	@GetMapping("/fetchWeather")
-	public void fetchWeather() {
+	public void fetchWeather(int minValue,int maxValue) {
 		System.out.println("Fetching weather" + new java.util.Date());
 
-		Map<String, String> locations = getThaluks();
+		Map<String, String> locations = getThaluks(minValue,maxValue);
 		System.out.println("Fetching weather" + locations.size());
 		String timesteps = "1d";
 		String apikey = "04sfV0yFAOZ5EQyTQ7jrexo9dTXt7SIx";
@@ -179,11 +163,11 @@ public class HomeController {
 		}
 	}
 
-	public Map<String, String> getThaluks() {
+	public Map<String, String> getThaluks(int minValue,int maxValue) {
 		Map<String, String> locations = new HashMap<>();
 
 		String apiKey = "65e4896cbe6a7019036672grs89364e";
-		List<Thaluk> thaluks = thalukDao.findAll();
+		List<Thaluk> thaluks = thalukDao.findByDistrictBetween(minValue,maxValue);
 		for (Thaluk thaluk : thaluks) {
 			try {
 				Thread.sleep(2000);
