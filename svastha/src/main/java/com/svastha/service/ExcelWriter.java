@@ -192,7 +192,7 @@ public class ExcelWriter {
 	
 	//static String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\";
 	
-	static String excelFilePath = "/dev/svastha/Excels/";
+	static String excelFilePath = "/var/svastha/Excels/";
 
 	@Async
 	public void startFarmExport(Long districtId, Long thalukId, Long villageId, String key, Long userId, String type,
