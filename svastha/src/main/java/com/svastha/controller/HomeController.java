@@ -99,7 +99,7 @@ public class HomeController {
 
 	@GetMapping("/downloadapk")
 	public ResponseEntity downloadapk() throws IOException {
-		File apk = new File("/dev/svastha/APK/svastha.apk");
+		File apk = new File("/var/svastha/APK/svastha.apk");
 		Path path = Paths.get(apk.getAbsolutePath());
 		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 
