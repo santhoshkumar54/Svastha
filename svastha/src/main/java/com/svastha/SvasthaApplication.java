@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SvasthaApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
 
 //	public static String IMAGEPATH = "file:C:\\Users\\smsan\\Downloads\\images\\";
-	public static String IMAGEPATH = "file:/dev/svastha/images/";
+	public static String IMAGEPATH = "file:/var/svastha/images/";
 
 	public static void main(String[] args) {
 		SpringApplication.run(SvasthaApplication.class, args);
