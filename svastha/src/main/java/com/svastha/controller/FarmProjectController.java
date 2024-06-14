@@ -103,20 +103,22 @@ public class FarmProjectController {
 	public @ResponseBody Page<FarmProjects> getAllProjects(@RequestParam(required = false) Long yearId,
 			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
+			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
 			Pageable pageable) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1, "APPROVED",
-				pageable);
+		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
+				"APPROVED", varietyId, ics, pageable);
 		return projects;
 	}
 
 	@GetMapping("/approvals")
 	public @ResponseBody Page<FarmProjects> getAllWaitingProjects(@RequestParam(required = false) Long yearId,
-														   @RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
-														   @RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
-														   Pageable pageable) {
+			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
+			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
+			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
+			Pageable pageable) {
 		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, null, "WAITING",
-				pageable);
+				varietyId, ics, pageable);
 		return projects;
 	}
 
@@ -124,12 +126,13 @@ public class FarmProjectController {
 	public @ResponseBody String exportProjects(@RequestParam(required = false) Long yearId,
 			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
+			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
 			@RequestParam String email) {
 		try {
 			System.out.println("year-" + yearId + " season-" + seasonId + " crop-" + cropId + " key-" + key + " user-"
 					+ userId + " email-" + email);
 			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1);
+			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();
@@ -139,7 +142,7 @@ public class FarmProjectController {
 	@GetMapping("/listProjects")
 	public @ResponseBody Iterable<FarmProjects> getProjectsUserId(@RequestParam Long userId) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-		return projectDao.findWithFilters(null, null, null, null, userId, projectTypePk1);
+		return projectDao.findWithFilters(null, null, null, null, userId, projectTypePk1, null, null);
 	}
 
 	@GetMapping("/getProject")
@@ -356,10 +359,10 @@ public class FarmProjectController {
 		}
 		return photos;
 	}
-	
+
 	@PostMapping("/approveProject")
-	public @ResponseBody String approveProject(@RequestParam Long projectId,@RequestParam String approvalStatus,@RequestParam Long userId)
-	{
+	public @ResponseBody String approveProject(@RequestParam Long projectId, @RequestParam String approvalStatus,
+			@RequestParam Long userId) {
 		FarmProjects project = projectDao.findById(projectId).get();
 		Users u = userDao.findById(userId).get();
 		project.setStatus(approvalStatus);
