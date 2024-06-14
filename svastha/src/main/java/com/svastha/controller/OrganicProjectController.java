@@ -22,6 +22,7 @@ import com.svastha.entity.OrganicAnnualProgram;
 import com.svastha.entity.OrganicBioFertilizer;
 import com.svastha.entity.OrganicFieldMap;
 import com.svastha.entity.OrganicGrowthPromoter;
+import com.svastha.entity.OrganicIcsType;
 import com.svastha.entity.OrganicOrganicManure;
 import com.svastha.entity.OrganicSeedData;
 import com.svastha.entity.OrganicSoilAnalysis;
@@ -38,6 +39,7 @@ import com.svastha.repository.OrganicBioFertilizerRepository;
 import com.svastha.repository.OrganicCropVarietyRepository;
 import com.svastha.repository.OrganicFieldMapRepository;
 import com.svastha.repository.OrganicGrowthPromoterRepository;
+import com.svastha.repository.OrganicIcsTypeRepository;
 import com.svastha.repository.OrganicOrganicManureRepository;
 import com.svastha.repository.OrganicPlotBoundaryRepository;
 import com.svastha.repository.OrganicSeedDataRepository;
@@ -95,6 +97,9 @@ public class OrganicProjectController {
 
 	@Autowired
 	private OrganicGrowthPromoterRepository growthDao;
+
+	@Autowired
+	private OrganicIcsTypeRepository icsDao;
 
 	@Autowired
 	private ExcelWriter excel;
@@ -350,5 +355,17 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return bioDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@PostMapping("/saveOrganicIcs")
+	public @ResponseBody OrganicIcsType saveOrganicIcs(@RequestBody OrganicIcsType ics) {
+		return icsDao.save(ics);
+	}
+
+	@GetMapping("/getOrganicIcs")
+	public @ResponseBody OrganicIcsType getOrganicIcs(@RequestParam Long projectId, @RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return icsDao.findByProjectsAndPlots(project, plot);
 	}
 }

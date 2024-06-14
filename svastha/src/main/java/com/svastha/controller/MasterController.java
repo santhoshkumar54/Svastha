@@ -23,6 +23,7 @@ import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterFertilizers;
 import com.svastha.entity.MasterGrainMarket;
 import com.svastha.entity.MasterGrowthPromoter;
+import com.svastha.entity.MasterIcs;
 import com.svastha.entity.MasterOrganicManure;
 import com.svastha.entity.MasterPests;
 import com.svastha.entity.MasterProjectType;
@@ -51,6 +52,7 @@ import com.svastha.repository.MasterDiseasesAndPestsRepository;
 import com.svastha.repository.MasterFertilizerRepository;
 import com.svastha.repository.MasterGrainMarketRepository;
 import com.svastha.repository.MasterGrowthPromoterRepository;
+import com.svastha.repository.MasterIcsRepository;
 import com.svastha.repository.MasterManureRepository;
 import com.svastha.repository.MasterPestChemicalMappingRepository;
 import com.svastha.repository.MasterProjectTypeRepository;
@@ -148,6 +150,8 @@ public class MasterController {
 	@Autowired
 	private ThalukRepository thalukDao;
 
+	@Autowired
+	private MasterIcsRepository icsDao;
 
 	@GetMapping(path = "/liveStocks")
 	public @ResponseBody Iterable<LiveStock> getLiveStocks() {
@@ -262,14 +266,16 @@ public class MasterController {
 	}
 
 	@PostMapping("/saveBioFertilizer")
-	public @ResponseBody Iterable<MasterBioFertilizer> saveBioFertilizer(@RequestBody MasterBioFertilizer biofertilizers) {
+	public @ResponseBody Iterable<MasterBioFertilizer> saveBioFertilizer(
+			@RequestBody MasterBioFertilizer biofertilizers) {
 
 		bioFertilizerDao.save(biofertilizers);
 		return bioFertilizerDao.findAll();
 	}
 
 	@PostMapping("/deleteBioFertilizer")
-	public @ResponseBody Iterable<MasterBioFertilizer> deleteBioFertilizer(@RequestBody MasterBioFertilizer biofertilizers) {
+	public @ResponseBody Iterable<MasterBioFertilizer> deleteBioFertilizer(
+			@RequestBody MasterBioFertilizer biofertilizers) {
 
 		bioFertilizerDao.delete(biofertilizers);
 		return bioFertilizerDao.findAll();
@@ -282,14 +288,16 @@ public class MasterController {
 	}
 
 	@PostMapping("/saveOrganicManure")
-	public @ResponseBody Iterable<MasterOrganicManure> saveOrganicManure(@RequestBody MasterOrganicManure organicmanures) {
+	public @ResponseBody Iterable<MasterOrganicManure> saveOrganicManure(
+			@RequestBody MasterOrganicManure organicmanures) {
 
 		manureDao.save(organicmanures);
 		return manureDao.findAll();
 	}
 
 	@PostMapping("/deleteOrganicManure")
-	public @ResponseBody Iterable<MasterOrganicManure> deleteOrganicManure(@RequestBody MasterOrganicManure organicmanures) {
+	public @ResponseBody Iterable<MasterOrganicManure> deleteOrganicManure(
+			@RequestBody MasterOrganicManure organicmanures) {
 
 		manureDao.delete(organicmanures);
 		return manureDao.findAll();
@@ -322,14 +330,16 @@ public class MasterController {
 	}
 
 	@PostMapping("/saveTransplantMethod")
-	public @ResponseBody Iterable<TransplantMethods> saveTransplantMethod(@RequestBody TransplantMethods transplantMethod) {
+	public @ResponseBody Iterable<TransplantMethods> saveTransplantMethod(
+			@RequestBody TransplantMethods transplantMethod) {
 
 		transplantMethodDao.save(transplantMethod);
 		return transplantMethodDao.findAll();
 	}
 
 	@PostMapping("/deleteTransplantMethod")
-	public @ResponseBody Iterable<TransplantMethods> deleteTransplantMethod(@RequestBody TransplantMethods transplantMethod) {
+	public @ResponseBody Iterable<TransplantMethods> deleteTransplantMethod(
+			@RequestBody TransplantMethods transplantMethod) {
 
 		transplantMethodDao.delete(transplantMethod);
 		return transplantMethodDao.findAll();
@@ -489,14 +499,16 @@ public class MasterController {
 	}
 
 	@PostMapping("/saveMasterAnnualProgram")
-	public @ResponseBody Iterable<MasterAnnualProgram> saveMasterAnnualProgram(@RequestBody MasterAnnualProgram annualProgram) {
+	public @ResponseBody Iterable<MasterAnnualProgram> saveMasterAnnualProgram(
+			@RequestBody MasterAnnualProgram annualProgram) {
 
 		annualDao.save(annualProgram);
 		return annualDao.findAll();
 	}
 
 	@PostMapping("/deleteMasterAnnualProgram")
-	public @ResponseBody Iterable<MasterAnnualProgram> deleteMasterAnnualProgram(@RequestBody MasterAnnualProgram annualProgram) {
+	public @ResponseBody Iterable<MasterAnnualProgram> deleteMasterAnnualProgram(
+			@RequestBody MasterAnnualProgram annualProgram) {
 
 		annualDao.delete(annualProgram);
 		return annualDao.findAll();
@@ -509,14 +521,16 @@ public class MasterController {
 	}
 
 	@PostMapping("/saveMasterRiskManagement")
-	public @ResponseBody Iterable<MasterRiskManagement> saveMasterRiskManagement(@RequestBody MasterRiskManagement riskManagement) {
+	public @ResponseBody Iterable<MasterRiskManagement> saveMasterRiskManagement(
+			@RequestBody MasterRiskManagement riskManagement) {
 
 		riskDao.save(riskManagement);
 		return riskDao.findAll();
 	}
 
 	@PostMapping("/deleteMasterRiskManagement")
-	public @ResponseBody Iterable<MasterRiskManagement> deleteMasterRiskManagement(MasterRiskManagement riskManagement) {
+	public @ResponseBody Iterable<MasterRiskManagement> deleteMasterRiskManagement(
+			MasterRiskManagement riskManagement) {
 
 		riskDao.delete(riskManagement);
 		return riskDao.findAll();
@@ -529,24 +543,25 @@ public class MasterController {
 	}
 
 	@PostMapping("/saveGrowthPromoter")
-	public @ResponseBody Iterable<MasterGrowthPromoter> saveGrowthPromoter(@RequestBody MasterGrowthPromoter growthPromoter) {
+	public @ResponseBody Iterable<MasterGrowthPromoter> saveGrowthPromoter(
+			@RequestBody MasterGrowthPromoter growthPromoter) {
 
 		growthDao.save(growthPromoter);
 		return growthDao.findAll();
 	}
 
 	@PostMapping("/deleteGrowthPromoter")
-	public @ResponseBody Iterable<MasterGrowthPromoter> deleteGrowthPromoter(@RequestBody MasterGrowthPromoter growthPromoter) {
+	public @ResponseBody Iterable<MasterGrowthPromoter> deleteGrowthPromoter(
+			@RequestBody MasterGrowthPromoter growthPromoter) {
 
 		growthDao.delete(growthPromoter);
 		return growthDao.findAll();
 	}
-	
+
 	@GetMapping("/getVillages")
 	public List<Village> getVillages() {
 		return villageDao.findAll();
 	}
-	
 
 	@PostMapping("/saveVillages")
 	public @ResponseBody Iterable<Village> saveVillages(@RequestBody Village village) {
@@ -566,7 +581,6 @@ public class MasterController {
 	public List<Thaluk> getThaluk() {
 		return thalukDao.findAll();
 	}
-	
 
 	@PostMapping("/saveThaluk")
 	public @ResponseBody Iterable<Thaluk> saveThaluk(@RequestBody Thaluk thaluk) {
@@ -586,7 +600,6 @@ public class MasterController {
 	public List<District> getDistrict() {
 		return districtDao.findAll();
 	}
-	
 
 	@PostMapping("/saveDistrict")
 	public @ResponseBody Iterable<District> saveDistrict(@RequestBody District district) {
@@ -600,6 +613,25 @@ public class MasterController {
 
 		districtDao.delete(district);
 		return districtDao.findAll();
+	}
+
+	@GetMapping("/getIcs")
+	public List<MasterIcs> getIcs() {
+		return icsDao.findAll();
+	}
+
+	@PostMapping("/saveIcs")
+	public @ResponseBody Iterable<MasterIcs> saveIcs(@RequestBody MasterIcs ics) {
+
+		icsDao.save(ics);
+		return icsDao.findAll();
+	}
+
+	@PostMapping("/deleteIcs")
+	public @ResponseBody Iterable<MasterIcs> deleteIcs(@RequestBody MasterIcs ics) {
+
+		icsDao.delete(ics);
+		return icsDao.findAll();
 	}
 
 }
