@@ -13,7 +13,7 @@
 	<artifactId>test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>test</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Svastha Ecoharvest Application</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -144,6 +144,7 @@
             <properties>
                 <datasource.url>jdbc:mysql://localhost:3306/svasthatest</datasource.url>
                 <war.filename>svasthatest</war.filename>
+                <upload.directory>/home/svasthatest/</upload.directory>
             </properties>
         </profile>
         
@@ -153,6 +154,7 @@
             <properties>
                 <datasource.url>jdbc:mysql://localhost:3306/svastha</datasource.url>
                 <war.filename>svastha</war.filename>
+                <upload.directory>/home/svastha/</upload.directory>
             </properties>
         </profile>
         
@@ -165,7 +167,8 @@
             <properties>
                 <!-- Define default MySQL properties and war filename -->
                 <datasource.url>jdbc:mysql://localhost:3306/svastha</datasource.url>
-                <war.filename>svasthatest11</war.filename>
+                <war.filename>svasthatest</war.filename>
+                <upload.directory>/home/svasthatest/</upload.directory>
             </properties>
         </profile>
     </profiles>

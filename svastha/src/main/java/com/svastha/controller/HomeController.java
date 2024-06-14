@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
@@ -35,11 +36,9 @@ import com.svastha.entity.Manual;
 import com.svastha.entity.Thaluk;
 import com.svastha.entity.Weather;
 import com.svastha.entity.viewNotification;
-import com.svastha.repository.DistrictRepository;
 import com.svastha.repository.MasterManualRepository;
 import com.svastha.repository.ThalukRepository;
 import com.svastha.repository.ViewNotificationRepository;
-import com.svastha.repository.VillageRepository;
 import com.svastha.repository.WeatherRepository;
 
 @RestController
@@ -59,6 +58,10 @@ public class HomeController {
 
 	@Autowired
 	private ViewNotificationRepository notificationDao;
+	
+	@Value("${upload.directory}")
+	private String uploadDirectory;
+
 
 	@Scheduled(cron = "0 30 1 * * *")
 	public void fetchWeatherFirstIteration() {
@@ -99,7 +102,7 @@ public class HomeController {
 
 	@GetMapping("/downloadapk")
 	public ResponseEntity downloadapk() throws IOException {
-		File apk = new File("/var/svastha/APK/svastha.apk");
+		File apk = new File(uploadDirectory+"APK/svastha.apk");
 		Path path = Paths.get(apk.getAbsolutePath());
 		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 

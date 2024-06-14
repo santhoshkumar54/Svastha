@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -189,10 +190,14 @@ public class ExcelWriter {
 
 	@Autowired
 	private JavaMailSender mailSender;
-	
-	//static String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\";
-	
-	static String excelFilePath = "/var/svastha/Excels/";
+
+	@Value("${upload.directory}")
+	private String uploadDirectory;
+
+	// static String excelFilePath = "C:\\Users\\smsan\\work\\svastha
+	// project\\Svastha\\svastha\\";
+
+	String excelFilePath = uploadDirectory + "Excels/";
 
 	@Async
 	public void startFarmExport(Long districtId, Long thalukId, Long villageId, String key, Long userId, String type,
@@ -496,8 +501,9 @@ public class ExcelWriter {
 	}
 
 	@Async
-	public void startProjectExport(Long yearId, Long seasonId, Long cropId, String key, Long userId, String email,Long projectTypePk1) {
-		List<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId,projectTypePk1);
+	public void startProjectExport(Long yearId, Long seasonId, Long cropId, String key, Long userId, String email,
+			Long projectTypePk1) {
+		List<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1);
 		List<ProjectPlots> plots = projectPlotsDao.findByProjectIn(projects);
 
 		System.out.println("project size=" + projects.size() + "   plot size-" + plots.size());

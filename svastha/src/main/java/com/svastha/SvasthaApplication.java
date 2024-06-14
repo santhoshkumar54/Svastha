@@ -2,6 +2,7 @@ package com.svastha;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,8 +19,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableScheduling
 public class SvasthaApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
 
-//	public static String IMAGEPATH = "file:C:\\Users\\smsan\\Downloads\\images\\";
-	public static String IMAGEPATH = "file:/var/svastha/images/";
+	@Value("${upload.directory}")
+	private static String uploadDirectory;
+
+	public static String IMAGEPATH = "file:" + uploadDirectory + "images/";
 
 	public static void main(String[] args) {
 		SpringApplication.run(SvasthaApplication.class, args);

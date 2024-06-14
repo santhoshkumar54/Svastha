@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -20,8 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
 
-	//private final Path root = Paths.get("C:\\Users\\smsan\\work\\copy\\testit");
-      private final Path root = Paths.get("/var/svastha/images");
+	@Value("${upload.directory}")
+	private String uploadDirectory;
+
+	private final Path root = Paths.get(uploadDirectory + "images");
+
 	@Override
 	public void init() {
 		try {
@@ -33,11 +37,11 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 
 	public Path createFolder(String folderName) {
 		try {
-			Path p = Paths.get(this.root.toString()+folderName);
+			Path p = Paths.get(this.root.toString() + folderName);
 			Files.createDirectories(p);
 			return p;
 		} catch (IOException e) {
-			throw new RuntimeException("Could not initialize folder for upload! " + folderName);
+			throw new RuntimeException("Could not initialize folder for upload! " + folderName + e);
 		}
 	}
 
@@ -45,12 +49,12 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 	public String save(MultipartFile file, Path p) {
 		try {
 			String ext = FilenameUtils.getExtension(file.getOriginalFilename());
-			String fileName = getCurrentTimeStamp().getTime()+"."+ext;
+			String fileName = getCurrentTimeStamp().getTime() + "." + ext;
 			Files.copy(file.getInputStream(), p.resolve(fileName));
 			return fileName;
 		} catch (Exception e) {
 			if (e instanceof FileAlreadyExistsException) {
-        throw new RuntimeException("A file of that name already exists.");
+				throw new RuntimeException("A file of that name already exists.");
 			}
 
 			throw new RuntimeException(e.getMessage());
@@ -58,7 +62,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 	}
 
 	@Override
-	public Resource load(Path p,String filename) {
+	public Resource load(Path p, String filename) {
 		try {
 			Path file = p.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
@@ -85,27 +89,22 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 			throw new RuntimeException("Could not load the files!");
 		}
 	}
-	
+
 	@Override
-	public MediaType getContentType(Path p,String filename) throws IOException
-	{
+	public MediaType getContentType(Path p, String filename) throws IOException {
 		Path file = p.resolve(filename);
 		String contentType = Files.probeContentType(file);
 		MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
-		if( contentType.equals("image/jpeg"))
-		{
+		if (contentType.equals("image/jpeg")) {
 			mediaType = MediaType.IMAGE_JPEG;
-		}
-		else if(contentType.equals("image/png"))
-		{
+		} else if (contentType.equals("image/png")) {
 			mediaType = MediaType.IMAGE_PNG;
-		}
-		else if(contentType.equals("image/gif"))
-		{
+		} else if (contentType.equals("image/gif")) {
 			mediaType = MediaType.IMAGE_GIF;
 		}
 		return mediaType;
 	}
+
 	public Timestamp getCurrentTimeStamp() {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		return timestamp;
