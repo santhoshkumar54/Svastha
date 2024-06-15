@@ -30,6 +30,12 @@ public class FarmProjects {
 	@ManyToOne
 	private MasterCrop crop;
 
+	@ManyToOne
+	private MasterIcs ics;
+
+	@ManyToOne
+	private MasterCropVariety variety;
+
 	// Mapping to the other table
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<ProjectPlots> plots;
@@ -174,4 +180,21 @@ public class FarmProjects {
 	public void setProjectType(MasterProjectType projectType) {
 		this.projectType = projectType;
 	}
+
+	public MasterIcs getIcs() {
+		return ics;
+	}
+
+	public void setIcs(MasterIcs ics) {
+		this.ics = ics;
+	}
+
+	public MasterCropVariety getVariety() {
+		return variety;
+	}
+
+	public void setVariety(MasterCropVariety variety) {
+		this.variety = variety;
+	}
+
 }
