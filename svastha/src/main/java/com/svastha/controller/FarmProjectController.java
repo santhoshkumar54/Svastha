@@ -107,7 +107,7 @@ public class FarmProjectController {
 			Pageable pageable) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
 		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
-				"APPROVED", varietyId, ics, pageable);
+				"APPROVED", pageable);
 		return projects;
 	}
 
@@ -118,7 +118,7 @@ public class FarmProjectController {
 			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
 			Pageable pageable) {
 		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, null, "WAITING",
-				varietyId, ics, pageable);
+				pageable);
 		return projects;
 	}
 
@@ -132,7 +132,7 @@ public class FarmProjectController {
 			System.out.println("year-" + yearId + " season-" + seasonId + " crop-" + cropId + " key-" + key + " user-"
 					+ userId + " email-" + email);
 			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics);
+			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();

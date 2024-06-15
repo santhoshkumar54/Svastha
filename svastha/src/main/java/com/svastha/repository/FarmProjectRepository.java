@@ -16,28 +16,22 @@ public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long>
 
 	List<FarmProjects> findByCreatedBy(Users user);
 
-	@Query("SELECT DISTINCT p FROM FarmProjects p LEFT JOIN ProjectSowingData s LEFT JOIN OrganicIcsType i"
-			+ "WHERE (:year IS NULL OR p.year.pk1 = :year) " + "and (:season is NULL or p.season.pk1 = :season) "
-			+ "and (:crop is NULL or p.crop.pk1 = :crop) "
+	@Query("SELECT p FROM FarmProjects p " + "WHERE (:year IS NULL OR p.year.pk1 = :year) "
+			+ "and (:season is NULL or p.season.pk1 = :season) " + "and (:crop is NULL or p.crop.pk1 = :crop) "
 			+ "and (:key is NULL or p.farm.farmerName like %:key% or p.farm.regNumber = :key) "
-			+ "and (:user is NULL or p.createdBy.pk1 = :user)"
-			+ "and (:varietyId is NULL or s.variety.pk1 = :varietyId) " + "and (:ics is NULL or i.ics.pk1 = :ics) "
+			+ "and (:user is NULL or p.createdBy.pk1 = :user) "
 			+ "and (:projectType is NULL or p.projectType.pk1 = :projectType)" + "and status = :status")
 	Page<FarmProjects> findWithFilters(@Param("year") Long year, @Param("season") Long season, @Param("crop") Long crop,
 			@Param("key") String key, @Param("user") Long user, @Param("projectType") Long projectType,
-			@Param("status") String status, @Param("varietyId") Long varietyId, @Param("ics") Long ics,
-			Pageable pageable);
+			@Param("status") String status, Pageable pageable);
 
-	@Query("SELECT DISTINCT p FROM FarmProjects p LEFT JOIN ProjectSowingData s LEFT JOIN OrganicIcsType i"
-			+ "WHERE (:year IS NULL OR p.year.pk1 = :year) " + "and (:season is NULL or p.season.pk1 = :season) "
-			+ "and (:crop is NULL or p.crop.pk1 = :crop) "
+	@Query("SELECT p FROM FarmProjects p  " + "WHERE (:year IS NULL OR p.year.pk1 = :year) "
+			+ "and (:season is NULL or p.season.pk1 = :season) " + "and (:crop is NULL or p.crop.pk1 = :crop) "
 			+ "and (:key is NULL or p.farm.farmerName like %:key% OR p.farm.regNumber = :key) "
-			+ "and (:user is NULL or p.createdBy.pk1 = :user)"
-			+ "and (:varietyId is NULL or s.variety.pk1 = :varietyId) " + "and (:ics is NULL or i.ics.pk1 = :ics) "
+			+ "and (:user is NULL or p.createdBy.pk1 = :user) "
 			+ "and (:projectType is NULL or p.projectType.pk1 = :projectType)" + "and status = 'APPROVED'")
 	List<FarmProjects> findWithFilters(@Param("year") Long year, @Param("season") Long season, @Param("crop") Long crop,
-			@Param("key") String key, @Param("user") Long user, @Param("projectType") Long projectType,
-			@Param("varietyId") Long varietyId, @Param("ics") Long ics);
+			@Param("key") String key, @Param("user") Long user, @Param("projectType") Long projectType);
 
 	@Procedure(name = "UpdateFarmProjectCompletionPercentage")
 	void updateFarmProjectCompletionPercentage();

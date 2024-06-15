@@ -7,6 +7,7 @@ import com.svastha.entity.FarmProjects;
 import com.svastha.entity.OrganicAnnualProgram;
 import com.svastha.entity.OrganicCropVariety;
 import com.svastha.entity.OrganicFieldMap;
+import com.svastha.entity.OrganicIcsType;
 import com.svastha.entity.OrganicPlotBoundary;
 
 public class OrganicProjectPlotModel implements Serializable {
@@ -19,6 +20,8 @@ public class OrganicProjectPlotModel implements Serializable {
 	private FarmProjects farm;
 
 	private OrganicAnnualProgram annualProgram;
+
+	private OrganicIcsType icsType;
 
 	private List<OrganicPlotBoundary> boundary;
 
@@ -64,5 +67,13 @@ public class OrganicProjectPlotModel implements Serializable {
 
 	public void setFieldMap(OrganicFieldMap fieldMap) {
 		this.fieldMap = fieldMap;
+	}
+
+	public OrganicIcsType getIcsType() {
+		return icsType;
+	}
+
+	public void setIcsType(OrganicIcsType icsType) {
+		this.icsType = icsType;
 	}
 }
