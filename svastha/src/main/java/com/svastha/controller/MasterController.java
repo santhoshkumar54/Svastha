@@ -352,6 +352,8 @@ public class MasterController {
 		master.setSeason(seasonDao.findAll());
 		master.setCrop(masterCropDao.findAll());
 		master.setProjectType(projectTypeDao.findAll());
+		master.setIcsType(icsDao.findAll());
+
 		return master;
 	}
 

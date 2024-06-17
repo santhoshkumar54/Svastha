@@ -7,6 +7,7 @@ import com.svastha.entity.MasterCrop;
 import com.svastha.entity.MasterProjectType;
 import com.svastha.entity.MasterSeason;
 import com.svastha.entity.MasterYear;
+import com.svastha.entity.MasterIcs;
 
 public class MasterProjectModel implements Serializable {
 
@@ -22,6 +23,16 @@ public class MasterProjectModel implements Serializable {
 	private List<MasterCrop> crop;
 
 	private List<MasterProjectType> projectType;
+
+	public List<MasterIcs> getIcsType() {
+		return icsType;
+	}
+
+	public void setIcsType(List<MasterIcs> icsType) {
+		this.icsType = icsType;
+	}
+
+	private List<MasterIcs> icsType;
 
 	public List<MasterProjectType> getProjectType() {
 		return projectType;
