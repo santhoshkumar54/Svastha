@@ -1,4 +1,4 @@
-package com.svastha.dto;
+package com.svastha.util;
 
 import java.util.ArrayList;
 

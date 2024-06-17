@@ -23,9 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-import com.svastha.dto.LocationDTO;
-import com.svastha.dto.PlotsDTO;
-import com.svastha.dto.ProjectsDTO;
 import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.Farms;
@@ -51,6 +48,9 @@ import com.svastha.repository.UserRepository;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.GpsService;
+import com.svastha.util.LocationDTO;
+import com.svastha.util.PlotsDTO;
+import com.svastha.util.ProjectsDTO;
 
 @RestController
 public class FarmProjectController {
@@ -328,6 +328,30 @@ public class FarmProjectController {
 	@PostMapping("/uploadProjectImages")
 	public @ResponseBody String uploadPhoto(@RequestParam MultipartFile[] file, @RequestParam String projectId,
 			@RequestParam String userId) {
+		Long fid = Long.parseLong(projectId);
+		Long uid = Long.parseLong(userId);
+		FarmProjects f = projectDao.findById(fid).get();
+		Users u = userDao.findById(uid).get();
+
+		String folderPath = SEPARATOR + "projectImage" + SEPARATOR + projectId;
+		Path p = storageService.createFolder(folderPath);
+
+		for (MultipartFile multipartFile : file) {
+			ProjectImages i = new ProjectImages();
+			i.setCreatedBy(u);
+			i.setProject(f);
+			String filePath = storageService.save(multipartFile, p);
+			i.setFileName(filePath);
+			i.setPath(p.toString());
+			i.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+			imageDao.save(i);
+		}
+		return "Success";
+	}
+	
+	@PostMapping("/uploadProjectImagesV2")
+	public @ResponseBody String uploadPhoto(@RequestParam MultipartFile[] file, @RequestParam String projectId,
+		@RequestParam String objectType,@RequestParam Long id,@RequestParam String userId) {
 		Long fid = Long.parseLong(projectId);
 		Long uid = Long.parseLong(userId);
 		FarmProjects f = projectDao.findById(fid).get();

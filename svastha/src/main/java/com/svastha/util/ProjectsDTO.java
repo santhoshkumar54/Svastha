@@ -1,4 +1,4 @@
-package com.svastha.dto;
+package com.svastha.util;
 
 import com.svastha.entity.FarmProjects;
 

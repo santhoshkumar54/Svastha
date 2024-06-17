@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.svastha.dto.ProjectSeedTreatmentDTO;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectBioFertilizers;
 import com.svastha.entity.ProjectDSRMethod;
@@ -44,6 +43,7 @@ import com.svastha.repository.ProjectsTransplantManagementRepository;
 import com.svastha.repository.ProjectsWaterRepository;
 import com.svastha.repository.ProjectsWeedManagementRepository;
 import com.svastha.repository.ProjectsWeedRepository;
+import com.svastha.util.ProjectSeedTreatmentDTO;
 
 @RestController
 public class ProductionController {

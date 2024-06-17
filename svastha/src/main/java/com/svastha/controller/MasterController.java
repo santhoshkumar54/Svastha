@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ import com.svastha.entity.MasterChemicalPestMapping;
 import com.svastha.entity.MasterChemicals;
 import com.svastha.entity.MasterCrop;
 import com.svastha.entity.MasterCropStage;
+import com.svastha.entity.MasterCropVariety;
 import com.svastha.entity.MasterFertilizers;
 import com.svastha.entity.MasterGrainMarket;
 import com.svastha.entity.MasterGrowthPromoter;
@@ -48,6 +50,7 @@ import com.svastha.repository.MasterChemicalBrandMappingRepository;
 import com.svastha.repository.MasterChemicalRepository;
 import com.svastha.repository.MasterCropRepository;
 import com.svastha.repository.MasterCropStageRepository;
+import com.svastha.repository.MasterCropVarietyRepository;
 import com.svastha.repository.MasterDiseasesAndPestsRepository;
 import com.svastha.repository.MasterFertilizerRepository;
 import com.svastha.repository.MasterGrainMarketRepository;
@@ -152,6 +155,9 @@ public class MasterController {
 
 	@Autowired
 	private MasterIcsRepository icsDao;
+
+	@Autowired
+	private MasterCropVarietyRepository varietyDao;
 
 	@GetMapping(path = "/liveStocks")
 	public @ResponseBody Iterable<LiveStock> getLiveStocks() {
@@ -632,6 +638,35 @@ public class MasterController {
 
 		icsDao.delete(ics);
 		return icsDao.findAll();
+	}
+
+	@GetMapping("/getVariety")
+	public List<MasterCropVariety> getVariety() {
+		return varietyDao.findAll();
+	}
+	
+	@GetMapping("/getVarietyBySeason")
+	public List<MasterCropVariety> getVarietyBySeason(@RequestParam MasterSeason season)
+	{
+		return varietyDao.findAllBySeason(season);
+	}
+	@GetMapping("/getVarietyByName")
+	public List<MasterCropVariety> getVarietyByName(@RequestParam String variety)
+	{
+		return varietyDao.findAllByvariety(variety);
+	}
+
+	@PostMapping("/saveVariety")
+	public @ResponseBody Iterable<MasterCropVariety> saveVariety(@RequestBody MasterCropVariety variety) {
+
+		varietyDao.save(variety);
+		return varietyDao.findAll();
+	}
+
+	@PostMapping("/deleteVariety")
+	public @ResponseBody Iterable<MasterCropVariety> deleteVariety(@RequestBody MasterCropVariety variety) {
+		varietyDao.delete(variety);
+		return varietyDao.findAll();
 	}
 
 }

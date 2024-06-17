@@ -2,7 +2,6 @@ package com.svastha.controller;
 
 import java.util.Optional;
 
-import com.svastha.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,6 +18,7 @@ import com.svastha.entity.Roles;
 import com.svastha.entity.Users;
 import com.svastha.repository.RoleRepository;
 import com.svastha.repository.UserRepository;
+import com.svastha.util.UserDTO;
 
 @RestController
 public class AdminController {

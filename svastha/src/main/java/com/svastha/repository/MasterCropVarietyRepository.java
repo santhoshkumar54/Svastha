@@ -12,4 +12,5 @@ import com.svastha.entity.MasterSeason;
 public interface MasterCropVarietyRepository extends JpaRepository<MasterCropVariety, Long>{
 
 	List<MasterCropVariety> findAllBySeason(MasterSeason season);
+	List<MasterCropVariety> findAllByvariety(String variety);
 }

@@ -28,9 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.svastha.dto.Daily;
-import com.svastha.dto.GeoMapDTO;
-import com.svastha.dto.WeatherDTO;
 import com.svastha.entity.District;
 import com.svastha.entity.Manual;
 import com.svastha.entity.Thaluk;
@@ -40,6 +37,9 @@ import com.svastha.repository.MasterManualRepository;
 import com.svastha.repository.ThalukRepository;
 import com.svastha.repository.ViewNotificationRepository;
 import com.svastha.repository.WeatherRepository;
+import com.svastha.util.Daily;
+import com.svastha.util.GeoMapDTO;
+import com.svastha.util.WeatherDTO;
 
 @RestController
 public class HomeController {

@@ -1,4 +1,4 @@
-package com.svastha.dto;
+package com.svastha.util;
 
 public class UserDTO {
     private String first_name;
