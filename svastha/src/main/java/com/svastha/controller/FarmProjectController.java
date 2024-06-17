@@ -28,6 +28,7 @@ import com.svastha.entity.FarmProjects;
 import com.svastha.entity.Farms;
 import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterCropVariety;
+import com.svastha.entity.MasterSeason;
 import com.svastha.entity.NurseryManagement;
 import com.svastha.entity.ProjectImages;
 import com.svastha.entity.ProjectPlots;
@@ -45,6 +46,7 @@ import com.svastha.repository.ProjectImagesRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
 import com.svastha.repository.UserRepository;
+import com.svastha.repository.MasterSeasonRepository;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.GpsService;
@@ -93,6 +95,9 @@ public class FarmProjectController {
 
 	@Autowired
 	private MasterProjectTypeRepository projectTypeDao;
+
+	@Autowired
+	private MasterSeasonRepository masterSeasonDao;
 
 	@Autowired
 	private ExcelWriter excel;
@@ -321,6 +326,12 @@ public class FarmProjectController {
 		FarmProjects p = projectDao.findById(projectId).get();
 
 		return varietyDao.findAllBySeason(p.getSeason());
+	}
+
+	@GetMapping(path = "/getCropVarietyBySeason")
+	public @ResponseBody Iterable<MasterCropVariety> getCropVarietyBySeason(@RequestParam Long seasonId) {
+		MasterSeason s = masterSeasonDao.findById(seasonId).get();
+		return varietyDao.findAllBySeason(s);
 	}
 
 	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
