@@ -118,7 +118,7 @@ public class OrganicProjectController {
 			Pageable pageable) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
 		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
-				"APPROVED", pageable);
+				varietyId, ics, "APPROVED", pageable);
 		return projects;
 	}
 
@@ -130,7 +130,7 @@ public class OrganicProjectController {
 			@RequestParam String email) {
 		try {
 			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1);
+			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();

@@ -26,6 +26,8 @@ public class ProjectIrrigation {
 	private WaterSource irrigationSource;
 
 	private String techniques;
+	
+	private String remarks;
 
 	@ManyToOne
 	private Users createdBy;
@@ -137,6 +139,12 @@ public class ProjectIrrigation {
 	public void setUpdatedDt(Timestamp updatedDt) {
 		this.updatedDt = updatedDt;
 	}
-	
-	
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 }

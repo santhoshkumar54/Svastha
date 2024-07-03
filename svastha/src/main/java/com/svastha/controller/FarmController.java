@@ -140,7 +140,6 @@ public class FarmController {
 		return farmModel;
 	}
 
-	@SuppressWarnings("deprecation")
 	@PostMapping("addFarm")
 	public @ResponseBody Farms saveFarm(@RequestParam String farmObj,
 			@RequestParam(required = false) MultipartFile file) {

@@ -2,13 +2,17 @@ package com.svastha.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Where;
+
 @Entity
+@Where(clause = "deleted = false")
 public class Farms {
 
 	@Id
@@ -32,7 +36,7 @@ public class Farms {
 	private String mobileType;
 
 	private String landline;
-	
+
 	private String aadhaar;
 
 	private String farmerType;
@@ -70,6 +74,14 @@ public class Farms {
 	private String farmerImage;
 
 	private String completion;
+
+    @Column(name = "deleted")
+	private boolean deleted = false;
+	
+	@ManyToOne
+	private Users deletedBy;
+	
+	private Timestamp deletedDt;
 
 	@ManyToOne
 	private Users createdBy;
@@ -335,5 +347,29 @@ public class Farms {
 
 	public void setFarmerType(String farmerType) {
 		this.farmerType = farmerType;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public Users getDeletedBy() {
+		return deletedBy;
+	}
+
+	public void setDeletedBy(Users deletedBy) {
+		this.deletedBy = deletedBy;
+	}
+
+	public Timestamp getDeletedDt() {
+		return deletedDt;
+	}
+
+	public void setDeletedDt(Timestamp deletedDt) {
+		this.deletedDt = deletedDt;
 	}
 }

@@ -24,7 +24,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 	@Value("${upload.directory}")
 	private String uploadDirectory;
 
-	private final Path root = Paths.get(uploadDirectory + "images");
+	private final Path root = Paths.get("/home/svasthatest/images");
 
 	@Override
 	public void init() {

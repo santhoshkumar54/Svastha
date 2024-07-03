@@ -20,9 +20,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SvasthaApplication extends SpringBootServletInitializer implements WebMvcConfigurer {
 
 	@Value("${upload.directory}")
-	private static String uploadDirectory;
+	private String uploadDirectory;
 
-	public static String IMAGEPATH = "file:" + uploadDirectory + "images/";
+	public static String IMAGEPATH = "file:/home/svasthatest/images/";
 
 	public static void main(String[] args) {
 		SpringApplication.run(SvasthaApplication.class, args);
@@ -33,6 +33,7 @@ public class SvasthaApplication extends SpringBootServletInitializer implements 
 		return args -> {
 
 			System.out.println("Let's inspect the beans provided by Spring Boot:");
+			System.out.println(uploadDirectory);
 
 			String[] beanNames = ctx.getBeanDefinitionNames();
 			Arrays.sort(beanNames);

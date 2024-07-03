@@ -13,7 +13,7 @@ public class MasterCropVariety {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int pk1;
+	private Long pk1;
 
 	private String variety;
 
@@ -30,11 +30,11 @@ public class MasterCropVariety {
 
 	private Timestamp updatedDt;
 
-	public int getPk1() {
+	public Long getPk1() {
 		return pk1;
 	}
 
-	public void setPk1(int pk1) {
+	public void setPk1(Long pk1) {
 		this.pk1 = pk1;
 	}
 

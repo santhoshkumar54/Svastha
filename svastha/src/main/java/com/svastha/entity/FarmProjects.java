@@ -11,7 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Where;
+
 @Entity
+@Where(clause = "deleted = false")
 public class FarmProjects {
 
 	@Id
@@ -68,6 +71,21 @@ public class FarmProjects {
 
 	@ManyToOne
 	private MasterProjectType projectType;
+
+	private boolean deleted = false;
+
+	@ManyToOne
+	private Users deletedBy;
+
+	private Timestamp deletedDt;
+
+	@ManyToOne
+	private Users assignedTo;
+
+	@ManyToOne
+	private Users AssignedBy;
+
+	private Timestamp assignedDt;
 
 	public Long getPk1() {
 		return pk1;
@@ -195,6 +213,54 @@ public class FarmProjects {
 
 	public void setVariety(MasterCropVariety variety) {
 		this.variety = variety;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public Users getDeletedBy() {
+		return deletedBy;
+	}
+
+	public void setDeletedBy(Users deletedBy) {
+		this.deletedBy = deletedBy;
+	}
+
+	public Timestamp getDeletedDt() {
+		return deletedDt;
+	}
+
+	public void setDeletedDt(Timestamp deletedDt) {
+		this.deletedDt = deletedDt;
+	}
+
+	public Users getAssignedTo() {
+		return assignedTo;
+	}
+
+	public void setAssignedTo(Users assignedTo) {
+		this.assignedTo = assignedTo;
+	}
+
+	public Users getAssignedBy() {
+		return AssignedBy;
+	}
+
+	public void setAssignedBy(Users assignedBy) {
+		AssignedBy = assignedBy;
+	}
+
+	public Timestamp getAssignedDt() {
+		return assignedDt;
+	}
+
+	public void setAssignedDt(Timestamp assignedDt) {
+		this.assignedDt = assignedDt;
 	}
 
 }

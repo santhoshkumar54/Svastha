@@ -112,7 +112,7 @@ public class FarmProjectController {
 			Pageable pageable) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
 		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
-				"APPROVED", pageable);
+				varietyId, ics, "APPROVED", pageable);
 		return projects;
 	}
 
@@ -122,8 +122,8 @@ public class FarmProjectController {
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
 			Pageable pageable) {
-		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, null, "WAITING",
-				pageable);
+		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, null, varietyId,
+				ics, "WAITING", pageable);
 		return projects;
 	}
 
@@ -137,7 +137,7 @@ public class FarmProjectController {
 			System.out.println("year-" + yearId + " season-" + seasonId + " crop-" + cropId + " key-" + key + " user-"
 					+ userId + " email-" + email);
 			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1);
+			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();
@@ -301,6 +301,7 @@ public class FarmProjectController {
 		try {
 			FarmProjects f = projectsDTO.getProjects();
 			f.setStatus("WAITING");
+			f.setAssignedTo(f.getCreatedBy());
 			f = projectDao.save(f);
 			Iterable<PlotsDTO> plots = projectsDTO.getPlots();
 			List<ProjectPlots> plotsentity = new ArrayList<>();
@@ -359,10 +360,10 @@ public class FarmProjectController {
 		}
 		return "Success";
 	}
-	
+
 	@PostMapping("/uploadProjectImagesV2")
 	public @ResponseBody String uploadPhoto(@RequestParam MultipartFile[] file, @RequestParam String projectId,
-		@RequestParam String objectType,@RequestParam Long id,@RequestParam String userId) {
+			@RequestParam String objectType, @RequestParam Long id, @RequestParam String userId) {
 		Long fid = Long.parseLong(projectId);
 		Long uid = Long.parseLong(userId);
 		FarmProjects f = projectDao.findById(fid).get();
