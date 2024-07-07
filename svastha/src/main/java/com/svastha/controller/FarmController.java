@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -121,7 +122,7 @@ public class FarmController {
 	@GetMapping("/listFarms")
 	public @ResponseBody List<Farms> getFarmByUserId(@RequestParam Long userId) {
 		Users u = userDao.findByPk1(userId);
-		List<Farms> l = farmDao.findByCreatedBy(u);
+		List<Farms> l = farmDao.findByCreatedBy(u,Sort.by(Sort.Direction.DESC, "pk1"));
 		return l;
 	}
 
@@ -318,7 +319,7 @@ public class FarmController {
 		return ResponseEntity.ok().contentLength(resource.contentLength()).contentType(mediaType).body(resource);
 	}
 
-	@Scheduled(cron = "0 10 1 * * *")
+	@Scheduled(cron = "0 30 2 * * *")
 	public void updateCompletion() {
 		farmDao.updateFarmCompletionPercentage();
 	}

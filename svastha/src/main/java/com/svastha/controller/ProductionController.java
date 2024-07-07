@@ -16,6 +16,7 @@ import com.svastha.entity.ProjectBioFertilizers;
 import com.svastha.entity.ProjectDSRMethod;
 import com.svastha.entity.ProjectIrrigation;
 import com.svastha.entity.ProjectLandPreparation;
+import com.svastha.entity.ProjectMicroNutrient;
 import com.svastha.entity.ProjectNurseryNutrient;
 import com.svastha.entity.ProjectNurseryPests;
 import com.svastha.entity.ProjectNurseryWater;
@@ -33,6 +34,7 @@ import com.svastha.repository.ProjectsDsrRepository;
 import com.svastha.repository.ProjectsIrrigationRepository;
 import com.svastha.repository.ProjectsLandPreparationRepository;
 import com.svastha.repository.ProjectsManureRepository;
+import com.svastha.repository.ProjectsMicroNutrientRepository;
 import com.svastha.repository.ProjectsNutrientRepository;
 import com.svastha.repository.ProjectsPestsRepository;
 import com.svastha.repository.ProjectsSeedTreatmentChemicalRepository;
@@ -95,6 +97,9 @@ public class ProductionController {
 
 	@Autowired
 	private ProjectsSyntheticFertilizerRepository syntheticDao;
+
+	@Autowired
+	private ProjectsMicroNutrientRepository microDao;
 
 	@GetMapping("/getSeedTreatment")
 	public ProjectSeedTreatmentDTO getSeedTReatment(@RequestParam Long projectId) {
@@ -283,6 +288,18 @@ public class ProductionController {
 		return syntheticDao.saveAll(synthetic);
 	}
 
+	@GetMapping("/getMicroNutrients")
+	public List<ProjectMicroNutrient> getMicroNutrients(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		return microDao.findAllByProjects(project);
+	}
+
+	@PostMapping("/saveMicroNutrients")
+	public List<ProjectMicroNutrient> saveMicroNutrients(@RequestBody List<ProjectMicroNutrient> micro) {
+
+		return microDao.saveAll(micro);
+	}
+
 	@GetMapping("/getWeedManagement")
 	public List<ProjectWeedManagement> getWeedManagement(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -295,6 +312,5 @@ public class ProductionController {
 
 		return weedMgtDao.saveAll(weed);
 	}
-	
-	
+
 }

@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -24,11 +26,20 @@ public class FilesStorageServiceImpl implements FilesStorageService {
 	@Value("${upload.directory}")
 	private String uploadDirectory;
 
-	private final Path root = Paths.get("/home/svasthatest/images");
+	private String imagePath;
+
+	
+	private Path root;
 
 	@Override
+	@PostConstruct
 	public void init() {
 		try {
+	        System.out.println("Upload Directory: " + uploadDirectory);
+	        imagePath =uploadDirectory+"images";
+	        root = Paths.get(imagePath);
+	        System.out.println("IMAGE SAVING Directory: " + imagePath);
+
 			Files.createDirectories(root);
 		} catch (IOException e) {
 			throw new RuntimeException("Could not initialize folder for upload! " + root);

@@ -26,6 +26,7 @@ import com.svastha.entity.MasterFertilizers;
 import com.svastha.entity.MasterGrainMarket;
 import com.svastha.entity.MasterGrowthPromoter;
 import com.svastha.entity.MasterIcs;
+import com.svastha.entity.MasterMicroNutrient;
 import com.svastha.entity.MasterOrganicManure;
 import com.svastha.entity.MasterPests;
 import com.svastha.entity.MasterProjectType;
@@ -57,6 +58,7 @@ import com.svastha.repository.MasterGrainMarketRepository;
 import com.svastha.repository.MasterGrowthPromoterRepository;
 import com.svastha.repository.MasterIcsRepository;
 import com.svastha.repository.MasterManureRepository;
+import com.svastha.repository.MasterMicroNutrientRepository;
 import com.svastha.repository.MasterPestChemicalMappingRepository;
 import com.svastha.repository.MasterProjectTypeRepository;
 import com.svastha.repository.MasterRiskManagementRepository;
@@ -143,6 +145,9 @@ public class MasterController {
 
 	@Autowired
 	private MasterGrowthPromoterRepository growthDao;
+	
+	@Autowired
+	private MasterMicroNutrientRepository microDao;
 
 	@Autowired
 	private VillageRepository villageDao;
@@ -564,6 +569,28 @@ public class MasterController {
 
 		growthDao.delete(growthPromoter);
 		return growthDao.findAll();
+	}
+
+	@GetMapping(path = "/getMasterMicroNutrient")
+	public @ResponseBody Iterable<MasterMicroNutrient> getMasterMicroNutrient() {
+
+		return microDao.findAll();
+	}
+
+	@PostMapping("/saveMicroNutrient")
+	public @ResponseBody Iterable<MasterMicroNutrient> saveMicroNutrient(
+			@RequestBody MasterMicroNutrient micro) {
+
+		microDao.save(micro);
+		return microDao.findAll();
+	}
+
+	@PostMapping("/deleteMicroNutrient")
+	public @ResponseBody Iterable<MasterMicroNutrient> deleteMicroNutrient(
+			@RequestBody MasterMicroNutrient micro) {
+
+		microDao.delete(micro);
+		return microDao.findAll();
 	}
 
 	@GetMapping("/getVillages")

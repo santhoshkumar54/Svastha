@@ -2,6 +2,10 @@ package com.svastha;
 
 import java.util.Arrays;
 
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +26,21 @@ public class SvasthaApplication extends SpringBootServletInitializer implements 
 	@Value("${upload.directory}")
 	private String uploadDirectory;
 
-	public static String IMAGEPATH = "file:/home/svasthatest/images/";
+	private String imagePath;
+
+//    private static final Logger logger = LoggerFactory.getLogger(SvasthaApplication.class);
+//
+//    public SvasthaApplication(@Value("${LOG_PATH}") String logPath) {
+//    	System.out.println("logggg"+logPath);
+//        logger.debug("Log Path from properties: {}", logPath);
+//    }
+//    
+	@PostConstruct
+    public void init() {
+        System.out.println("Upload Directory: " + uploadDirectory);
+        imagePath ="file:"+uploadDirectory+"images/";
+        System.out.println("IMAGE MAPPING Directory: " + imagePath);
+    }
 
 	public static void main(String[] args) {
 		SpringApplication.run(SvasthaApplication.class, args);
@@ -45,7 +63,9 @@ public class SvasthaApplication extends SpringBootServletInitializer implements 
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/farmer/images/**").addResourceLocations(IMAGEPATH);
+        System.out.println("IMAGE MAPPING registering Directory: " + imagePath);
+
+		registry.addResourceHandler("/farmer/images/**").addResourceLocations(imagePath);
 	}
 
 }

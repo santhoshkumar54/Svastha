@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -58,23 +60,41 @@ public class HomeController {
 
 	@Autowired
 	private ViewNotificationRepository notificationDao;
-	
+
 	@Value("${upload.directory}")
 	private String uploadDirectory;
 
+	@Value("${environment}")
+	private String environment;
 
-	@Scheduled(cron = "0 30 1 * * *")
+	private String apkFilePath;
+
+	private boolean shallFetchWeather;
+
+	@PostConstruct
+	public void init() {
+		System.out.println("Upload Directory: " + uploadDirectory);
+		apkFilePath = uploadDirectory + "APK/svastha.apk";
+		System.out.println("APK Directory: " + apkFilePath);
+		shallFetchWeather = (environment.equals("test")) ? false : true;
+		System.out.println("shallFetchWeather " + shallFetchWeather);
+	}
+
+	@Scheduled(cron = "0 30 6 * * *")
 	public void fetchWeatherFirstIteration() {
-		System.out.println("Weather Scheduler called");
-		fetchWeather(1,3);
-	}
-	
-	@Scheduled(cron = "0 40 2 * * *")
-	public void fetchWeatherSecondIteration() {
-		System.out.println("Weather Scheduler called");
-		fetchWeather(4,7);
+		if (shallFetchWeather) {
+			System.out.println("Weather Scheduler called");
+			fetchWeather(1, 3);
+		}
 	}
 
+	@Scheduled(cron = "0 45 7 * * *")
+	public void fetchWeatherSecondIteration() {
+		if (shallFetchWeather) {
+			System.out.println("Weather Scheduler called");
+			fetchWeather(4, 7);
+		}
+	}
 
 	@GetMapping("/hello")
 	public String index() throws IllegalArgumentException, IllegalAccessException {
@@ -102,7 +122,7 @@ public class HomeController {
 
 	@GetMapping("/downloadapk")
 	public ResponseEntity downloadapk() throws IOException {
-		File apk = new File("/home/svastha/APK/svastha.apk");
+		File apk = new File(apkFilePath);
 		Path path = Paths.get(apk.getAbsolutePath());
 		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 
@@ -125,10 +145,10 @@ public class HomeController {
 	}
 
 	@GetMapping("/fetchWeather")
-	public void fetchWeather(int minValue,int maxValue) {
+	public void fetchWeather(int minValue, int maxValue) {
 		System.out.println("Fetching weather" + new java.util.Date());
 
-		Map<String, String> locations = getThaluks(minValue,maxValue);
+		Map<String, String> locations = getThaluks(minValue, maxValue);
 		System.out.println("Fetching weather" + locations.size());
 		String timesteps = "1d";
 		String apikey = "04sfV0yFAOZ5EQyTQ7jrexo9dTXt7SIx";
@@ -166,11 +186,11 @@ public class HomeController {
 		}
 	}
 
-	public Map<String, String> getThaluks(int minValue,int maxValue) {
+	public Map<String, String> getThaluks(int minValue, int maxValue) {
 		Map<String, String> locations = new HashMap<>();
 
 		String apiKey = "65e4896cbe6a7019036672grs89364e";
-		List<Thaluk> thaluks = thalukDao.findByDistrictBetween(minValue,maxValue);
+		List<Thaluk> thaluks = thalukDao.findByDistrictPk1Between(minValue, maxValue);
 		for (Thaluk thaluk : thaluks) {
 			try {
 				Thread.sleep(2000);

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -56,6 +57,7 @@ import com.svastha.entity.ProjectStorage;
 import com.svastha.entity.ProjectSyntheticFertilizers;
 import com.svastha.entity.ProjectTransplantManagement;
 import com.svastha.entity.ProjectWeedManagement;
+import com.svastha.logs.LogServiceFactory;
 import com.svastha.repository.FarmGrainMarketRepository;
 import com.svastha.repository.FarmLiveStockRepository;
 import com.svastha.repository.FarmPlotsRepository;
@@ -191,13 +193,21 @@ public class ExcelWriter {
 	@Autowired
 	private JavaMailSender mailSender;
 
+	
+    // For windows
+	// static String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\";
+	
 	@Value("${upload.directory}")
 	private String uploadDirectory;
 
-	// static String excelFilePath = "C:\\Users\\smsan\\work\\svastha
-	// project\\Svastha\\svastha\\";
+	private String excelFilePath;
 
-	String excelFilePath = uploadDirectory + "/home/svasthatest/Excels/";
+	@PostConstruct
+    public void init() {
+        System.out.println("Upload Directory: " + uploadDirectory);
+        excelFilePath =uploadDirectory+"Excel/";
+        System.out.println("EXCEL Directory: " + excelFilePath);
+    }
 
 	@Async
 	public void startFarmExport(Long districtId, Long thalukId, Long villageId, String key, Long userId, String type,
@@ -213,8 +223,9 @@ public class ExcelWriter {
 		List<FarmGrainMarket> grainMarket = grainMarketDao.findByFarmIn(farms);
 
 		String excelName = "farmers_" + System.currentTimeMillis() + ".xlsx";
-		excelFilePath = excelFilePath + excelName;
+		String excelPath = excelFilePath + excelName;
 		System.out.println("excel writer called");
+		File file = new File(excelPath);
 
 		try (Workbook workbook = new XSSFWorkbook()) {
 			Thread.sleep(5000); // Sleep for 5 seconds
@@ -227,16 +238,15 @@ public class ExcelWriter {
 			generateToolsSheet(workbook, tools);
 			generateWorkerSheet(workbook, worker);
 			generateMarketSheet(workbook, grainMarket);
-			try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
+			try (FileOutputStream outputStream = new FileOutputStream(file)) {
 				workbook.write(outputStream);
 				sendEmail(email, "Exported Farmer Data", "Please find the attched farmer data.",
-						FileUtils.readFileToByteArray(new File(excelFilePath)), excelName);
+						FileUtils.readFileToByteArray(file), excelName);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LogServiceFactory.getService().logError("Error in excel file creation 1 "+excelPath, e);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			LogServiceFactory.getService().logError("Error in excel file creation 2 "+excelPath, e);
 			e.printStackTrace();
 		}
 	}
@@ -555,8 +565,9 @@ public class ExcelWriter {
 		List<ProjectPostPurchase> postPurchase = postDao.findByProjectsIn(projects);
 
 		String excelName = "projects_" + System.currentTimeMillis() + ".xlsx";
-		excelFilePath = excelFilePath + excelName;
+		String excelPath = excelFilePath + excelName;
 		System.out.println("excel writer called");
+		File file = new File(excelPath);
 		try (Workbook workbook = new XSSFWorkbook()) {
 			Thread.sleep(5000); // Sleep for 5 seconds
 
@@ -583,10 +594,10 @@ public class ExcelWriter {
 			generateDispatch(workbook, dispatch);
 			generateStorage(workbook, storage);
 			generatePostPurchase(workbook, postPurchase);
-			try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
+			try (FileOutputStream outputStream = new FileOutputStream(file)) {
 				workbook.write(outputStream);
 				sendEmail(email, "Exported Farmer Data", "Please find the attched farmer data.",
-						FileUtils.readFileToByteArray(new File(excelFilePath)), excelName);
+						FileUtils.readFileToByteArray(file), excelName);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

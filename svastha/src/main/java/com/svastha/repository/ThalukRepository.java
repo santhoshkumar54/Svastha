@@ -10,5 +10,5 @@ import com.svastha.entity.Thaluk;
 @Repository
 public interface ThalukRepository extends JpaRepository<Thaluk, Long> {
 
-	List<Thaluk> findByDistrictBetween(int minValue,int MaxValue);
+	List<Thaluk> findByDistrictPk1Between(long minValue,long MaxValue);
 }

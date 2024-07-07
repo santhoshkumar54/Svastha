@@ -407,7 +407,7 @@ public class FarmProjectController {
 		return "Success";
 	}
 
-	@Scheduled(cron = "0 30 1 * * *")
+	@Scheduled(cron = "0 15 2 * * *")
 	public void updateCompletion() {
 		projectDao.updateFarmProjectCompletionPercentage();
 	}

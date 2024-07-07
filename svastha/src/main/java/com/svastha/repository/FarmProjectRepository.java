@@ -22,7 +22,8 @@ public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long>
 			+ "and (:key is NULL or p.farm.farmerName like %:key% or p.farm.regNumber = :key) "
 			+ "and (:user is NULL or p.assignedTo.pk1 = :user) "
 			+ "and (:varietyId is NULL or p.variety.pk1 = :varietyId) " + "and (:ics is NULL or p.ics.pk1 = :ics) "
-			+ "and (:projectType is NULL or p.projectType.pk1 = :projectType)" + "and status = :status")
+			+ "and (:projectType is NULL or p.projectType.pk1 = :projectType)" + "and status = :status"
+	        + " ORDER BY p.pk1 DESC")
 	Page<FarmProjects> findWithFilters(@Param("year") Long year, @Param("season") Long season, @Param("crop") Long crop,
 			@Param("key") String key, @Param("user") Long user, @Param("projectType") Long projectType,
 			@Param("varietyId") Long varietyId, @Param("ics") Long ics, @Param("status") String status,
@@ -33,7 +34,8 @@ public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long>
 			+ "and (:key is NULL or p.farm.farmerName like %:key% OR p.farm.regNumber = :key) "
 			+ "and (:user is NULL or p.assignedTo.pk1 = :user) "
 			+ "and (:varietyId is NULL or p.variety.pk1 = :varietyId) " + "and (:ics is NULL or p.ics.pk1 = :ics) "
-			+ "and (:projectType is NULL or p.projectType.pk1 = :projectType)" + "and status = 'APPROVED'")
+			+ "and (:projectType is NULL or p.projectType.pk1 = :projectType)" + "and status = 'APPROVED'"
+			+ " ORDER BY p.pk1 DESC")
 	List<FarmProjects> findWithFilters(@Param("year") Long year, @Param("season") Long season, @Param("crop") Long crop,
 			@Param("key") String key, @Param("user") Long user, @Param("projectType") Long projectType,
 			@Param("varietyId") Long varietyId, @Param("ics") Long ics);
