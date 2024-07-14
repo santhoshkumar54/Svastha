@@ -48,9 +48,11 @@ import com.svastha.repository.FarmWaterSourceRepository;
 import com.svastha.repository.FarmWorkersRepository;
 import com.svastha.repository.LandDetailsRepository;
 import com.svastha.repository.UserRepository;
+import com.svastha.service.ActivityServiceImpl;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.MasterService;
+import com.svastha.util.Constants;
 
 @RestController
 @MultipartConfig
@@ -91,6 +93,9 @@ public class FarmController {
 
 	@Autowired
 	private FarmImagesRepository imageDao;
+	
+	@Autowired
+	private ActivityServiceImpl activity;
 
 	@Autowired
 	private ExcelWriter excel;
@@ -242,6 +247,8 @@ public class FarmController {
 	@PostMapping("addTools")
 	public @ResponseBody String saveTools(@RequestBody Iterable<FarmTools> farmTools) {
 		try {
+			activity.addActivity(Constants.ATADDED, Constants.ASMRL, Constants.AFNURSERYWEED, farmTools.iterator().next().getFarm().getPk1(),farmTools.iterator().next().getCreatedBy().getPk1());
+
 			for (FarmTools tools : farmTools) {
 				if (tools.getTool().equals("others")) {
 					masterService.addToolsFromOthers(tools.getOthers(), tools.getCreatedBy());

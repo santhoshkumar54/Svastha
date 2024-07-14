@@ -24,6 +24,10 @@ public class ProjectImages {
 	@ManyToOne
 	private FarmProjects project;
 
+	private String formName;
+
+	private Long primaryKey;
+
 	@ManyToOne
 	private Users createdBy;
 
@@ -104,6 +108,22 @@ public class ProjectImages {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public String getFormName() {
+		return formName;
+	}
+
+	public void setFormName(String formName) {
+		this.formName = formName;
+	}
+
+	public Long getPrimaryKey() {
+		return primaryKey;
+	}
+
+	public void setPrimaryKey(Long primaryKey) {
+		this.primaryKey = primaryKey;
 	}
 
 }

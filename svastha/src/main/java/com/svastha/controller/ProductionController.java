@@ -45,6 +45,9 @@ import com.svastha.repository.ProjectsTransplantManagementRepository;
 import com.svastha.repository.ProjectsWaterRepository;
 import com.svastha.repository.ProjectsWeedManagementRepository;
 import com.svastha.repository.ProjectsWeedRepository;
+import com.svastha.service.ActivityService;
+import com.svastha.service.ActivityServiceImpl;
+import com.svastha.util.Constants;
 import com.svastha.util.ProjectSeedTreatmentDTO;
 
 @RestController
@@ -100,6 +103,9 @@ public class ProductionController {
 
 	@Autowired
 	private ProjectsMicroNutrientRepository microDao;
+	
+	@Autowired
+	private ActivityServiceImpl activity;
 
 	@GetMapping("/getSeedTreatment")
 	public ProjectSeedTreatmentDTO getSeedTReatment(@RequestParam Long projectId) {
@@ -136,7 +142,6 @@ public class ProductionController {
 
 	@PostMapping("/saveDsrMethod")
 	public ProjectDSRMethod saveDsrMethod(@RequestBody ProjectDSRMethod dsrMethod) {
-
 		return dsrDao.save(dsrMethod);
 	}
 
@@ -179,13 +184,14 @@ public class ProductionController {
 
 	@GetMapping("/getNurseryWeed")
 	public List<ProjectNurseryWeed> getNurseryWeed(@RequestParam Long projectId) {
+		
 		FarmProjects project = projectDao.findById(projectId).get();
 		return weedDao.findAllWeedByProjects(project);
 	}
 
 	@PostMapping("/saveNurseryWeed")
 	public List<ProjectNurseryWeed> saveNurseryWeed(@RequestBody List<ProjectNurseryWeed> weed) {
-
+		activity.addActivity(Constants.ATADDED, Constants.ASMRL, Constants.AFNURSERYWEED, weed.get(0).getPk1(),weed.get(0).getCreatedBy().getPk1());
 		return weedDao.saveAll(weed);
 	}
 

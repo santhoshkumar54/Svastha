@@ -41,12 +41,12 @@ import com.svastha.repository.FarmRepository;
 import com.svastha.repository.MasterCropStageRepository;
 import com.svastha.repository.MasterCropVarietyRepository;
 import com.svastha.repository.MasterProjectTypeRepository;
+import com.svastha.repository.MasterSeasonRepository;
 import com.svastha.repository.NurseryManagementRepository;
 import com.svastha.repository.ProjectImagesRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
 import com.svastha.repository.UserRepository;
-import com.svastha.repository.MasterSeasonRepository;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.GpsService;
@@ -363,7 +363,8 @@ public class FarmProjectController {
 
 	@PostMapping("/uploadProjectImagesV2")
 	public @ResponseBody String uploadPhoto(@RequestParam MultipartFile[] file, @RequestParam String projectId,
-			@RequestParam String objectType, @RequestParam Long id, @RequestParam String userId) {
+			@RequestParam(required = false) Long primaryKey, @RequestParam(required = false) String formName,
+			@RequestParam String userId) {
 		Long fid = Long.parseLong(projectId);
 		Long uid = Long.parseLong(userId);
 		FarmProjects f = projectDao.findById(fid).get();
@@ -379,6 +380,10 @@ public class FarmProjectController {
 			String filePath = storageService.save(multipartFile, p);
 			i.setFileName(filePath);
 			i.setPath(p.toString());
+			if (formName != null && primaryKey != null) {
+				i.setPrimaryKey(primaryKey);
+				i.setFormName(formName);
+			}
 			i.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
 			imageDao.save(i);
 		}
@@ -386,9 +391,15 @@ public class FarmProjectController {
 	}
 
 	@GetMapping("/getProjectImages")
-	public @ResponseBody List<String> getPhotos(@RequestParam Long projectId) {
+	public @ResponseBody List<String> getPhotos(@RequestParam Long projectId,
+			@RequestParam(required = false) Long primaryKey, @RequestParam(required = false) String formName) {
 		FarmProjects f = projectDao.findById(projectId).get();
-		List<ProjectImages> images = imageDao.findAllImagesByProject(f);
+		List<ProjectImages> images = new ArrayList<ProjectImages>();
+		if (formName != null && primaryKey != null) {
+			images = imageDao.findAllImagesByProject(f);
+		} else {
+			imageDao.findAllImagesByProject(f);
+		}
 		List<String> photos = new ArrayList<>();
 		for (ProjectImages image : images) {
 			photos.add(image.getImageUrl());
