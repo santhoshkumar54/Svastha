@@ -34,6 +34,7 @@ import com.svastha.entity.ProjectImages;
 import com.svastha.entity.ProjectPlots;
 import com.svastha.entity.ProjectSowingData;
 import com.svastha.entity.Users;
+import com.svastha.model.ImageModel;
 import com.svastha.model.ProjectModel;
 import com.svastha.repository.FarmPlotsRepository;
 import com.svastha.repository.FarmProjectRepository;
@@ -302,7 +303,10 @@ public class FarmProjectController {
 			FarmProjects f = projectsDTO.getProjects();
 			f.setStatus("WAITING");
 			f.setAssignedTo(f.getCreatedBy());
+
 			f = projectDao.save(f);
+			
+			List<ProjectSowingData> sowings = new ArrayList<>();
 			Iterable<PlotsDTO> plots = projectsDTO.getPlots();
 			List<ProjectPlots> plotsentity = new ArrayList<>();
 			for (PlotsDTO plot : plots) {
@@ -313,8 +317,19 @@ public class FarmProjectController {
 				p.setPlots(fp);
 				p.setProject(f);
 				plotsentity.add(p);
+				if(f.getSowingDate()!=null)
+				{
+					ProjectSowingData sowing = new ProjectSowingData();
+					sowing.setCreatedBy(f.getCreatedBy());
+					sowing.setPlots(fp);
+					sowing.setProjects(f);
+					sowing.setSowingDate(f.getSowingDate());
+					sowing.setVariety(f.getVariety());
+					sowings.add(sowing);
+				}
 			}
 			projectPlotsDao.saveAll(plotsentity);
+			sowingDao.saveAll(sowings);
 			return f;
 
 		} catch (Exception e) {
@@ -363,14 +378,13 @@ public class FarmProjectController {
 
 	@PostMapping("/uploadProjectImagesV2")
 	public @ResponseBody String uploadPhoto(@RequestParam MultipartFile[] file, @RequestParam String projectId,
-			@RequestParam(required = false) Long primaryKey, @RequestParam(required = false) String formName,
-			@RequestParam String userId) {
+			@RequestParam String userId,@RequestParam(required = false) String formName, @RequestParam(required = false) Long primaryKey) {
 		Long fid = Long.parseLong(projectId);
 		Long uid = Long.parseLong(userId);
 		FarmProjects f = projectDao.findById(fid).get();
 		Users u = userDao.findById(uid).get();
 
-		String folderPath = SEPARATOR + "projectImage" + SEPARATOR + projectId;
+		String folderPath = SEPARATOR + "projectImage" + SEPARATOR + fid;
 		Path p = storageService.createFolder(folderPath);
 
 		for (MultipartFile multipartFile : file) {
@@ -396,9 +410,9 @@ public class FarmProjectController {
 		FarmProjects f = projectDao.findById(projectId).get();
 		List<ProjectImages> images = new ArrayList<ProjectImages>();
 		if (formName != null && primaryKey != null) {
-			images = imageDao.findAllImagesByProject(f);
+			images = imageDao.findAllImagesByProjectAndFormNameAndPrimaryKey(f,formName,primaryKey);
 		} else {
-			imageDao.findAllImagesByProject(f);
+			images = imageDao.findAllImagesByProject(f);
 		}
 		List<String> photos = new ArrayList<>();
 		for (ProjectImages image : images) {

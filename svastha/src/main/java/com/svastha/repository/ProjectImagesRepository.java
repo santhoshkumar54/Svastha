@@ -10,5 +10,7 @@ import com.svastha.entity.ProjectImages;
 public interface ProjectImagesRepository extends JpaRepository<ProjectImages, Long> {
 
 	List<ProjectImages> findAllImagesByProject(FarmProjects project);
+	
+	List<ProjectImages> findAllImagesByProjectAndFormNameAndPrimaryKey(FarmProjects project, String formName, Long primaryKey);
 
 }

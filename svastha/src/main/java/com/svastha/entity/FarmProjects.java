@@ -38,6 +38,8 @@ public class FarmProjects {
 
 	@ManyToOne
 	private MasterCropVariety variety;
+	
+	private String sowingDate;
 
 	// Mapping to the other table
 	@OneToMany(cascade = CascadeType.ALL)
@@ -261,6 +263,14 @@ public class FarmProjects {
 
 	public void setAssignedDt(Timestamp assignedDt) {
 		this.assignedDt = assignedDt;
+	}
+
+	public String getSowingDate() {
+		return sowingDate;
+	}
+
+	public void setSowingDate(String sowingDate) {
+		this.sowingDate = sowingDate;
 	}
 
 }

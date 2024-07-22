@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectDispatch;
+import com.svastha.entity.ProjectHarvest;
 import com.svastha.entity.ProjectPacking;
 import com.svastha.entity.ProjectPostPurchase;
 import com.svastha.entity.ProjectPrePurchase;
@@ -18,6 +19,7 @@ import com.svastha.entity.ProjectProcurement;
 import com.svastha.entity.ProjectStorage;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsDispatchRepository;
+import com.svastha.repository.ProjectsHarvestRepository;
 import com.svastha.repository.ProjectsPackingRepository;
 import com.svastha.repository.ProjectsPostPurchaseRepository;
 import com.svastha.repository.ProjectsPrePurchaseRepository;
@@ -47,6 +49,9 @@ public class HarvestController {
 
 	@Autowired
 	private ProjectsPostPurchaseRepository postDao;
+
+	@Autowired
+	private ProjectsHarvestRepository harvestDao;
 
 	@GetMapping("/getPacking")
 	public List<ProjectPacking> getPacking(@RequestParam Long projectId) {
@@ -124,6 +129,19 @@ public class HarvestController {
 	public List<ProjectPostPurchase> savePostPurchase(@RequestBody List<ProjectPostPurchase> postPurchase) {
 
 		return postDao.saveAll(postPurchase);
+	}
+
+	@GetMapping("/getHarvestData")
+	public ProjectHarvest getHarvestData(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+
+		return harvestDao.findByProjects(project);
+	}
+
+	@PostMapping("/saveHarvestData")
+	public ProjectHarvest saveHarvestData(@RequestBody ProjectHarvest harvest) {
+
+		return harvestDao.save(harvest);
 	}
 
 }

@@ -13,6 +13,7 @@ import com.svastha.entity.FarmProjects;
 import com.svastha.entity.Farms;
 import com.svastha.entity.Users;
 import com.svastha.model.DeleteModel;
+import com.svastha.model.DeleteProjectModel;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.FarmRepository;
 import com.svastha.repository.UserRepository;
@@ -34,9 +35,7 @@ public class DeleteController {
 	{
 		Farms farm = model.getFarm();
 		Users user = userDao.findByPk1(model.getUser().getPk1());
-		System.out.println("farm"+farm.getPk1());
 		farm.setDeleted(true);
-		System.out.println("farm"+farm.isDeleted());
 
 		farm.setDeletedBy(user);
 		farm.setDeletedDt(Timestamp.from(Instant.now()));
@@ -44,12 +43,22 @@ public class DeleteController {
 
 		List<FarmProjects> projects = projectDao.findAllByFarm(farm);
 		for (FarmProjects project : projects) {
-			System.out.println("project"+project.getPk1());
-
 			project.setDeleted(true);
-			//project.setDeletedBy(user);
+			project.setDeletedBy(user);
 			project.setDeletedDt(Timestamp.from(Instant.now()));
 			projectDao.save(project);
 		}
 	}
+	
+	@PostMapping("/deleteProject")
+	public void deleteFarmers(@RequestBody DeleteProjectModel model)
+	{
+		FarmProjects project = model.getProject();
+		Users user = userDao.findByPk1(model.getUser().getPk1());
+		project.setDeleted(true);
+		project.setDeletedBy(user);
+		project.setDeletedDt(Timestamp.from(Instant.now()));
+		projectDao.save(project);
+	}
 }
+	
