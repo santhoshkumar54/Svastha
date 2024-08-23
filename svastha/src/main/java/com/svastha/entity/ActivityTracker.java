@@ -22,6 +22,8 @@ public class ActivityTracker {
 	private String activityForm;
 	
 	private Long primaryKey;
+
+	private int count;
 	
 	@ManyToOne
 	private Users user;
@@ -82,6 +84,14 @@ public class ActivityTracker {
 
 	public void setActivityDate(Timestamp activityDate) {
 		this.activityDate = activityDate;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 	
 	

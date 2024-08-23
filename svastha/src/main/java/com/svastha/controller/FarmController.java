@@ -37,6 +37,7 @@ import com.svastha.entity.FarmWorkers;
 import com.svastha.entity.Farms;
 import com.svastha.entity.LandDetails;
 import com.svastha.entity.Users;
+import com.svastha.logs.LogServiceFactory;
 import com.svastha.model.FarmModel;
 import com.svastha.repository.FarmGrainMarketRepository;
 import com.svastha.repository.FarmImagesRepository;
@@ -93,7 +94,7 @@ public class FarmController {
 
 	@Autowired
 	private FarmImagesRepository imageDao;
-	
+
 	@Autowired
 	private ActivityServiceImpl activity;
 
@@ -127,7 +128,7 @@ public class FarmController {
 	@GetMapping("/listFarms")
 	public @ResponseBody List<Farms> getFarmByUserId(@RequestParam Long userId) {
 		Users u = userDao.findByPk1(userId);
-		List<Farms> l = farmDao.findByCreatedBy(u,Sort.by(Sort.Direction.DESC, "pk1"));
+		List<Farms> l = farmDao.findByCreatedBy(u, Sort.by(Sort.Direction.DESC, "pk1"));
 		return l;
 	}
 
@@ -149,11 +150,18 @@ public class FarmController {
 	@PostMapping("addFarm")
 	public @ResponseBody Farms saveFarm(@RequestParam String farmObj,
 			@RequestParam(required = false) MultipartFile file) {
+
 		try {
 			Farms farm = new Gson().fromJson(farmObj, Farms.class);
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			farm.setDateOfReg(timestamp.toString());
 			Farms f = farmDao.save(farm);
+			try {
+				activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERFARMS, f.getPk1(),
+						f.getCreatedBy().getPk1(), 1);
+			} catch (Exception ex) {
+				LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
+			}
 			f.setRegNumber(String.format("%04d", f.getPk1()));
 			if (file != null && !file.isEmpty()) {
 				FarmImages i = new FarmImages();
@@ -183,6 +191,12 @@ public class FarmController {
 	@PostMapping("addLandDetails")
 	public @ResponseBody LandDetails saveLandDetails(@RequestBody LandDetails landDetails) {
 		try {
+			activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERLAND,
+					landDetails.getFarm().getPk1(), landDetails.getCreatedBy().getPk1(), 1);
+		} catch (Exception ex) {
+			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
+		}
+		try {
 			LandDetails land = landDetailsDao.save(landDetails);
 			return land;
 		} catch (Exception e) {
@@ -208,7 +222,14 @@ public class FarmController {
 	}
 
 	@PostMapping("addWaterSource")
-	public @ResponseBody String saveWaterSource(@RequestBody Iterable<FarmWaterSource> farmWaterSources) {
+	public @ResponseBody String saveWaterSource(@RequestBody List<FarmWaterSource> farmWaterSources) {
+		try {
+			activity.addActivity((farmWaterSources.get(0).getPk1() == null) ? Constants.ATADDED : Constants.ATUPDATED,
+					Constants.ASFARM, Constants.AFFARMERWATER, farmWaterSources.get(0).getFarm().getPk1(),
+					farmWaterSources.get(0).getCreatedBy().getPk1(), 1);
+		} catch (Exception ex) {
+			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
+		}
 		try {
 			waterSourceDao.saveAll(farmWaterSources);
 			return "Success";
@@ -218,7 +239,13 @@ public class FarmController {
 	}
 
 	@PostMapping("addPlots")
-	public @ResponseBody String savePlots(@RequestBody Iterable<FarmPlots> farmPlots) {
+	public @ResponseBody String savePlots(@RequestBody List<FarmPlots> farmPlots) {
+		try {
+			activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERTOOLS,
+					farmPlots.get(0).getFarm().getPk1(), farmPlots.get(0).getCreatedBy().getPk1(), farmPlots.size());
+		} catch (Exception ex) {
+			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
+		}
 		try {
 			plotsDao.saveAll(farmPlots);
 			return "Success";
@@ -228,9 +255,17 @@ public class FarmController {
 	}
 
 	@PostMapping("addLiveStock")
-	public @ResponseBody String saveLiveStock(@RequestBody Iterable<FarmLiveStock> farmLiveStocks) {
+	public @ResponseBody String saveLiveStock(@RequestBody List<FarmLiveStock> farmLiveStocks) {
+
 		try {
 			for (FarmLiveStock farmLiveStock : farmLiveStocks) {
+				try {
+					activity.addActivity((farmLiveStock.getPk1() == null) ? Constants.ATADDED : Constants.ATUPDATED,
+							Constants.ASFARM, Constants.AFFARMERLIVE, farmLiveStock.getFarm().getPk1(),
+							farmLiveStock.getCreatedBy().getPk1(), 1);
+				} catch (Exception ex) {
+					LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
+				}
 				if (farmLiveStock.getLivestock().equals("others")) {
 					masterService.addLiveStocksFromOthers(farmLiveStock.getOthers(), farmLiveStock.getCreatedBy());
 					farmLiveStock.setLivestock(farmLiveStock.getOthers());
@@ -245,10 +280,15 @@ public class FarmController {
 	}
 
 	@PostMapping("addTools")
-	public @ResponseBody String saveTools(@RequestBody Iterable<FarmTools> farmTools) {
+	public @ResponseBody String saveTools(@RequestBody List<FarmTools> farmTools) {
 		try {
-			activity.addActivity(Constants.ATADDED, Constants.ASMRL, Constants.AFNURSERYWEED, farmTools.iterator().next().getFarm().getPk1(),farmTools.iterator().next().getCreatedBy().getPk1());
-
+			try {
+				activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERTOOLS,
+						farmTools.get(0).getFarm().getPk1(), farmTools.get(0).getCreatedBy().getPk1(),
+						farmTools.size());
+			} catch (Exception ex) {
+				LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
+			}
 			for (FarmTools tools : farmTools) {
 				if (tools.getTool().equals("others")) {
 					masterService.addToolsFromOthers(tools.getOthers(), tools.getCreatedBy());
@@ -266,6 +306,12 @@ public class FarmController {
 
 	@PostMapping("addGrainMarket")
 	public @ResponseBody String saveGrainMarket(@RequestBody FarmGrainMarket farmGrainsMarkets) {
+		try {
+			activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERWORKER,
+					farmGrainsMarkets.getFarm().getPk1(), farmGrainsMarkets.getCreatedBy().getPk1(), 1);
+		} catch (Exception ex) {
+			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
+		}
 		try {
 			grainMarketDao.save(farmGrainsMarkets);
 			return "Success";

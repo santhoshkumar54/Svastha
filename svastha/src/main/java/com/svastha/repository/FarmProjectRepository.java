@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.Farms;
 import com.svastha.entity.Users;
+import com.svastha.model.ProjectExportModel;
 
 public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long> {
 
@@ -23,7 +24,7 @@ public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long>
 			+ "and (:user is NULL or p.assignedTo.pk1 = :user) "
 			+ "and (:varietyId is NULL or p.variety.pk1 = :varietyId) " + "and (:ics is NULL or p.ics.pk1 = :ics) "
 			+ "and (:projectType is NULL or p.projectType.pk1 = :projectType)" + "and status = :status"
-	        + " ORDER BY p.pk1 DESC")
+			+ " ORDER BY p.pk1 DESC")
 	Page<FarmProjects> findWithFilters(@Param("year") Long year, @Param("season") Long season, @Param("crop") Long crop,
 			@Param("key") String key, @Param("user") Long user, @Param("projectType") Long projectType,
 			@Param("varietyId") Long varietyId, @Param("ics") Long ics, @Param("status") String status,
@@ -40,8 +41,12 @@ public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long>
 			@Param("key") String key, @Param("user") Long user, @Param("projectType") Long projectType,
 			@Param("varietyId") Long varietyId, @Param("ics") Long ics);
 
+	@Query("SELECT p FROM FarmProjects p join p.farm f " + "WHERE p.status = 'APPROVED' and f.location != '' "
+			+ " ORDER BY p.pk1 DESC")
+	List<FarmProjects> findWithLocations();
+
 	@Procedure(name = "UpdateFarmProjectCompletionPercentage")
 	void updateFarmProjectCompletionPercentage();
-	
+
 	List<FarmProjects> findAllByFarm(Farms farm);
 }

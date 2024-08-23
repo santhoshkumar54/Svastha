@@ -25,6 +25,10 @@ public class Village {
 
 	private Timestamp createdDt;
 
+	private Double latitude;
+
+	private Double longitude;
+
 	@ManyToOne
 	private Users updatedBy;
 
@@ -86,4 +90,19 @@ public class Village {
 		this.updatedDt = updatedDt;
 	}
 
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
 }

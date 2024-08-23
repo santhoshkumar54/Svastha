@@ -129,7 +129,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-logging</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>3.6.1</version>
+		</dependency>
 	</dependencies>
+
 
 	<build>
 		<finalName>${war.filename}</finalName>
@@ -179,9 +185,9 @@
 			</activation>
 			<properties>
 				<!-- Define default MySQL properties and war filename -->
-				<datasource.url>jdbc:mysql://localhost:3306/svastha</datasource.url>
+				<datasource.url>jdbc:mysql://localhost:3306/svasthatest</datasource.url>
 				<war.filename>svasthatest</war.filename>
-				<upload.directory>/home/svasthatest/</upload.directory>
+				<upload.directory>C://Users/smsan/work/images/</upload.directory>
 				<environment>test</environment>
 				<log.path>C://Users/smsan/work/logs</log.path>
 			</properties>

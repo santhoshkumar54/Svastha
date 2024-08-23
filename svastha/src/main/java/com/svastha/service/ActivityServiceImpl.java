@@ -18,7 +18,7 @@ public class ActivityServiceImpl {
 	private UserRepository userDao;
 
 	public void addActivity(String activityType, String activtySection, String activityForm, long primaryKey,
-			Long userId) {
+			Long userId, int count) {
 		Users user = userDao.findByPk1(userId);
 		ActivityTracker activity = new ActivityTracker();
 
@@ -27,6 +27,7 @@ public class ActivityServiceImpl {
 		activity.setActivityForm(activityForm);
 		activity.setPrimaryKey(primaryKey);
 		activity.setUser(user);
+		activity.setCount(count);
 		activityDao.save(activity);
 	}
 }

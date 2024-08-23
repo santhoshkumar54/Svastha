@@ -22,7 +22,7 @@ public class LogServiceImpl implements LogService {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
-    @Value("${LOG_PATH:/home/svasthatest/logs}")
+    @Value("${LOG_PATH:/home/svastha/logs}")
     private String logPath;
 
     @Value("${LOG_LEVEL:INFO}")

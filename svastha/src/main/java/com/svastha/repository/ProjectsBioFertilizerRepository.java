@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectBioFertilizers;
 
@@ -12,4 +13,6 @@ public interface ProjectsBioFertilizerRepository extends JpaRepository<ProjectBi
 	List<ProjectBioFertilizers> findAllByProjects(FarmProjects projects);
 
 	List<ProjectBioFertilizers> findByProjectsIn(List<FarmProjects> projects);
+	
+	List<ProjectBioFertilizers> findByProjectsAndPlot(FarmProjects projects, FarmPlots plots);
 }

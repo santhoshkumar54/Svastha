@@ -23,17 +23,16 @@ public class DeleteController {
 
 	@Autowired
 	private FarmRepository farmDao;
-	
+
 	@Autowired
 	private UserRepository userDao;
-	
+
 	@Autowired
 	private FarmProjectRepository projectDao;
-	
+
 	@PostMapping("/deleteFarmer")
-	public void deleteFarmers(@RequestBody DeleteModel model)
-	{
-		Farms farm = model.getFarm();
+	public void deleteFarmers(@RequestBody DeleteModel model) {
+		Farms farm = farmDao.findById(model.getFarm().getPk1()).get();
 		Users user = userDao.findByPk1(model.getUser().getPk1());
 		farm.setDeleted(true);
 
@@ -49,11 +48,10 @@ public class DeleteController {
 			projectDao.save(project);
 		}
 	}
-	
+
 	@PostMapping("/deleteProject")
-	public void deleteFarmers(@RequestBody DeleteProjectModel model)
-	{
-		FarmProjects project = model.getProject();
+	public void deleteFarmers(@RequestBody DeleteProjectModel model) {
+		FarmProjects project = projectDao.findById(model.getProject().getPk1()).get();
 		Users user = userDao.findByPk1(model.getUser().getPk1());
 		project.setDeleted(true);
 		project.setDeletedBy(user);
@@ -61,4 +59,3 @@ public class DeleteController {
 		projectDao.save(project);
 	}
 }
-	

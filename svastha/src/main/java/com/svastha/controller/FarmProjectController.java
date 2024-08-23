@@ -30,11 +30,14 @@ import com.svastha.entity.MasterCropStage;
 import com.svastha.entity.MasterCropVariety;
 import com.svastha.entity.MasterSeason;
 import com.svastha.entity.NurseryManagement;
+import com.svastha.entity.ProjectBioFertilizers;
 import com.svastha.entity.ProjectImages;
 import com.svastha.entity.ProjectPlots;
 import com.svastha.entity.ProjectSowingData;
+import com.svastha.entity.ProjectSyntheticFertilizers;
 import com.svastha.entity.Users;
 import com.svastha.model.ImageModel;
+import com.svastha.model.ProjectExportModel;
 import com.svastha.model.ProjectModel;
 import com.svastha.repository.FarmPlotsRepository;
 import com.svastha.repository.FarmProjectRepository;
@@ -160,6 +163,12 @@ public class FarmProjectController {
 		projectModel.setNursery(nursery);
 		return projectModel;
 	}
+	
+	@GetMapping("/getExamples")
+	public void findExample()
+	{
+		excel.startProjectExportV2(null, null, null, null, 5L, "smsanthoshkumar@ymail.com", null, null, null);
+	}
 
 	@GetMapping("/getFarmerPlots")
 	public @ResponseBody List<PlotsDTO> getFarmerPlots(@RequestParam Long farmerId,
@@ -207,9 +216,9 @@ public class FarmProjectController {
 		return allPlots;
 	}
 
-	public String getSowingDate(FarmPlots plot) {
+	public String getSowingDate(FarmProjects projects, FarmPlots plot) {
 		Sort sort = Sort.by(Sort.Direction.ASC, "sowingDate");
-		List<ProjectSowingData> sowings = sowingDao.findAllByplots(plot, sort);
+		List<ProjectSowingData> sowings = sowingDao.findAllByProjectsAndPlots(projects, plot, sort);
 		if (!sowings.isEmpty()) {
 
 			return sowings.get(0).getSowingDate();
@@ -288,7 +297,7 @@ public class FarmProjectController {
 					p.setUrl(null);
 				}
 			}
-			String sowingDate = getSowingDate(plot);
+			String sowingDate = getSowingDate(fPlots,plot);
 			p.setSowingDate(sowingDate);
 			p.setCropStage(getStage(convertToDate(sowingDate)));
 

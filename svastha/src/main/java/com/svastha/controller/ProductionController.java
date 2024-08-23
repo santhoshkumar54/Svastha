@@ -28,6 +28,7 @@ import com.svastha.entity.ProjectSowingData;
 import com.svastha.entity.ProjectSyntheticFertilizers;
 import com.svastha.entity.ProjectTransplantManagement;
 import com.svastha.entity.ProjectWeedManagement;
+import com.svastha.logs.LogServiceFactory;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsBioFertilizerRepository;
 import com.svastha.repository.ProjectsDsrRepository;
@@ -191,7 +192,14 @@ public class ProductionController {
 
 	@PostMapping("/saveNurseryWeed")
 	public List<ProjectNurseryWeed> saveNurseryWeed(@RequestBody List<ProjectNurseryWeed> weed) {
-		activity.addActivity(Constants.ATADDED, Constants.ASMRL, Constants.AFNURSERYWEED, weed.get(0).getPk1(),weed.get(0).getCreatedBy().getPk1());
+		try
+		{
+			activity.addActivity(Constants.ATADDED, Constants.ASMRL, Constants.AFNURSERYWEED, weed.get(0).getProjects().getPk1(),weed.get(0).getCreatedBy().getPk1(),weed.size());
+		}
+		catch(Exception ex)
+		{
+			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
+		}
 		return weedDao.saveAll(weed);
 	}
 
@@ -204,6 +212,14 @@ public class ProductionController {
 	@PostMapping("/saveNurseryNutrient")
 	public List<ProjectNurseryNutrient> saveNurseryNutrient(@RequestBody List<ProjectNurseryNutrient> nutrient) {
 
+		try
+		{
+			activity.addActivity(Constants.ATADDED, Constants.ASMRL, Constants.AFNURSERYNUTRIENT, nutrient.get(0).getProjects().getPk1(),nutrient.get(0).getCreatedBy().getPk1(),nutrient.size());
+		}
+		catch(Exception ex)
+		{
+			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
+		}
 		return nutrientDao.saveAll(nutrient);
 	}
 

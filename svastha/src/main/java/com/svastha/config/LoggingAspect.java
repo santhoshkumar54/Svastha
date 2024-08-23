@@ -29,32 +29,51 @@ public class LoggingAspect {
 
 	@Around("controller()")
 	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-				.getRequest();
-		StringBuilder reqLog = new StringBuilder();
-		reqLog.append("Request URL: ").append(request.getRequestURL()).append("  Request Method: ")
-				.append(request.getMethod()).append("  Request Parameters:  ")
-				.append(Arrays.toString(joinPoint.getArgs()));
+		 try {
+	            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+	            if (attributes != null) {
+	                HttpServletRequest request = attributes.getRequest();
+	                // Log request details
+	                StringBuilder reqLog = new StringBuilder();
+	        		reqLog.append("Request URL: ").append(request.getRequestURL()).append("  Request Method: ")
+	        				.append(request.getMethod()).append("  Request Parameters:  ")
+	        				.append(Arrays.toString(joinPoint.getArgs()));
+	        		if (request.getMethod().equals("POST") || request.getMethod().equals("PUT")) {
+	        			Object[] signatureArgs = joinPoint.getArgs();
+	        			if (signatureArgs.length > 0) {
+	        				Object requestBody = signatureArgs[0];
+	        				try {
+	        					// Convert request body to JSON string
+	        					String requestBodyJson = objectMapper.writeValueAsString(requestBody);
+	        					reqLog.append("Request Body: ").append(requestBodyJson);
+	        				} catch (Exception e) {
+	        					reqLog.append("Request Body: ").append(requestBody);
+	        				}
+	        			}
+	        		}
 
-		if (request.getMethod().equals("POST") || request.getMethod().equals("PUT")) {
-			Object[] signatureArgs = joinPoint.getArgs();
-			if (signatureArgs.length > 0) {
-				Object requestBody = signatureArgs[0];
-				try {
-					// Convert request body to JSON string
-					String requestBodyJson = objectMapper.writeValueAsString(requestBody);
-					reqLog.append("Request Body: ").append(requestBodyJson);
-				} catch (Exception e) {
-					reqLog.append("Request Body: ").append(requestBody);
-				}
-			}
-		}
+	        		LogServiceFactory.getService().logInfo("Req: {}" + reqLog.toString());
+	            }
+	            else {
+	                // Handle the absence of request context
+	            	 LogServiceFactory.getService().logInfo("No request context available");
+	            }
+	        		Object result = joinPoint.proceed();
+	        		if (result != null) {
+	                    LogServiceFactory.getService().logInfo("Response: {}" + result.toString());
+	                } else {
+	                    LogServiceFactory.getService().logInfo("Response: {} void");
+	                }
 
-		LogServiceFactory.getService().logInfo("Req: {}" + reqLog.toString());
+	        		return result;
+	    
+	        } catch (Exception e) {
+	            // Handle any exceptions that occur while fetching the request
+	        	 LogServiceFactory.getService().logError("Error occurred while fetching the HTTP request", e);
+	        	 return null;
+	        }
+		
 
-		Object result = joinPoint.proceed();
-		LogServiceFactory.getService().logInfo("Response: {}" + result.toString());
-
-		return result;
+		
 	}
 }

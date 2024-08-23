@@ -16,5 +16,8 @@ public interface ProjectsSowingDataRepository extends JpaRepository<ProjectSowin
 	List<ProjectSowingData> findAllSowingDataByProjects(FarmProjects projects);
 
 	List<ProjectSowingData> findByProjectsIn(List<FarmProjects> projects);
+	
+	List<ProjectSowingData> findAllByProjectsAndPlots(FarmProjects projects, FarmPlots plots, Sort sort);
+
 
 }

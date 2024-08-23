@@ -48,6 +48,7 @@ import com.svastha.repository.LiveStockRepository;
 import com.svastha.repository.MasterAnnualProgramRepository;
 import com.svastha.repository.MasterBioFertilizerRepository;
 import com.svastha.repository.MasterChemicalBrandMappingRepository;
+import com.svastha.repository.MasterChemicalBrandRepository;
 import com.svastha.repository.MasterChemicalRepository;
 import com.svastha.repository.MasterCropRepository;
 import com.svastha.repository.MasterCropStageRepository;
@@ -126,6 +127,9 @@ public class MasterController {
 	private MasterChemicalRepository chemicalsDao;
 
 	@Autowired
+	private MasterChemicalBrandRepository brandsDao;
+
+	@Autowired
 	private MasterPestChemicalMappingRepository pestChemicalDao;
 
 	@Autowired
@@ -145,7 +149,7 @@ public class MasterController {
 
 	@Autowired
 	private MasterGrowthPromoterRepository growthDao;
-	
+
 	@Autowired
 	private MasterMicroNutrientRepository microDao;
 
@@ -460,7 +464,7 @@ public class MasterController {
 	}
 
 	@GetMapping(path = "/getRestrictedChemicals")
-	public @ResponseBody Iterable<MasterChemicals> getChemicals() {
+	public @ResponseBody Iterable<MasterChemicals> getRestrictedChemicals() {
 
 		return chemicalsDao.findAllByStatus(ChemicalStatusEnum.restricted.toString());
 	}
@@ -578,16 +582,14 @@ public class MasterController {
 	}
 
 	@PostMapping("/saveMicroNutrient")
-	public @ResponseBody Iterable<MasterMicroNutrient> saveMicroNutrient(
-			@RequestBody MasterMicroNutrient micro) {
+	public @ResponseBody Iterable<MasterMicroNutrient> saveMicroNutrient(@RequestBody MasterMicroNutrient micro) {
 
 		microDao.save(micro);
 		return microDao.findAll();
 	}
 
 	@PostMapping("/deleteMicroNutrient")
-	public @ResponseBody Iterable<MasterMicroNutrient> deleteMicroNutrient(
-			@RequestBody MasterMicroNutrient micro) {
+	public @ResponseBody Iterable<MasterMicroNutrient> deleteMicroNutrient(@RequestBody MasterMicroNutrient micro) {
 
 		microDao.delete(micro);
 		return microDao.findAll();
@@ -673,15 +675,14 @@ public class MasterController {
 	public List<MasterCropVariety> getVariety() {
 		return varietyDao.findAll();
 	}
-	
+
 	@GetMapping("/getVarietyBySeason")
-	public List<MasterCropVariety> getVarietyBySeason(@RequestParam MasterSeason season)
-	{
+	public List<MasterCropVariety> getVarietyBySeason(@RequestParam MasterSeason season) {
 		return varietyDao.findAllBySeason(season);
 	}
+
 	@GetMapping("/getVarietyByName")
-	public List<MasterCropVariety> getVarietyByName(@RequestParam String variety)
-	{
+	public List<MasterCropVariety> getVarietyByName(@RequestParam String variety) {
 		return varietyDao.findAllByvariety(variety);
 	}
 
@@ -698,4 +699,54 @@ public class MasterController {
 		return varietyDao.findAll();
 	}
 
+	@GetMapping("getPests")
+	public @ResponseBody Iterable<MasterPests> getPests() {
+		return masterPestsDao.findAll();
+	}
+
+	@PostMapping("/savePests")
+	public @ResponseBody Iterable<MasterPests> savePests(@RequestBody MasterPests pests) {
+		masterPestsDao.save(pests);
+		return masterPestsDao.findAll();
+	}
+
+	@PostMapping("/deletePests")
+	public @ResponseBody Iterable<MasterPests> deletePests(@RequestBody MasterPests pests) {
+		masterPestsDao.delete(pests);
+		return masterPestsDao.findAll();
+	}
+
+	@GetMapping("/getChemicals")
+	public @ResponseBody Iterable<MasterChemicals> getChemicals() {
+		return chemicalsDao.findAll();
+	}
+
+	@PostMapping("/saveChemicals")
+	public @ResponseBody Iterable<MasterChemicals> saveChemicals(@RequestBody MasterChemicals chemicals) {
+		chemicalsDao.save(chemicals);
+		return chemicalsDao.findAll();
+	}
+
+	@PostMapping("/deleteChemicals")
+	public @ResponseBody Iterable<MasterChemicals> deleteChemicals(@RequestBody MasterChemicals chemicals) {
+		chemicalsDao.delete(chemicals);
+		return chemicalsDao.findAll();
+	}
+
+	@GetMapping("/getBrands")
+	public @ResponseBody Iterable<MasterChemicalBrands> getBrands() {
+		return brandsDao.findAll();
+	}
+
+	@PostMapping("/saveBrands")
+	public @ResponseBody Iterable<MasterChemicalBrands> saveBrands(@RequestBody MasterChemicalBrands brands) {
+		brandsDao.save(brands);
+		return brandsDao.findAll();
+	}
+
+	@PostMapping("/deleteBrands")
+	public @ResponseBody Iterable<MasterChemicalBrands> deleteBrands(@RequestBody MasterChemicalBrands brands) {
+		brandsDao.delete(brands);
+		return brandsDao.findAll();
+	}
 }

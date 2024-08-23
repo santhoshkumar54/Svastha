@@ -20,6 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -193,21 +194,140 @@ public class ExcelWriter {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	
-    // For windows
-	// static String excelFilePath = "C:\\Users\\smsan\\work\\svastha project\\Svastha\\svastha\\";
-	
+	// For windows
+	// static String excelFilePath = "C:\\Users\\smsan\\work\\svastha
+	// project\\Svastha\\svastha\\";
+
 	@Value("${upload.directory}")
 	private String uploadDirectory;
 
 	private String excelFilePath;
 
 	@PostConstruct
-    public void init() {
-        System.out.println("Upload Directory: " + uploadDirectory);
-        excelFilePath =uploadDirectory+"Excel/";
-        System.out.println("EXCEL Directory: " + excelFilePath);
-    }
+	public void init() {
+		System.out.println("Upload Directory: " + uploadDirectory);
+		excelFilePath = uploadDirectory + "Excel/";
+		System.out.println("EXCEL Directory: " + excelFilePath);
+	}
+
+	public void createSingleRows(FarmProjects project, Row row, int rowNum) {
+		System.out.println("Create SIngle Row called: " + project.getPk1() + "  " + rowNum);
+		if (row.getCell(0) == null) {
+			System.out.println("Creating Single Row");
+			row.createCell(0).setCellValue(rowNum);
+			row.createCell(1).setCellValue(project.getFarm().getFarmerName());
+			row.createCell(2).setCellValue(project.getFarm().getVillageId().getName());
+			row.createCell(3).setCellValue(project.getFarm().getThalukId().getName());
+			row.createCell(4).setCellValue(project.getFarm().getDistrictId().getName());
+			row.createCell(5).setCellValue(project.getFarm().getRegNumber());
+			row.createCell(6).setCellValue(project.getYear().getYear());
+			row.createCell(7).setCellValue(project.getCrop().getCrop());
+			row.createCell(8).setCellValue(project.getVariety() == null ? "" : project.getVariety().getVariety());
+			row.createCell(9).setCellValue(project.getSeason().getSeason());
+			row.createCell(10).setCellValue(project.getSowingDate());
+			row.createCell(11).setCellValue(project.getCreatedDt());
+			row.createCell(12).setCellValue(project.getCreatedBy().getUsername());
+			row.createCell(13).setCellValue(project.getAssignedTo().getUsername());
+			ProjectDSRMethod dsr = dsrDao.findDsrByProjects(project);
+			if (dsr != null) {
+				row.createCell(15).setCellValue(dsr.getAcres());
+			}
+		}
+	}
+
+	public void startProjectExportV2(Long yearId, Long seasonId, Long cropId, String key, Long userId, String email,
+			Long projectTypePk1, Long varietyId, Long ics) {
+		List<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
+				varietyId, ics);
+		String excelName = "projects_" + System.currentTimeMillis() + ".xlsx";
+		String excelPath = excelFilePath + excelName;
+		File f = new File(excelFilePath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		System.out.println("excel writer called  " + excelPath);
+		File file = new File(excelPath);
+		try (Workbook workbook = new XSSFWorkbook()) {
+			Thread.sleep(5000); // Sleep for 5 seconds
+			Sheet sheet = workbook.createSheet("Project Details");
+			int rowNum = 1;
+			for (FarmProjects project : projects) {
+				List<ProjectPlots> plots = projectPlotsDao.findAllPlotsByProject(project);
+
+				for (ProjectPlots plot : plots) {
+
+					int start = rowNum;
+					int end = rowNum;
+					System.out.println("Into plot - " + plot.getPlots().getPk1() + "  " + rowNum);
+					FarmPlots farmPlot = plot.getPlots();
+					
+					List<ProjectSyntheticFertilizers> synthetics = syntheticDao.findByProjectsAndPlot(project,
+							farmPlot);
+					List<ProjectBioFertilizers> bios = bioDao.findByProjectsAndPlot(project, farmPlot);
+					Row plotRow = sheet.getRow(rowNum);
+					if (plotRow == null) {
+						plotRow = sheet.createRow(rowNum);
+					}
+					createSingleRows(project, plotRow, rowNum);
+					
+					for (ProjectSyntheticFertilizers syn : synthetics) {
+						if (start > end) {
+							end = start;
+						}
+						System.out.println("Into syn - " + syn.getPk1() + "  " + rowNum + "  " + start + "   " + end);
+						Row row = sheet.getRow(start);
+						if (row == null) {
+							row = sheet.createRow(start);
+						}
+						createSingleRows(project, row, start);
+						if (row.getCell(14) == null) {
+							row.createCell(14).setCellValue(syn.getPlot().getPlotNumber());
+						}
+						row.createCell(16).setCellValue(syn.getPk1());
+						row.createCell(17).setCellValue(syn.getFertilizer().getName());
+						row.createCell(18).setCellValue(syn.getUsedDate());
+						start = start + 1;
+					}
+					start = rowNum;
+					for (ProjectBioFertilizers bio : bios) {
+						if (start > end) {
+							end = start;
+						}
+						System.out.println("Into bio - " + bio.getPk1() + "  " + rowNum + "  " + start + "   " + end);
+
+						Row row = sheet.getRow(start);
+						if (row == null) {
+							row = sheet.createRow(start);
+						}
+						createSingleRows(project, row, start);
+						if (row.getCell(14) == null) {
+							row.createCell(14).setCellValue(bio.getPlot().getPlotNumber());
+						}
+						row.createCell(19).setCellValue(bio.getPk1());
+						row.createCell(20).setCellValue(bio.getFertilizer().getName());
+						row.createCell(21).setCellValue(bio.getUsedDate());
+						start = start + 1;
+					}
+					rowNum = end + 1;
+					System.out.println("Plot cycle ended");
+				}
+				System.out.println("Plot ended");
+
+			}
+
+			try (FileOutputStream outputStream = new FileOutputStream(file)) {
+				workbook.write(outputStream);
+				sendEmail(email, "Exported Farmer Data", "Please find the attched farmer data.",
+						FileUtils.readFileToByteArray(file), excelName);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Async
 	public void startFarmExport(Long districtId, Long thalukId, Long villageId, String key, Long userId, String type,
@@ -244,9 +364,9 @@ public class ExcelWriter {
 						FileUtils.readFileToByteArray(file), excelName);
 			}
 		} catch (IOException e) {
-			LogServiceFactory.getService().logError("Error in excel file creation 1 "+excelPath, e);
+			LogServiceFactory.getService().logError("Error in excel file creation 1 " + excelPath, e);
 		} catch (InterruptedException e) {
-			LogServiceFactory.getService().logError("Error in excel file creation 2 "+excelPath, e);
+			LogServiceFactory.getService().logError("Error in excel file creation 2 " + excelPath, e);
 			e.printStackTrace();
 		}
 	}
@@ -505,6 +625,7 @@ public class ExcelWriter {
 				row.createCell(11).setCellValue(obj.getCreatedBy().getUsername());
 				row.createCell(12).setCellValue(obj.getCreatedDt());
 			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
