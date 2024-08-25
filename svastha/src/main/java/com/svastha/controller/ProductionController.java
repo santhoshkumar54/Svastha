@@ -28,7 +28,6 @@ import com.svastha.entity.ProjectSowingData;
 import com.svastha.entity.ProjectSyntheticFertilizers;
 import com.svastha.entity.ProjectTransplantManagement;
 import com.svastha.entity.ProjectWeedManagement;
-import com.svastha.logs.LogServiceFactory;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.ProjectsBioFertilizerRepository;
 import com.svastha.repository.ProjectsDsrRepository;
@@ -46,9 +45,6 @@ import com.svastha.repository.ProjectsTransplantManagementRepository;
 import com.svastha.repository.ProjectsWaterRepository;
 import com.svastha.repository.ProjectsWeedManagementRepository;
 import com.svastha.repository.ProjectsWeedRepository;
-import com.svastha.service.ActivityService;
-import com.svastha.service.ActivityServiceImpl;
-import com.svastha.util.Constants;
 import com.svastha.util.ProjectSeedTreatmentDTO;
 
 @RestController
@@ -104,9 +100,6 @@ public class ProductionController {
 
 	@Autowired
 	private ProjectsMicroNutrientRepository microDao;
-	
-	@Autowired
-	private ActivityServiceImpl activity;
 
 	@GetMapping("/getSeedTreatment")
 	public ProjectSeedTreatmentDTO getSeedTReatment(@RequestParam Long projectId) {
@@ -185,21 +178,13 @@ public class ProductionController {
 
 	@GetMapping("/getNurseryWeed")
 	public List<ProjectNurseryWeed> getNurseryWeed(@RequestParam Long projectId) {
-		
+
 		FarmProjects project = projectDao.findById(projectId).get();
 		return weedDao.findAllWeedByProjects(project);
 	}
 
 	@PostMapping("/saveNurseryWeed")
 	public List<ProjectNurseryWeed> saveNurseryWeed(@RequestBody List<ProjectNurseryWeed> weed) {
-		try
-		{
-			activity.addActivity(Constants.ATADDED, Constants.ASMRL, Constants.AFNURSERYWEED, weed.get(0).getProjects().getPk1(),weed.get(0).getCreatedBy().getPk1(),weed.size());
-		}
-		catch(Exception ex)
-		{
-			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
-		}
 		return weedDao.saveAll(weed);
 	}
 
@@ -211,15 +196,6 @@ public class ProductionController {
 
 	@PostMapping("/saveNurseryNutrient")
 	public List<ProjectNurseryNutrient> saveNurseryNutrient(@RequestBody List<ProjectNurseryNutrient> nutrient) {
-
-		try
-		{
-			activity.addActivity(Constants.ATADDED, Constants.ASMRL, Constants.AFNURSERYNUTRIENT, nutrient.get(0).getProjects().getPk1(),nutrient.get(0).getCreatedBy().getPk1(),nutrient.size());
-		}
-		catch(Exception ex)
-		{
-			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
-		}
 		return nutrientDao.saveAll(nutrient);
 	}
 

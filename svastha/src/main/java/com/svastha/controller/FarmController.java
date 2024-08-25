@@ -49,11 +49,9 @@ import com.svastha.repository.FarmWaterSourceRepository;
 import com.svastha.repository.FarmWorkersRepository;
 import com.svastha.repository.LandDetailsRepository;
 import com.svastha.repository.UserRepository;
-import com.svastha.service.ActivityServiceImpl;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.MasterService;
-import com.svastha.util.Constants;
 
 @RestController
 @MultipartConfig
@@ -94,9 +92,6 @@ public class FarmController {
 
 	@Autowired
 	private FarmImagesRepository imageDao;
-
-	@Autowired
-	private ActivityServiceImpl activity;
 
 	@Autowired
 	private ExcelWriter excel;
@@ -156,12 +151,6 @@ public class FarmController {
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			farm.setDateOfReg(timestamp.toString());
 			Farms f = farmDao.save(farm);
-			try {
-				activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERFARMS, f.getPk1(),
-						f.getCreatedBy().getPk1(), 1);
-			} catch (Exception ex) {
-				LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
-			}
 			f.setRegNumber(String.format("%04d", f.getPk1()));
 			if (file != null && !file.isEmpty()) {
 				FarmImages i = new FarmImages();
@@ -191,12 +180,6 @@ public class FarmController {
 	@PostMapping("addLandDetails")
 	public @ResponseBody LandDetails saveLandDetails(@RequestBody LandDetails landDetails) {
 		try {
-			activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERLAND,
-					landDetails.getFarm().getPk1(), landDetails.getCreatedBy().getPk1(), 1);
-		} catch (Exception ex) {
-			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
-		}
-		try {
 			LandDetails land = landDetailsDao.save(landDetails);
 			return land;
 		} catch (Exception e) {
@@ -224,13 +207,6 @@ public class FarmController {
 	@PostMapping("addWaterSource")
 	public @ResponseBody String saveWaterSource(@RequestBody List<FarmWaterSource> farmWaterSources) {
 		try {
-			activity.addActivity((farmWaterSources.get(0).getPk1() == null) ? Constants.ATADDED : Constants.ATUPDATED,
-					Constants.ASFARM, Constants.AFFARMERWATER, farmWaterSources.get(0).getFarm().getPk1(),
-					farmWaterSources.get(0).getCreatedBy().getPk1(), 1);
-		} catch (Exception ex) {
-			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
-		}
-		try {
 			waterSourceDao.saveAll(farmWaterSources);
 			return "Success";
 		} catch (Exception e) {
@@ -240,12 +216,6 @@ public class FarmController {
 
 	@PostMapping("addPlots")
 	public @ResponseBody String savePlots(@RequestBody List<FarmPlots> farmPlots) {
-		try {
-			activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERTOOLS,
-					farmPlots.get(0).getFarm().getPk1(), farmPlots.get(0).getCreatedBy().getPk1(), farmPlots.size());
-		} catch (Exception ex) {
-			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
-		}
 		try {
 			plotsDao.saveAll(farmPlots);
 			return "Success";
@@ -259,13 +229,6 @@ public class FarmController {
 
 		try {
 			for (FarmLiveStock farmLiveStock : farmLiveStocks) {
-				try {
-					activity.addActivity((farmLiveStock.getPk1() == null) ? Constants.ATADDED : Constants.ATUPDATED,
-							Constants.ASFARM, Constants.AFFARMERLIVE, farmLiveStock.getFarm().getPk1(),
-							farmLiveStock.getCreatedBy().getPk1(), 1);
-				} catch (Exception ex) {
-					LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
-				}
 				if (farmLiveStock.getLivestock().equals("others")) {
 					masterService.addLiveStocksFromOthers(farmLiveStock.getOthers(), farmLiveStock.getCreatedBy());
 					farmLiveStock.setLivestock(farmLiveStock.getOthers());
@@ -282,13 +245,6 @@ public class FarmController {
 	@PostMapping("addTools")
 	public @ResponseBody String saveTools(@RequestBody List<FarmTools> farmTools) {
 		try {
-			try {
-				activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERTOOLS,
-						farmTools.get(0).getFarm().getPk1(), farmTools.get(0).getCreatedBy().getPk1(),
-						farmTools.size());
-			} catch (Exception ex) {
-				LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
-			}
 			for (FarmTools tools : farmTools) {
 				if (tools.getTool().equals("others")) {
 					masterService.addToolsFromOthers(tools.getOthers(), tools.getCreatedBy());
@@ -306,12 +262,6 @@ public class FarmController {
 
 	@PostMapping("addGrainMarket")
 	public @ResponseBody String saveGrainMarket(@RequestBody FarmGrainMarket farmGrainsMarkets) {
-		try {
-			activity.addActivity(Constants.ATADDED, Constants.ASFARM, Constants.AFFARMERWORKER,
-					farmGrainsMarkets.getFarm().getPk1(), farmGrainsMarkets.getCreatedBy().getPk1(), 1);
-		} catch (Exception ex) {
-			LogServiceFactory.getService().logError("Exception caught in activity tracker : ", ex);
-		}
 		try {
 			grainMarketDao.save(farmGrainsMarkets);
 			return "Success";

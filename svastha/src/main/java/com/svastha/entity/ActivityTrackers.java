@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ActivityTracker {
+public class ActivityTrackers {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class ActivityTracker {
 	
 	private String activityType;
 	
-	private String activtySection;
+	private String activitySection;
 	
 	private String activityForm;
 	
@@ -46,12 +46,12 @@ public class ActivityTracker {
 		this.activityType = activityType;
 	}
 
-	public String getActivtySection() {
-		return activtySection;
+	public String getActivitySection() {
+		return activitySection;
 	}
 
-	public void setActivtySection(String activtySection) {
-		this.activtySection = activtySection;
+	public void setActivitySection(String activitySection) {
+		this.activitySection = activitySection;
 	}
 
 	public String getActivityForm() {

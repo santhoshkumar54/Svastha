@@ -23,9 +23,11 @@ import com.svastha.entity.OrganicBioFertilizer;
 import com.svastha.entity.OrganicCropVariety;
 import com.svastha.entity.OrganicFieldMap;
 import com.svastha.entity.OrganicGrowthPromoter;
+import com.svastha.entity.OrganicHarvest;
 import com.svastha.entity.OrganicIcsType;
 import com.svastha.entity.OrganicOrganicManure;
 import com.svastha.entity.OrganicPlotBoundary;
+import com.svastha.entity.OrganicProtection;
 import com.svastha.entity.OrganicSeedData;
 import com.svastha.entity.OrganicSoilAnalysis;
 import com.svastha.entity.OrganicSowingData;
@@ -41,9 +43,11 @@ import com.svastha.repository.OrganicBioFertilizerRepository;
 import com.svastha.repository.OrganicCropVarietyRepository;
 import com.svastha.repository.OrganicFieldMapRepository;
 import com.svastha.repository.OrganicGrowthPromoterRepository;
+import com.svastha.repository.OrganicHarvestRepository;
 import com.svastha.repository.OrganicIcsTypeRepository;
 import com.svastha.repository.OrganicOrganicManureRepository;
 import com.svastha.repository.OrganicPlotBoundaryRepository;
+import com.svastha.repository.OrganicProtectionRepository;
 import com.svastha.repository.OrganicSeedDataRepository;
 import com.svastha.repository.OrganicSoilAnalysisRepository;
 import com.svastha.repository.OrganicSowingDataRepository;
@@ -102,6 +106,12 @@ public class OrganicProjectController {
 
 	@Autowired
 	private OrganicIcsTypeRepository icsDao;
+
+	@Autowired
+	private OrganicProtectionRepository pestDao;
+
+	@Autowired
+	private OrganicHarvestRepository harvestDao;
 
 	@Autowired
 	private ExcelWriter excel;
@@ -203,7 +213,7 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return boundaryDao.findByProjects(project);
 	}
-	
+
 	@PostMapping("/saveOrganicVariety")
 	public @ResponseBody OrganicCropVariety saveVariety(@RequestBody OrganicCropVariety variety) {
 		return varietyDao.save(variety);
@@ -214,7 +224,7 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return varietyDao.findByProjects(project);
 	}
-	
+
 	@PostMapping("/saveFieldMap")
 	public @ResponseBody OrganicFieldMap saveFieldMap(@RequestBody OrganicFieldMap fieldMap) {
 		return fieldDao.save(fieldMap);
@@ -225,6 +235,7 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return fieldDao.findByProjects(project);
 	}
+
 	@PostMapping("/saveAnnualProgram")
 	public @ResponseBody OrganicAnnualProgram saveAnnualProgram(@RequestBody OrganicAnnualProgram annualProgram) {
 		return annualDao.save(annualProgram);
@@ -235,7 +246,7 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return annualDao.findByProjects(project);
 	}
-	
+
 	@GetMapping("/getAnnualProgram")
 	public @ResponseBody OrganicAnnualProgram getAnnualProgram(@RequestParam Long projectId,
 			@RequestParam Long plotId) {
@@ -256,7 +267,7 @@ public class OrganicProjectController {
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return waterDao.findByProjectsAndPlots(project, plot);
 	}
-	
+
 	@GetMapping("/getWaterAnalysisByProject")
 	public @ResponseBody List<OrganicWaterAnalysis> getWaterAnalysisByProject(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -274,7 +285,7 @@ public class OrganicProjectController {
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return soilDao.findByProjectsAndPlots(project, plot);
 	}
-	
+
 	@GetMapping("/getSoilAnalysisByProject")
 	public @ResponseBody List<OrganicSoilAnalysis> getSoilAnalysisByProject(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -306,7 +317,7 @@ public class OrganicProjectController {
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return seedDao.findByProjectsAndPlots(project, plot);
 	}
-	
+
 	@GetMapping("/getOrganicSeedDataByProject")
 	public @ResponseBody List<OrganicSeedData> getOrganicSeedDataByProject(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -324,7 +335,7 @@ public class OrganicProjectController {
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return sowingDao.findByProjectsAndPlots(project, plot);
 	}
-	
+
 	@GetMapping("/getOrganicSowingByProject")
 	public @ResponseBody List<OrganicSowingData> getOrganicSowing(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -343,7 +354,7 @@ public class OrganicProjectController {
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return transplantDao.findByProjectsAndPlots(project, plot);
 	}
-	
+
 	@GetMapping("/getOrganicTransplantByProject")
 	public @ResponseBody List<OrganicTransplantData> getOrganicTransplant(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
@@ -382,7 +393,7 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return manureDao.findByProjects(project);
 	}
-	
+
 	@PostMapping("/saveOrganicGrowthPromoter")
 	public @ResponseBody OrganicGrowthPromoter saveOrganicGrowthPromoter(
 			@RequestParam(required = false) MultipartFile file, @RequestParam String growthPromoter) {
@@ -413,7 +424,7 @@ public class OrganicProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return growthDao.findByProjects(project);
 	}
-	
+
 	@PostMapping("/saveOrganicBioFertilizer")
 	public @ResponseBody OrganicBioFertilizer saveOrganicBioFertilizer(
 			@RequestParam(required = false) MultipartFile file, @RequestParam String bioFertilizer) {
@@ -457,10 +468,62 @@ public class OrganicProjectController {
 		FarmPlots plot = plotsDao.findById(plotId).get();
 		return icsDao.findByProjectsAndPlots(project, plot);
 	}
-	
+
 	@GetMapping("/getOrganicIcsByProject")
 	public @ResponseBody List<OrganicIcsType> getOrganicIcsByProject(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
 		return icsDao.findByProjects(project);
+	}
+
+	@PostMapping("/saveOrganicProtection")
+	public @ResponseBody OrganicProtection saveOrganicProtection(@RequestParam(required = false) MultipartFile file,
+			@RequestParam String pest) {
+		OrganicProtection man = new Gson().fromJson(pest, OrganicProtection.class);
+
+		if (file != null && !file.isEmpty()) {
+			Long plotId = man.getPlots().getPk1();
+
+			Long projectId = man.getProjects().getPk1();
+
+			String folderPath = SEPARATOR + "protection" + SEPARATOR + projectId + SEPARATOR + plotId;
+			Path p = storageService.createFolder(folderPath);
+
+			String filePath = storageService.save(file, p);
+			man.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
+		}
+		return pestDao.save(man);
+	}
+
+	@GetMapping("/getOrganicProtection")
+	public @ResponseBody List<OrganicProtection> getOrganicProtection(@RequestParam Long projectId,
+			@RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return pestDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@GetMapping("/getOrganicProtectionByProject")
+	public @ResponseBody List<OrganicProtection> getOrganicProtectionByProject(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		return pestDao.findByProjects(project);
+	}
+
+	@PostMapping("/saveOrganicHarvest")
+	public @ResponseBody OrganicHarvest saveOrganicHarvest(@RequestParam String harvest) {
+		OrganicHarvest man = new Gson().fromJson(harvest, OrganicHarvest.class);
+		return harvestDao.save(man);
+	}
+
+	@GetMapping("/getOrganicHarvest")
+	public @ResponseBody OrganicHarvest getOrganicHarvest(@RequestParam Long projectId, @RequestParam Long plotId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		FarmPlots plot = plotsDao.findById(plotId).get();
+		return harvestDao.findByProjectsAndPlots(project, plot);
+	}
+
+	@GetMapping("/getOrganicHarvestByProject")
+	public @ResponseBody List<OrganicHarvest> getOrganicHarvestByProject(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		return harvestDao.findByProjects(project);
 	}
 }

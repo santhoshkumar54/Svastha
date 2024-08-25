@@ -149,6 +149,15 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
+				<excludes>
+                <!-- Exclude binary files from filtering -->
+                <exclude>**/*.xlsx</exclude>
+                <exclude>**/*.jpg</exclude>
+                <exclude>**/*.png</exclude>
+                <exclude>**/*.pdf</exclude>
+                <exclude>**/*.docx</exclude>
+                <exclude>**/*.zip</exclude>
+            </excludes>
 			</resource>
 		</resources>
 	</build>
