@@ -26,5 +26,5 @@ public interface ActivityTrackersRepository extends JpaRepository<ActivityTracke
 	Page<ActivityTrackers> findWithId(@Param("id") Long id, @Param("section") String section, Pageable pageable);
 
 	@Procedure(name = "populateactivitytracker")
-	void upadteActivityTrackers(int days);
+	void populateactivitytracker(int days);
 }

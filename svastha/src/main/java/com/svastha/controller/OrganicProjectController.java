@@ -55,6 +55,7 @@ import com.svastha.repository.OrganicTransplantDataRepository;
 import com.svastha.repository.OrganicWaterAnalysisRepository;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
+import com.svastha.service.OrganicExcelWriter;
 
 @RestController
 public class OrganicProjectController {
@@ -114,7 +115,7 @@ public class OrganicProjectController {
 	private OrganicHarvestRepository harvestDao;
 
 	@Autowired
-	private ExcelWriter excel;
+	private OrganicExcelWriter excel;
 
 	@Autowired
 	FilesStorageService storageService;
@@ -127,10 +128,11 @@ public class OrganicProjectController {
 			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
-			Pageable pageable) {
+			@RequestParam(required = false) Long districtId, @RequestParam(required = false) Long thalukId,
+			@RequestParam(required = false) Long villageId, Pageable pageable) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
 		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
-				varietyId, ics, "APPROVED", pageable);
+				varietyId, ics, "APPROVED", districtId, thalukId, villageId, pageable);
 		return projects;
 	}
 
@@ -139,10 +141,12 @@ public class OrganicProjectController {
 			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
-			@RequestParam String email) {
+			@RequestParam(required = false) Long districtId, @RequestParam(required = false) Long thalukId,
+			@RequestParam(required = false) Long villageId, @RequestParam String email) {
 		try {
 			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics);
+			excel.startProjectExportV2(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics,
+					districtId, thalukId, villageId);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();
@@ -152,7 +156,7 @@ public class OrganicProjectController {
 	@GetMapping("/listOrganicProjects")
 	public @ResponseBody Iterable<FarmProjects> getProjectsUserId(@RequestParam Long userId) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-		return projectDao.findWithFilters(null, null, null, null, userId, projectTypePk1, null, null);
+		return projectDao.findWithFilters(null, null, null, null, userId, projectTypePk1, null, null, null, null, null);
 	}
 
 	@GetMapping("/getOrganicProject")

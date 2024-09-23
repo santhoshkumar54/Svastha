@@ -113,10 +113,11 @@ public class FarmProjectController {
 			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
-			Pageable pageable) {
+			@RequestParam(required = false) Long districtId, @RequestParam(required = false) Long thalukId,
+			@RequestParam(required = false) Long villageId, Pageable pageable) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
 		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, projectTypePk1,
-				varietyId, ics, "APPROVED", pageable);
+				varietyId, ics, "APPROVED", districtId, thalukId, villageId, pageable);
 		return projects;
 	}
 
@@ -125,10 +126,29 @@ public class FarmProjectController {
 			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
-			Pageable pageable) {
+			@RequestParam(required = false) Long districtId, @RequestParam(required = false) Long thalukId,
+			@RequestParam(required = false) Long villageId, Pageable pageable) {
 		Page<FarmProjects> projects = projectDao.findWithFilters(yearId, seasonId, cropId, key, userId, null, varietyId,
-				ics, "WAITING", pageable);
+				ics, "WAITING", districtId, thalukId, villageId, pageable);
 		return projects;
+	}
+
+	@GetMapping("/exportProjectsLegacy")
+	public @ResponseBody String exportProjectsLegacy(@RequestParam(required = false) Long yearId,
+			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
+			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
+			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
+			@RequestParam(required = false) Long districtId, @RequestParam(required = false) Long thalukId,
+			@RequestParam(required = false) Long villageId, @RequestParam String email) {
+		try {
+			System.out.println("year-" + yearId + " season-" + seasonId + " crop-" + cropId + " key-" + key + " user-"
+					+ userId + " email-" + email);
+			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
+			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics, null, null, null);
+			return "The exported data will be sent to your email.";
+		} catch (Exception e) {
+			return "Failed to trigger batch job: " + e.getMessage();
+		}
 	}
 
 	@GetMapping("/exportProjects")
@@ -136,12 +156,14 @@ public class FarmProjectController {
 			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
-			@RequestParam String email) {
+			@RequestParam(required = false) Long districtId, @RequestParam(required = false) Long thalukId,
+			@RequestParam(required = false) Long villageId, @RequestParam String email) {
 		try {
 			System.out.println("year-" + yearId + " season-" + seasonId + " crop-" + cropId + " key-" + key + " user-"
 					+ userId + " email-" + email);
 			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics);
+			excel.startProjectExportV2(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics,
+					districtId, thalukId, villageId);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();
@@ -151,7 +173,7 @@ public class FarmProjectController {
 	@GetMapping("/listProjects")
 	public @ResponseBody Iterable<FarmProjects> getProjectsUserId(@RequestParam Long userId) {
 		Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-		return projectDao.findWithFilters(null, null, null, null, userId, projectTypePk1, null, null);
+		return projectDao.findWithFilters(null, null, null, null, userId, projectTypePk1, null, null, null, null, null);
 	}
 
 	@GetMapping("/getProject")
@@ -162,12 +184,6 @@ public class FarmProjectController {
 		List<NurseryManagement> nursery = nurseryDao.findAllByProject(f);
 		projectModel.setNursery(nursery);
 		return projectModel;
-	}
-	
-	@GetMapping("/getExamples")
-	public void findExample()
-	{
-		excel.startProjectExportV2(null, null, null, null, 5L, "smsanthoshkumar@ymail.com", null, null, null);
 	}
 
 	@GetMapping("/getFarmerPlots")
@@ -297,7 +313,7 @@ public class FarmProjectController {
 					p.setUrl(null);
 				}
 			}
-			String sowingDate = getSowingDate(fPlots,plot);
+			String sowingDate = getSowingDate(fPlots, plot);
 			p.setSowingDate(sowingDate);
 			p.setCropStage(getStage(convertToDate(sowingDate)));
 
@@ -314,7 +330,7 @@ public class FarmProjectController {
 			f.setAssignedTo(f.getCreatedBy());
 
 			f = projectDao.save(f);
-			
+
 			List<ProjectSowingData> sowings = new ArrayList<>();
 			Iterable<PlotsDTO> plots = projectsDTO.getPlots();
 			List<ProjectPlots> plotsentity = new ArrayList<>();
@@ -326,8 +342,7 @@ public class FarmProjectController {
 				p.setPlots(fp);
 				p.setProject(f);
 				plotsentity.add(p);
-				if(f.getSowingDate()!=null)
-				{
+				if (f.getSowingDate() != null) {
 					ProjectSowingData sowing = new ProjectSowingData();
 					sowing.setCreatedBy(f.getCreatedBy());
 					sowing.setPlots(fp);
@@ -387,7 +402,8 @@ public class FarmProjectController {
 
 	@PostMapping("/uploadProjectImagesV2")
 	public @ResponseBody String uploadPhoto(@RequestParam MultipartFile[] file, @RequestParam String projectId,
-			@RequestParam String userId,@RequestParam(required = false) String formName, @RequestParam(required = false) Long primaryKey) {
+			@RequestParam String userId, @RequestParam(required = false) String formName,
+			@RequestParam(required = false) Long primaryKey) {
 		Long fid = Long.parseLong(projectId);
 		Long uid = Long.parseLong(userId);
 		FarmProjects f = projectDao.findById(fid).get();
@@ -419,7 +435,7 @@ public class FarmProjectController {
 		FarmProjects f = projectDao.findById(projectId).get();
 		List<ProjectImages> images = new ArrayList<ProjectImages>();
 		if (formName != null && primaryKey != null) {
-			images = imageDao.findAllImagesByProjectAndFormNameAndPrimaryKey(f,formName,primaryKey);
+			images = imageDao.findAllImagesByProjectAndFormNameAndPrimaryKey(f, formName, primaryKey);
 		} else {
 			images = imageDao.findAllImagesByProject(f);
 		}
@@ -444,5 +460,10 @@ public class FarmProjectController {
 	@Scheduled(cron = "0 15 2 * * *")
 	public void updateCompletion() {
 		projectDao.updateFarmProjectCompletionPercentage();
+	}
+	
+	@Scheduled(cron = "0 20 2 * * *")
+	public void updateOrganicCompletion() {
+		projectDao.updateOrganicProjectCompletionPercentage();
 	}
 }

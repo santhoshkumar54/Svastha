@@ -40,7 +40,6 @@ public class ActivityController {
 
 			return activityDao.findWithFilters(section, startDate, endDate, userId, pageable).getContent();
 		} else {
-
 			List<ActivityTrackers> activities = new ArrayList<>();
 			String result = id.replaceFirst("^0+(?!$)", "");
 

@@ -14,6 +14,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.svastha.logs.LogServiceFactory;
 import com.svastha.repository.ActivityTrackersRepository;
@@ -57,9 +58,10 @@ public class ScheduledServices {
 	}
 	
 	@Scheduled(cron = "0 30 23 * * *")
+	@Transactional
 	public void runActivityTracker() {
 			LogServiceFactory.getService().logInfo("Activity Tracker Started");
-			activityDao.upadteActivityTrackers(1);
+			activityDao.populateactivitytracker(1);
 	}
 
 	@Scheduled(cron = "0 30 6 * * *")
