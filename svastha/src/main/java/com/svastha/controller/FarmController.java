@@ -50,6 +50,7 @@ import com.svastha.repository.FarmWorkersRepository;
 import com.svastha.repository.LandDetailsRepository;
 import com.svastha.repository.UserRepository;
 import com.svastha.service.ExcelWriter;
+import com.svastha.service.FarmExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.MasterService;
 
@@ -94,7 +95,7 @@ public class FarmController {
 	private FarmImagesRepository imageDao;
 
 	@Autowired
-	private ExcelWriter excel;
+	private FarmExcelWriter excel;
 
 	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
@@ -113,7 +114,7 @@ public class FarmController {
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
 			@RequestParam String email, @RequestParam(required = false) String type) {
 		try {
-			excel.startFarmExport(districtId, thalukId, villageId, key, userId, type, email);
+			excel.startFarmExportV2(districtId, thalukId, villageId, key, userId, type, email);
 			return "The exported data will be sent to your email.";
 		} catch (Exception e) {
 			return "Failed to trigger batch job: " + e.getMessage();

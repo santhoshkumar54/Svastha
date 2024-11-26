@@ -50,16 +50,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		
+
 		httpSecurity.cors();
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
-				.authorizeRequests()
-				.antMatchers("/authenticate").permitAll()
-				.antMatchers("/downloadapk").permitAll()
-				.antMatchers("/farmer/images/**").permitAll()
-				.antMatchers("/swagger-ui/*","/v3/api-docs/**").permitAll()
-				.antMatchers("/dashboard/*").permitAll()
+				.authorizeRequests().antMatchers("/authenticate").permitAll().antMatchers("/downloadapk").permitAll()
+				.antMatchers("/farmer/images/**").permitAll().antMatchers("/swagger-ui/*", "/v3/api-docs/**")
+				.permitAll().antMatchers("/dashboard/*").
+				permitAll().antMatchers("/third-party/*").permitAll()
 //				.antMatchers("/*").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest().authenticated().and()
@@ -69,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		// Add a filter to validate the tokens with every request
-		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		httpSecurity
+				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 }

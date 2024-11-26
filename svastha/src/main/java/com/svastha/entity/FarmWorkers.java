@@ -2,10 +2,12 @@ package com.svastha.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -23,8 +25,10 @@ public class FarmWorkers {
 	private Farms farm;
 
 	@ManyToOne
+	@JoinColumn(name = "created_by_pk1", updatable = false)
 	private Users createdBy;
 
+	@Column(name = "created_dt", nullable = false, updatable = false, insertable = false)
 	private Timestamp createdDt;
 
 	@ManyToOne

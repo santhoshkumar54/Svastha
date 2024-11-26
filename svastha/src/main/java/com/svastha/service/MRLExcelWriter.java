@@ -12,7 +12,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -182,9 +181,7 @@ public class MRLExcelWriter {
 	}
 
 	public void createSingleRows(FarmProjects project, Row row, int rowNum) {
-		System.out.println("Create SIngle Row called: " + project.getPk1() + "  " + rowNum);
 		if (row.getCell(0) == null) {
-			System.out.println("Creating Single Row");
 			row.createCell(0).setCellValue(rowNum - 2);
 			row.createCell(1).setCellValue(project.getFarm().getFarmerName());
 			row.createCell(2).setCellValue(project.getFarm().getFatherName());
@@ -217,31 +214,31 @@ public class MRLExcelWriter {
 	private void generateSeedData(FarmProjects project, Row row) {
 		ProjectSeedTreatment seed = seedTreatmentDao.findSeedTreatmentByProjects(project);
 		if (seed != null) {
-			row.createCell(20).setCellValue(seed.getSeedRate());
-			row.createCell(21).setCellValue(seed.getSaltSolution());
-			row.createCell(22).setCellValue(seed.getSeedTreatment());
-			row.createCell(23).setCellValue(seed.getSeedSource());
-			row.createCell(24).setCellValue(seed.getBrand());
-			row.createCell(25).setCellValue(seed.getCompany());
-			row.createCell(26).setCellValue(seed.getSeedClass());
+			row.createCell(21).setCellValue(seed.getSeedRate());
+			row.createCell(22).setCellValue(seed.getSaltSolution());
+			row.createCell(23).setCellValue(seed.getSeedTreatment());
+			row.createCell(24).setCellValue(seed.getSeedSource());
+			row.createCell(25).setCellValue(seed.getBrand());
+			row.createCell(26).setCellValue(seed.getCompany());
+			row.createCell(27).setCellValue(seed.getSeedClass());
 
 			Object[] result = seedTreatmentChemicalDao.findBySeedTreatmentPk1(seed.getPk1());
 			if (result != null && result.length > 1) {
-				row.createCell(27).setCellValue((String) result[1]);
-				row.createCell(28).setCellValue((String) result[2]);
-				row.createCell(29).setCellValue((String) result[3]);
+				row.createCell(28).setCellValue((String) result[1]);
+				row.createCell(29).setCellValue((String) result[2]);
+				row.createCell(30).setCellValue((String) result[3]);
 			}
-			row.createCell(30).setCellValue(seed.getCost());
+			row.createCell(31).setCellValue(seed.getCost());
 		}
 	}
 
 	private void generateDSRData(FarmProjects project, Row row) {
 		ProjectDSRMethod obj = dsrDao.findDsrByProjects(project);
 		if (obj != null) {
-			row.createCell(31).setCellValue(obj.getSeedRate());
-			row.createCell(32).setCellValue(obj.getAcres());
-			row.createCell(33).setCellValue(obj.getSoakingTime());
-			row.createCell(34).setCellValue(obj.getCost());
+			row.createCell(32).setCellValue(obj.getSeedRate());
+			row.createCell(33).setCellValue(obj.getAcres());
+			row.createCell(34).setCellValue(obj.getSoakingTime());
+			row.createCell(35).setCellValue(obj.getCost());
 		}
 	}
 
@@ -262,11 +259,12 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlots().getPk1());
 				row.createCell(19).setCellValue(obj.getPlots().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlots().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(35).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(36).setCellValue(obj.getSowingDate());
-			row.createCell(37).setCellValue(obj.getRemarks());
-			row.createCell(38).setCellValue(obj.getCost());
+			row.createCell(36).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
+			row.createCell(37).setCellValue(obj.getSowingDate());
+			row.createCell(38).setCellValue(obj.getRemarks());
+			row.createCell(39).setCellValue(obj.getCost());
 			start = start + 1;
 		}
 		return end;
@@ -288,11 +286,12 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlot().getPk1());
 				row.createCell(19).setCellValue(obj.getPlot().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlot().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(39).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(40).setCellValue(obj.getSeedlingAge());
-			row.createCell(41).setCellValue(obj.getIrrigationDate());
-			row.createCell(42).setCellValue(obj.getCost());
+			row.createCell(40).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
+			row.createCell(41).setCellValue(obj.getSeedlingAge());
+			row.createCell(42).setCellValue(obj.getIrrigationDate());
+			row.createCell(43).setCellValue(obj.getCost());
 			start = start + 1;
 		}
 		return end;
@@ -314,13 +313,14 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlot().getPk1());
 				row.createCell(19).setCellValue(obj.getPlot().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlot().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(43).setCellValue(obj.getWeedicide() == null ? "" : obj.getWeedicide().getName());
-			row.createCell(44).setCellValue(obj.getManagement());
-			row.createCell(45).setCellValue(obj.getDose());
-			row.createCell(46).setCellValue(obj.getWeedingDate());
-			row.createCell(47).setCellValue(obj.getMethod());
-			row.createCell(48).setCellValue(obj.getCost());
+			row.createCell(44).setCellValue(obj.getWeedicide() == null ? "" : obj.getWeedicide().getName());
+			row.createCell(45).setCellValue(obj.getManagement());
+			row.createCell(46).setCellValue(obj.getDose());
+			row.createCell(47).setCellValue(obj.getWeedingDate());
+			row.createCell(48).setCellValue(obj.getMethod());
+			row.createCell(49).setCellValue(obj.getCost());
 
 			start = start + 1;
 		}
@@ -343,11 +343,12 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlot().getPk1());
 				row.createCell(19).setCellValue(obj.getPlot().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlot().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(49).setCellValue(obj.getFertilizer() == null ? "" : obj.getFertilizer().getName());
-			row.createCell(50).setCellValue(obj.getDose());
-			row.createCell(51).setCellValue(obj.getAppliedDate());
-			row.createCell(52).setCellValue(obj.getCost());
+			row.createCell(50).setCellValue(obj.getFertilizer() == null ? "" : obj.getFertilizer().getName());
+			row.createCell(51).setCellValue(obj.getDose());
+			row.createCell(52).setCellValue(obj.getAppliedDate());
+			row.createCell(53).setCellValue(obj.getCost());
 
 			start = start + 1;
 		}
@@ -370,14 +371,15 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlots().getPk1());
 				row.createCell(19).setCellValue(obj.getPlots().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlots().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(53).setCellValue(obj.getPests() == null ? "" : obj.getPests().getName());
-			row.createCell(54).setCellValue(obj.getChemicals() == null ? "" : obj.getChemicals().getChemicalName());
-			row.createCell(55).setCellValue(obj.getBrands() == null ? "" : obj.getBrands().getTradeName());
-			row.createCell(56).setCellValue(obj.getBrands() == null ? "" : obj.getBrands().getCompanyName());
-			row.createCell(57).setCellValue(obj.getAppliedDose());
-			row.createCell(58).setCellValue(obj.getAppliedMethod());
-			row.createCell(59).setCellValue(obj.getCost());
+			row.createCell(54).setCellValue(obj.getPests() == null ? "" : obj.getPests().getName());
+			row.createCell(55).setCellValue(obj.getChemicals() == null ? "" : obj.getChemicals().getChemicalName());
+			row.createCell(56).setCellValue(obj.getBrands() == null ? "" : obj.getBrands().getTradeName());
+			row.createCell(57).setCellValue(obj.getBrands() == null ? "" : obj.getBrands().getCompanyName());
+			row.createCell(58).setCellValue(obj.getAppliedDose());
+			row.createCell(59).setCellValue(obj.getAppliedMethod());
+			row.createCell(60).setCellValue(obj.getCost());
 
 			start = start + 1;
 		}
@@ -394,13 +396,13 @@ public class MRLExcelWriter {
 				row = sheet.createRow(rowNum);
 				createSingleRows(project, row, rowNum);
 			}
-			row.createCell(60).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(61).setCellValue(obj.getAcresPrepared());
-			row.createCell(62).setCellValue(obj.getDateOfPreparation());
-			row.createCell(63).setCellValue(obj.getMethod());
-			row.createCell(64).setCellValue(obj.getFieldPreparation());
-			row.createCell(65).setCellValue(obj.getNoOfTimes());
-			row.createCell(66).setCellValue(obj.getCost());
+			row.createCell(61).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
+			row.createCell(62).setCellValue(obj.getAcresPrepared());
+			row.createCell(63).setCellValue(obj.getDateOfPreparation());
+			row.createCell(64).setCellValue(obj.getMethod());
+			row.createCell(65).setCellValue(obj.getFieldPreparation());
+			row.createCell(66).setCellValue(obj.getNoOfTimes());
+			row.createCell(67).setCellValue(obj.getCost());
 
 			rowNum = rowNum + 1;
 		}
@@ -423,15 +425,16 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlots().getPk1());
 				row.createCell(19).setCellValue(obj.getPlots().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlots().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(67).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(68).setCellValue(obj.getDuration());
-			row.createCell(69).setCellValue(obj.getDateOfTransplanting());
-			row.createCell(70).setCellValue(obj.getAcres());
-			row.createCell(71).setCellValue(obj.getSeedlingAge());
-			row.createCell(72).setCellValue(obj.getSpacing());
-			row.createCell(73).setCellValue(obj.getHill());
-			row.createCell(74).setCellValue(obj.getCost());
+			row.createCell(68).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
+			row.createCell(69).setCellValue(obj.getDuration());
+			row.createCell(70).setCellValue(obj.getDateOfTransplanting());
+			row.createCell(71).setCellValue(obj.getAcres());
+			row.createCell(72).setCellValue(obj.getSeedlingAge());
+			row.createCell(73).setCellValue(obj.getSpacing());
+			row.createCell(74).setCellValue(obj.getHill());
+			row.createCell(75).setCellValue(obj.getCost());
 
 			start = start + 1;
 		}
@@ -448,14 +451,14 @@ public class MRLExcelWriter {
 				createSingleRows(project, row, rowNum);
 			}
 
-			row.createCell(75).setCellValue(obj.getNumber());
-			row.createCell(76).setCellValue(obj.getCropStage() == null ? "" : obj.getCropStage().getCropStage());
-			row.createCell(77)
+			row.createCell(76).setCellValue(obj.getNumber());
+			row.createCell(77).setCellValue(obj.getCropStage() == null ? "" : obj.getCropStage().getCropStage());
+			row.createCell(78)
 					.setCellValue(obj.getIrrigationSource() == null ? "" : obj.getIrrigationSource().getName());
-			row.createCell(78).setCellValue(obj.getIrrigationDate());
-			row.createCell(79).setCellValue(obj.getTechniques());
-			row.createCell(80).setCellValue(obj.getRemarks());
-			row.createCell(81).setCellValue(obj.getCost());
+			row.createCell(79).setCellValue(obj.getIrrigationDate());
+			row.createCell(80).setCellValue(obj.getTechniques());
+			row.createCell(81).setCellValue(obj.getRemarks());
+			row.createCell(82).setCellValue(obj.getCost());
 
 			rowNum = rowNum + 1;
 		}
@@ -472,12 +475,12 @@ public class MRLExcelWriter {
 				createSingleRows(project, row, rowNum);
 			}
 
-			row.createCell(82).setCellValue(obj.getWeedicide() == null ? "" : obj.getWeedicide().getName());
-			row.createCell(83).setCellValue(obj.getWeedicide() == null ? "" : obj.getWeedicide().getBrand());
-			row.createCell(84).setCellValue(obj.getEmergence());
-			row.createCell(85).setCellValue(obj.getAcres());
-			row.createCell(86).setCellValue(obj.getWeedingDate());
-			row.createCell(87).setCellValue(obj.getCost());
+			row.createCell(83).setCellValue(obj.getWeedicide() == null ? "" : obj.getWeedicide().getName());
+			row.createCell(84).setCellValue(obj.getWeedicide() == null ? "" : obj.getWeedicide().getBrand());
+			row.createCell(85).setCellValue(obj.getEmergence());
+			row.createCell(86).setCellValue(obj.getAcres());
+			row.createCell(87).setCellValue(obj.getWeedingDate());
+			row.createCell(88).setCellValue(obj.getCost());
 
 			rowNum = rowNum + 1;
 		}
@@ -500,12 +503,13 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlot().getPk1());
 				row.createCell(19).setCellValue(obj.getPlot().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlot().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(88).setCellValue(obj.getManure() == null ? "" : obj.getManure().getName());
-			row.createCell(89).setCellValue(obj.getDose());
-			row.createCell(90).setCellValue(obj.getMethod());
-			row.createCell(91).setCellValue(obj.getUsedDate());
-			row.createCell(92).setCellValue(obj.getCost());
+			row.createCell(89).setCellValue(obj.getManure() == null ? "" : obj.getManure().getName());
+			row.createCell(90).setCellValue(obj.getDose());
+			row.createCell(91).setCellValue(obj.getMethod());
+			row.createCell(92).setCellValue(obj.getUsedDate());
+			row.createCell(93).setCellValue(obj.getCost());
 			start = start + 1;
 		}
 		return end;
@@ -527,13 +531,14 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlot().getPk1());
 				row.createCell(19).setCellValue(obj.getPlot().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlot().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(93).setCellValue(obj.getFertilizer() == null ? "" : obj.getFertilizer().getName());
-			row.createCell(94).setCellValue(obj.getDose());
-			row.createCell(95).setCellValue(obj.getMethod());
-			row.createCell(96).setCellValue(obj.getStage() == null ? "" : obj.getStage().getCropStage());
-			row.createCell(97).setCellValue(obj.getUsedDate());
-			row.createCell(98).setCellValue(obj.getCost());
+			row.createCell(94).setCellValue(obj.getFertilizer() == null ? "" : obj.getFertilizer().getName());
+			row.createCell(95).setCellValue(obj.getDose());
+			row.createCell(96).setCellValue(obj.getMethod());
+			row.createCell(97).setCellValue(obj.getStage() == null ? "" : obj.getStage().getCropStage());
+			row.createCell(98).setCellValue(obj.getUsedDate());
+			row.createCell(99).setCellValue(obj.getCost());
 			start = start + 1;
 		}
 		return end;
@@ -547,7 +552,6 @@ public class MRLExcelWriter {
 			if (start > end) {
 				end = start;
 			}
-			System.out.println("Into syn - " + syn.getPk1() + "  " + rowNum + "  " + start + "   " + end);
 			Row row = sheet.getRow(start);
 			if (row == null) {
 				row = sheet.createRow(start);
@@ -556,14 +560,15 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(syn.getPlot().getPk1());
 				row.createCell(19).setCellValue(syn.getPlot().getPlotNumber());
+				row.createCell(20).setCellValue(syn.getPlot().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(99).setCellValue(syn.getFertilizer() == null ? "" : syn.getFertilizer().getName());
-			row.createCell(100).setCellValue(syn.getDose());
-			row.createCell(101).setCellValue(syn.getNumber());
-			row.createCell(102).setCellValue(syn.getMethod());
-			row.createCell(103).setCellValue(syn.getStage() == null ? "" : syn.getStage().getCropStage());
-			row.createCell(104).setCellValue(syn.getUsedDate());
-			row.createCell(105).setCellValue(syn.getPk1());
+			row.createCell(100).setCellValue(syn.getFertilizer() == null ? "" : syn.getFertilizer().getName());
+			row.createCell(101).setCellValue(syn.getDose());
+			row.createCell(102).setCellValue(syn.getNumber());
+			row.createCell(103).setCellValue(syn.getMethod());
+			row.createCell(104).setCellValue(syn.getStage() == null ? "" : syn.getStage().getCropStage());
+			row.createCell(105).setCellValue(syn.getUsedDate());
+			row.createCell(106).setCellValue(syn.getPk1());
 			start = start + 1;
 		}
 		return end;
@@ -585,12 +590,13 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlots().getPk1());
 				row.createCell(19).setCellValue(obj.getPlots().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlots().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(106).setCellValue(obj.getMicro() == null ? "" : obj.getMicro().getName());
-			row.createCell(107).setCellValue(obj.getDose());
-			row.createCell(108).setCellValue(obj.getMethod());
-			row.createCell(109).setCellValue(obj.getUsedDate());
-			row.createCell(110).setCellValue(obj.getCost());
+			row.createCell(107).setCellValue(obj.getMicro() == null ? "" : obj.getMicro().getName());
+			row.createCell(108).setCellValue(obj.getDose());
+			row.createCell(109).setCellValue(obj.getMethod());
+			row.createCell(110).setCellValue(obj.getUsedDate());
+			row.createCell(111).setCellValue(obj.getCost());
 			start = start + 1;
 		}
 		return end;
@@ -612,17 +618,18 @@ public class MRLExcelWriter {
 			if (row.getCell(18) == null) {
 				row.createCell(18).setCellValue(obj.getPlots().getPk1());
 				row.createCell(19).setCellValue(obj.getPlots().getPlotNumber());
+				row.createCell(20).setCellValue(obj.getPlots().getLocation() == null ? "No" : "Yes");
 			}
-			row.createCell(111).setCellValue(obj.getPests() == null ? "" : obj.getPests().getName());
-			row.createCell(112).setCellValue(obj.getChemicals() == null ? "" : obj.getChemicals().getChemicalName());
-			row.createCell(113).setCellValue(obj.getBrands() == null ? "" : obj.getBrands().getTradeName());
-			row.createCell(114).setCellValue(obj.getBrands() == null ? "" : obj.getBrands().getCompanyName());
-			row.createCell(115).setCellValue(obj.getStage() == null ? "" : obj.getStage().getCropStage());
-			row.createCell(116).setCellValue(obj.getAppliedDate());
-			row.createCell(117).setCellValue(obj.getAppliedDose());
-			row.createCell(118).setCellValue(obj.getAppliedMethod());
-			row.createCell(119).setCellValue(obj.getAppliedMode());
-			row.createCell(120).setCellValue(obj.getCost());
+			row.createCell(112).setCellValue(obj.getPests() == null ? "" : obj.getPests().getName());
+			row.createCell(113).setCellValue(obj.getChemicals() == null ? "" : obj.getChemicals().getChemicalName());
+			row.createCell(114).setCellValue(obj.getBrands() == null ? "" : obj.getBrands().getTradeName());
+			row.createCell(115).setCellValue(obj.getBrands() == null ? "" : obj.getBrands().getCompanyName());
+			row.createCell(116).setCellValue(obj.getStage() == null ? "" : obj.getStage().getCropStage());
+			row.createCell(117).setCellValue(obj.getAppliedDate());
+			row.createCell(118).setCellValue(obj.getAppliedDose());
+			row.createCell(119).setCellValue(obj.getAppliedMethod());
+			row.createCell(120).setCellValue(obj.getAppliedMode());
+			row.createCell(121).setCellValue(obj.getCost());
 			start = start + 1;
 		}
 		return end;
@@ -638,13 +645,13 @@ public class MRLExcelWriter {
 				createSingleRows(project, row, rowNum);
 			}
 
-			row.createCell(121).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(122).setCellValue(obj.getLotQty());
-			row.createCell(123).setCellValue(obj.getSamplingDate());
-			row.createCell(124).setCellValue(obj.getSamplePrepDate());
-			row.createCell(125).setCellValue(obj.getSampleTestDate());
-			row.createCell(126).setCellValue(obj.getSampleCode());
-			row.createCell(127).setCellValue(obj.getResult());
+			row.createCell(122).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
+			row.createCell(123).setCellValue(obj.getLotQty());
+			row.createCell(124).setCellValue(obj.getSamplingDate());
+			row.createCell(125).setCellValue(obj.getSamplePrepDate());
+			row.createCell(126).setCellValue(obj.getSampleTestDate());
+			row.createCell(127).setCellValue(obj.getSampleCode());
+			row.createCell(128).setCellValue(obj.getResult());
 			rowNum = rowNum + 1;
 		}
 		return rowNum;
@@ -660,23 +667,23 @@ public class MRLExcelWriter {
 				createSingleRows(project, row, rowNum);
 			}
 
-			row.createCell(128).setCellValue(obj.getPurchaseDate());
-			row.createCell(129).setCellValue(obj.getLotNumber());
-			row.createCell(130).setCellValue(obj.getPurchaseCenter());
-			row.createCell(131).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(132).setCellValue(obj.getNumberOfBags());
-			row.createCell(133).setCellValue(obj.getPackSize());
-			row.createCell(134).setCellValue(obj.getLabelled());
-			row.createCell(135).setCellValue(obj.getMoisture());
-			row.createCell(136).setCellValue(obj.getHr());
-			row.createCell(137).setCellValue(obj.getBroken());
-			row.createCell(138).setCellValue(obj.getLength());
-			row.createCell(139).setCellValue(obj.getBreadth());
-			row.createCell(140).setCellValue(obj.getDd());
-			row.createCell(141).setCellValue(obj.getIntert());
-			row.createCell(142).setCellValue(obj.getAdmixture());
-			row.createCell(143).setCellValue(obj.getCheff());
-			row.createCell(144).setCellValue(obj.getDispatchDate());
+			row.createCell(129).setCellValue(obj.getPurchaseDate());
+			row.createCell(130).setCellValue(obj.getLotNumber());
+			row.createCell(131).setCellValue(obj.getPurchaseCenter());
+			row.createCell(132).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
+			row.createCell(133).setCellValue(obj.getNumberOfBags());
+			row.createCell(134).setCellValue(obj.getPackSize());
+			row.createCell(135).setCellValue(obj.getLabelled());
+			row.createCell(136).setCellValue(obj.getMoisture());
+			row.createCell(137).setCellValue(obj.getHr());
+			row.createCell(138).setCellValue(obj.getBroken());
+			row.createCell(139).setCellValue(obj.getLength());
+			row.createCell(140).setCellValue(obj.getBreadth());
+			row.createCell(141).setCellValue(obj.getDd());
+			row.createCell(142).setCellValue(obj.getIntert());
+			row.createCell(143).setCellValue(obj.getAdmixture());
+			row.createCell(144).setCellValue(obj.getCheff());
+			row.createCell(145).setCellValue(obj.getDispatchDate());
 
 			rowNum = rowNum + 1;
 		}
@@ -692,19 +699,19 @@ public class MRLExcelWriter {
 				row = sheet.createRow(rowNum);
 				createSingleRows(project, row, rowNum);
 			}
-			row.createCell(145).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(146).setCellValue(obj.getHarvestDate());
+			row.createCell(146).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
 			row.createCell(147).setCellValue(obj.getHarvestDate());
-			row.createCell(148).setCellValue(obj.getThreshingDate());
-			row.createCell(149).setCellValue(obj.getThreshingMethod());
-			row.createCell(150).setCellValue(obj.getCleaningDate());
-			row.createCell(151).setCellValue(obj.getMoisture());
-			row.createCell(152).setCellValue(obj.getPackingMaterial());
-			row.createCell(153).setCellValue(obj.getPackSize());
-			row.createCell(154).setCellValue(obj.getNumberOfBags());
-			row.createCell(155).setCellValue(obj.getGrossWeight());
-			row.createCell(156).setCellValue(obj.getEmptyWeight());
-			row.createCell(157).setCellValue(obj.getLabelled());
+			row.createCell(148).setCellValue(obj.getHarvestDate());
+			row.createCell(149).setCellValue(obj.getThreshingDate());
+			row.createCell(150).setCellValue(obj.getThreshingMethod());
+			row.createCell(151).setCellValue(obj.getCleaningDate());
+			row.createCell(152).setCellValue(obj.getMoisture());
+			row.createCell(153).setCellValue(obj.getPackingMaterial());
+			row.createCell(154).setCellValue(obj.getPackSize());
+			row.createCell(155).setCellValue(obj.getNumberOfBags());
+			row.createCell(156).setCellValue(obj.getGrossWeight());
+			row.createCell(157).setCellValue(obj.getEmptyWeight());
+			row.createCell(158).setCellValue(obj.getLabelled());
 
 			rowNum = rowNum + 1;
 		}
@@ -720,19 +727,19 @@ public class MRLExcelWriter {
 				row = sheet.createRow(rowNum);
 				createSingleRows(project, row, rowNum);
 			}
-			row.createCell(158).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(159).setCellValue(obj.getDispatchDate());
-			row.createCell(160).setCellValue(obj.getInvoiceNumber());
-			row.createCell(161).setCellValue(obj.getTruckNumber());
-			row.createCell(162).setCellValue(obj.getTruckBiltyNumber());
-			row.createCell(163).setCellValue(obj.getNumberOfBags());
-			row.createCell(164).setCellValue(obj.getHsnCode());
-			row.createCell(165).setCellValue(obj.getGrossWeight());
-			row.createCell(166).setCellValue(obj.getEmptyWeight());
-			row.createCell(167).setCellValue(obj.getRatePerKg());
-			row.createCell(168).setCellValue(obj.getDispatchFrom());
-			row.createCell(169).setCellValue(obj.getDispatchTo());
-			row.createCell(170).setCellValue(obj.getDispatchBy());
+			row.createCell(159).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
+			row.createCell(160).setCellValue(obj.getDispatchDate());
+			row.createCell(161).setCellValue(obj.getInvoiceNumber());
+			row.createCell(162).setCellValue(obj.getTruckNumber());
+			row.createCell(163).setCellValue(obj.getTruckBiltyNumber());
+			row.createCell(164).setCellValue(obj.getNumberOfBags());
+			row.createCell(165).setCellValue(obj.getHsnCode());
+			row.createCell(166).setCellValue(obj.getGrossWeight());
+			row.createCell(167).setCellValue(obj.getEmptyWeight());
+			row.createCell(168).setCellValue(obj.getRatePerKg());
+			row.createCell(169).setCellValue(obj.getDispatchFrom());
+			row.createCell(170).setCellValue(obj.getDispatchTo());
+			row.createCell(171).setCellValue(obj.getDispatchBy());
 
 			rowNum = rowNum + 1;
 		}
@@ -748,21 +755,21 @@ public class MRLExcelWriter {
 				row = sheet.createRow(rowNum);
 				createSingleRows(project, row, rowNum);
 			}
-			row.createCell(171).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(172).setCellValue(obj.getStorageDate());
-			row.createCell(173).setCellValue(obj.getStackNumber());
-			row.createCell(174).setCellValue(obj.getNumberOfBags());
-			row.createCell(175).setCellValue(obj.getPackSize());
-			row.createCell(176).setCellValue(obj.getGrossWeight());
-			row.createCell(177).setCellValue(obj.getStorageLocation());
-			row.createCell(178).setCellValue(obj.getGodownName());
-			row.createCell(179).setCellValue(obj.getLabelled());
-			row.createCell(180).setCellValue(obj.getSeparateStacks());
-			row.createCell(181).setCellValue(obj.getChemicalName());
-			row.createCell(182).setCellValue(obj.getDose());
-			row.createCell(183).setCellValue(obj.getFumigationDate());
-			row.createCell(184).setCellValue(obj.getExposureDate());
-			row.createCell(185).setCellValue(obj.getAgencyName());
+			row.createCell(172).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
+			row.createCell(173).setCellValue(obj.getStorageDate());
+			row.createCell(174).setCellValue(obj.getStackNumber());
+			row.createCell(175).setCellValue(obj.getNumberOfBags());
+			row.createCell(176).setCellValue(obj.getPackSize());
+			row.createCell(177).setCellValue(obj.getGrossWeight());
+			row.createCell(178).setCellValue(obj.getStorageLocation());
+			row.createCell(179).setCellValue(obj.getGodownName());
+			row.createCell(180).setCellValue(obj.getLabelled());
+			row.createCell(181).setCellValue(obj.getSeparateStacks());
+			row.createCell(182).setCellValue(obj.getChemicalName());
+			row.createCell(183).setCellValue(obj.getDose());
+			row.createCell(184).setCellValue(obj.getFumigationDate());
+			row.createCell(185).setCellValue(obj.getExposureDate());
+			row.createCell(186).setCellValue(obj.getAgencyName());
 
 			rowNum = rowNum + 1;
 		}
@@ -778,15 +785,15 @@ public class MRLExcelWriter {
 				row = sheet.createRow(rowNum);
 				createSingleRows(project, row, rowNum);
 			}
-			row.createCell(186).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(187).setCellValue(obj.getStackNumber());
-			row.createCell(188).setCellValue(obj.getLocation());
-			row.createCell(189).setCellValue(obj.getProduct());
-			row.createCell(190).setCellValue(obj.getSampleCode());
-			row.createCell(191).setCellValue(obj.getSampleTestDate());
-			row.createCell(192).setCellValue(obj.getReportDate());
-			row.createCell(193).setCellValue(obj.getMrl());
-			row.createCell(194).setCellValue(obj.getResult());
+			row.createCell(187).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
+			row.createCell(188).setCellValue(obj.getStackNumber());
+			row.createCell(189).setCellValue(obj.getLocation());
+			row.createCell(190).setCellValue(obj.getProduct());
+			row.createCell(191).setCellValue(obj.getSampleCode());
+			row.createCell(192).setCellValue(obj.getSampleTestDate());
+			row.createCell(193).setCellValue(obj.getReportDate());
+			row.createCell(194).setCellValue(obj.getMrl());
+			row.createCell(195).setCellValue(obj.getResult());
 
 			rowNum = rowNum + 1;
 		}
@@ -796,8 +803,8 @@ public class MRLExcelWriter {
 	private void generateHarvestData(FarmProjects project, Row row) {
 		ProjectHarvest obj = harvestDao.findByProjects(project);
 		if (obj != null) {
-			row.createCell(195).setCellValue(obj.getHarvestDate());
-			row.createCell(196).setCellValue(obj.getYield());
+			row.createCell(196).setCellValue(obj.getHarvestDate());
+			row.createCell(197).setCellValue(obj.getYield());
 		}
 	}
 
@@ -813,14 +820,11 @@ public class MRLExcelWriter {
 		if (!f.exists()) {
 			f.mkdirs();
 		}
-		System.out.println("excel writer called  " + excelPath);
 		File template = new File(excelFilePath + "MRLTemplate.xlsx");
 		File file = new File(excelPath);
-		System.out.println("excel writer called 1 ");
 		try (InputStream inputStream = new FileInputStream(template);
 				Workbook workbook = new XSSFWorkbook(inputStream);
 				FileOutputStream outputStream = new FileOutputStream(file);) {
-			System.out.println("excel writer called  4");
 			Thread.sleep(5000); // Sleep for 5 seconds
 			Sheet sheet = workbook.getSheetAt(0);
 
@@ -845,7 +849,6 @@ public class MRLExcelWriter {
 				for (ProjectPlots plot : plots) {
 					int start = rowNum;
 					int end = rowNum;
-					System.out.println("Into plot - " + plot.getPlots().getPk1() + "  " + rowNum);
 					FarmPlots farmPlot = plot.getPlots();
 					Row plotRow = sheet.getRow(rowNum);
 					if (plotRow == null) {
@@ -855,6 +858,7 @@ public class MRLExcelWriter {
 					if (plotRow.getCell(18) == null) {
 						plotRow.createCell(18).setCellValue(farmPlot.getPk1());
 						plotRow.createCell(19).setCellValue(farmPlot.getPlotNumber());
+						plotRow.createCell(20).setCellValue(farmPlot.getLocation() == null ? "No" : "Yes");
 					}
 
 					end = Math.max(end, populateSowingData(project, farmPlot, start, end, rowNum, sheet, plotRow));

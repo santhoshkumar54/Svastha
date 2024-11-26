@@ -68,9 +68,14 @@ public class LoggingAspect {
 	        		return result;
 	    
 	        } catch (Exception e) {
-	            // Handle any exceptions that occur while fetching the request
-	        	 LogServiceFactory.getService().logError("Error occurred while fetching the HTTP request", e);
-	        	 return null;
+	        	  // Check if the exception message contains "invalid_credentials"
+	            if (e.getMessage() != null && e.getMessage().contains("INVALID_CREDENTIALS")) {
+	                LogServiceFactory.getService().logError("Invalid credentials error", e);
+	                throw e;  // Rethrow the exception specifically for invalid credentials
+	            } else {
+	                LogServiceFactory.getService().logError("Error occurred: " + e.getMessage(), e);
+	                return joinPoint.proceed();  // Continue with normal flow for other exceptions
+	            }
 	        }
 		
 

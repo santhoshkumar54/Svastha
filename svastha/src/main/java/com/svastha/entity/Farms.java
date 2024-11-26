@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Where;
@@ -84,10 +85,11 @@ public class Farms {
 	private Timestamp deletedDt;
 
 	@ManyToOne
+	@JoinColumn(name = "created_by_pk1", updatable = false)
 	private Users createdBy;
 
+	@Column(name = "created_dt", nullable = false, updatable = false, insertable = false)
 	private Timestamp createdDt;
-
 	@ManyToOne
 	private Users updatedBy;
 

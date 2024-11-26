@@ -2,10 +2,12 @@ package com.svastha.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -14,6 +16,8 @@ public class ProjectWeedManagement {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long pk1;
+	
+	private String management;
 
 	private String brand;
 
@@ -30,8 +34,10 @@ public class ProjectWeedManagement {
 	private MasterWeedicide weedicide;
 
 	@ManyToOne
+	@JoinColumn(name = "created_by_pk1", updatable = false)
 	private Users createdBy;
 
+	@Column(name = "created_dt", nullable = false, updatable = false, insertable = false)
 	private Timestamp createdDt;
 
 	@ManyToOne
@@ -58,6 +64,14 @@ public class ProjectWeedManagement {
 
 	public void setPk1(Long pk1) {
 		this.pk1 = pk1;
+	}
+	
+	public String getManagement() {
+		return management;
+	}
+
+	public void setManagement(String management) {
+		this.management = management;
 	}
 
 	public String getBrand() {

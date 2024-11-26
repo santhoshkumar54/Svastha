@@ -12,29 +12,33 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.svastha.entity.AwdData;
 import com.svastha.entity.District;
 import com.svastha.entity.Manual;
 import com.svastha.entity.Thaluk;
 import com.svastha.entity.Weather;
-import com.svastha.entity.viewNotification;
+import com.svastha.repository.AwdDataRepository;
 import com.svastha.repository.MasterManualRepository;
 import com.svastha.repository.ThalukRepository;
 import com.svastha.repository.ViewNotificationRepository;
@@ -59,6 +63,9 @@ public class HomeController {
 	private WeatherRepository weatherDao;
 
 	@Autowired
+	private AwdDataRepository awdDao;
+
+	@Autowired
 	private ViewNotificationRepository notificationDao;
 
 	@Value("${upload.directory}")
@@ -70,6 +77,9 @@ public class HomeController {
 	private String apkFilePath;
 
 	private boolean shallFetchWeather;
+
+	private static final String API_KEY_HEADER = "API-KEY";
+	private static final String VALID_API_KEY = "93e4b7d5-f9a6-4c2e-b1fc-7a41cb5f4e85";
 
 	@PostConstruct
 	public void init() {
@@ -212,9 +222,27 @@ public class HomeController {
 		return locations;
 	}
 
-	@GetMapping("/getNotifications")
-	public @ResponseBody List<viewNotification> getNotification() {
-		return notificationDao.findAll();
+	@PostMapping("/third-party/awddata")
+	public ResponseEntity<String> saveAwdData(HttpServletRequest request, @RequestBody AwdData data) {
+		String apiKey = request.getHeader(API_KEY_HEADER);
+		System.out.println("in");
+		if (VALID_API_KEY.equals(apiKey)) {
+			System.out.println("in1");
+			try {
+				System.out.println("in2");
+				awdDao.save(data);
+				System.out.println("in3");
+				return ResponseEntity.ok("SUCCESS");
+
+			} catch (Exception ex) {
+				System.out.println("out");
+				return ResponseEntity.badRequest().body("FAILED");
+			}
+		} else {
+			System.out.println("out 1");
+
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("UNAUTHORIZED");
+		}
 	}
 
 	// under construction

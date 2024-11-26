@@ -54,6 +54,7 @@ import com.svastha.repository.UserRepository;
 import com.svastha.service.ExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.GpsService;
+import com.svastha.service.MRLExcelWriter;
 import com.svastha.util.LocationDTO;
 import com.svastha.util.PlotsDTO;
 import com.svastha.util.ProjectsDTO;
@@ -104,7 +105,7 @@ public class FarmProjectController {
 	private MasterSeasonRepository masterSeasonDao;
 
 	@Autowired
-	private ExcelWriter excel;
+	private MRLExcelWriter excel;
 
 	private static String PROJECT_TYPE = "MRL";
 
@@ -133,23 +134,23 @@ public class FarmProjectController {
 		return projects;
 	}
 
-	@GetMapping("/exportProjectsLegacy")
-	public @ResponseBody String exportProjectsLegacy(@RequestParam(required = false) Long yearId,
-			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
-			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
-			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
-			@RequestParam(required = false) Long districtId, @RequestParam(required = false) Long thalukId,
-			@RequestParam(required = false) Long villageId, @RequestParam String email) {
-		try {
-			System.out.println("year-" + yearId + " season-" + seasonId + " crop-" + cropId + " key-" + key + " user-"
-					+ userId + " email-" + email);
-			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
-			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics, null, null, null);
-			return "The exported data will be sent to your email.";
-		} catch (Exception e) {
-			return "Failed to trigger batch job: " + e.getMessage();
-		}
-	}
+//	@GetMapping("/exportProjectsLegacy")
+//	public @ResponseBody String exportProjectsLegacy(@RequestParam(required = false) Long yearId,
+//			@RequestParam(required = false) Long seasonId, @RequestParam(required = false) Long cropId,
+//			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
+//			@RequestParam(required = false) Long varietyId, @RequestParam(required = false) Long ics,
+//			@RequestParam(required = false) Long districtId, @RequestParam(required = false) Long thalukId,
+//			@RequestParam(required = false) Long villageId, @RequestParam String email) {
+//		try {
+//			System.out.println("year-" + yearId + " season-" + seasonId + " crop-" + cropId + " key-" + key + " user-"
+//					+ userId + " email-" + email);
+//			Long projectTypePk1 = projectTypeDao.findByProjectType(PROJECT_TYPE).getPk1();
+//			excel.startProjectExport(yearId, seasonId, cropId, key, userId, email, projectTypePk1, varietyId, ics, null, null, null);
+//			return "The exported data will be sent to your email.";
+//		} catch (Exception e) {
+//			return "Failed to trigger batch job: " + e.getMessage();
+//		}
+//	}
 
 	@GetMapping("/exportProjects")
 	public @ResponseBody String exportProjects(@RequestParam(required = false) Long yearId,
