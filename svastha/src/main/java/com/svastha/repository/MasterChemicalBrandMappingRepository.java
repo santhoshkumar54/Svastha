@@ -12,4 +12,7 @@ import com.svastha.entity.MasterChemicals;
 public interface MasterChemicalBrandMappingRepository extends JpaRepository<MasterChemicalBrandMapping, Long>{
 	
      List<MasterChemicalBrandMapping> findAllByChemicals(MasterChemicals chemicals);
+     
+     List<MasterChemicalBrandMapping> findAllByChemicalsIn(List<MasterChemicals> chemicals);
+
 }

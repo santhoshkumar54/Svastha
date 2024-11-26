@@ -1,7 +1,10 @@
 package com.svastha.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -731,6 +734,93 @@ public class MasterController {
 	public @ResponseBody Iterable<MasterChemicals> deleteChemicals(@RequestBody MasterChemicals chemicals) {
 		chemicalsDao.delete(chemicals);
 		return chemicalsDao.findAll();
+	}
+
+	@GetMapping("/getChemicalsWithBrand")
+	public @ResponseBody List<ChemicalBrandModel> getChemicalsWithBrand() {
+		List<MasterChemicals> chemicals = chemicalsDao.findAll();
+		Map<Long, List<MasterChemicalBrandMapping>> brandMappingMap = chemicalBrandDao.findAllByChemicalsIn(chemicals)
+				.stream().collect(Collectors.groupingBy(mapping -> mapping.getChemicals().getPk1()));
+
+		// Construct the response using a streamlined approach
+		return chemicals.stream().map(chemical -> {
+			ChemicalBrandModel chemicalBrandModel = new ChemicalBrandModel();
+			chemicalBrandModel.setChemicals(chemical);
+
+			// Get the brand mappings for the current chemical
+			List<MasterChemicalBrandMapping> brandMappings = brandMappingMap.getOrDefault(chemical.getPk1(),
+					Collections.emptyList());
+
+			// Extract brands from the mappings
+			List<MasterChemicalBrands> brands = brandMappings.stream().map(MasterChemicalBrandMapping::getBrands)
+					.collect(Collectors.toList());
+
+			chemicalBrandModel.setBrands(brands);
+			return chemicalBrandModel;
+		}).collect(Collectors.toList());
+	}
+
+	@PostMapping("/saveChemicalsWithBrand")
+	public @ResponseBody List<ChemicalBrandModel> saveChemicalsWithBrand(@RequestBody ChemicalBrandModel chemicals) {
+		MasterChemicals chemical = chemicals.getChemicals();
+		chemical = chemicalsDao.save(chemical);
+		List<MasterChemicalBrandMapping> existing = chemicalBrandDao.findAllByChemicals(chemical);
+		List<MasterChemicalBrands> incoming = chemicals.getBrands();
+
+		List<MasterChemicalBrands> commonItems = incoming.stream()
+				.filter(in -> existing.stream().anyMatch(ex -> ex.getBrands().getPk1().equals(in.getPk1())))
+				.collect(Collectors.toList());
+
+		List<MasterChemicalBrandMapping> notInIncoming = existing.stream()
+				.filter(ex -> incoming.stream().noneMatch(in -> ex.getBrands().getPk1().equals(in.getPk1())))
+				.collect(Collectors.toList());
+
+		incoming.removeAll(commonItems);
+
+		for (MasterChemicalBrands masterChemicalBrands : incoming) {
+			MasterChemicalBrandMapping newMapping = new MasterChemicalBrandMapping();
+			newMapping.setChemicals(chemical);
+			newMapping.setBrands(masterChemicalBrands);
+			chemicalBrandDao.save(newMapping);
+		}
+
+		for (MasterChemicalBrandMapping masterChemicalBrandMapping : notInIncoming) {
+			System.out.println(
+					"Items in existing but not in incoming (unique brands): " + masterChemicalBrandMapping.getPk1());
+
+		}
+
+		chemicalBrandDao.deleteAll(notInIncoming);
+
+		return getChemicalsWithBrand();
+	}
+
+	@PostMapping("/savePestWithChemicals")
+	public @ResponseBody Iterable<DiseaseAndPestModel> savePestWithChemicals(@RequestBody DiseaseAndPestModel pests) {
+		MasterPests pest = pests.getPests();
+		pest = masterPestsDao.save(pest);
+		List<MasterChemicalPestMapping> existing = pestChemicalDao.findAllByPests(pest);
+		List<ChemicalBrandModel> incoming = pests.getChemicals();
+
+		List<ChemicalBrandModel> commonItems = incoming.stream().filter(
+				in -> existing.stream().anyMatch(ex -> ex.getChemicals().getPk1().equals(in.getChemicals().getPk1())))
+				.collect(Collectors.toList());
+
+		List<MasterChemicalPestMapping> notInIncoming = existing.stream().filter(
+				ex -> incoming.stream().noneMatch(in -> ex.getChemicals().getPk1().equals(in.getChemicals().getPk1())))
+				.collect(Collectors.toList());
+
+		incoming.removeAll(commonItems);
+
+		for (ChemicalBrandModel chem : incoming) {
+			MasterChemicalPestMapping newMapping = new MasterChemicalPestMapping();
+			newMapping.setChemicals(chem.getChemicals());
+			newMapping.setPests(pest);
+			pestChemicalDao.save(newMapping);
+		}
+		pestChemicalDao.deleteAll(notInIncoming);
+
+		return getDiseasesAndPests();
 	}
 
 	@GetMapping("/getBrands")
