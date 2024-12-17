@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.svastha.entity.FarmProjects;
+import com.svastha.entity.HarvestPriceConfirmation;
 import com.svastha.entity.ProjectDispatch;
 import com.svastha.entity.ProjectHarvest;
 import com.svastha.entity.ProjectPacking;
@@ -18,6 +19,7 @@ import com.svastha.entity.ProjectPrePurchase;
 import com.svastha.entity.ProjectProcurement;
 import com.svastha.entity.ProjectStorage;
 import com.svastha.repository.FarmProjectRepository;
+import com.svastha.repository.HarvestPriceConfirmationRepository;
 import com.svastha.repository.ProjectsDispatchRepository;
 import com.svastha.repository.ProjectsHarvestRepository;
 import com.svastha.repository.ProjectsPackingRepository;
@@ -52,6 +54,9 @@ public class HarvestController {
 
 	@Autowired
 	private ProjectsHarvestRepository harvestDao;
+
+	@Autowired
+	private HarvestPriceConfirmationRepository priceConfirmationDao;
 
 	@GetMapping("/getPacking")
 	public List<ProjectPacking> getPacking(@RequestParam Long projectId) {
@@ -142,6 +147,19 @@ public class HarvestController {
 	public ProjectHarvest saveHarvestData(@RequestBody ProjectHarvest harvest) {
 
 		return harvestDao.save(harvest);
+	}
+
+	@GetMapping("/getPriceConfirmation")
+	public List<HarvestPriceConfirmation> getPriceConfirmation(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+
+		return priceConfirmationDao.findAllByProjects(project);
+	}
+
+	@PostMapping("/savePriceConfirmation")
+	public HarvestPriceConfirmation savePriceConfirmation(@RequestBody HarvestPriceConfirmation price) {
+
+		return priceConfirmationDao.save(price);
 	}
 
 }
