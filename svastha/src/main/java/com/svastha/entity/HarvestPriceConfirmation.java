@@ -36,6 +36,8 @@ public class HarvestPriceConfirmation {
 	private String approvedBy;
 
 	private String dateOfApproval;
+	
+	private String laborCost;
 
 	// to identify the project of the data.
 	@ManyToOne
@@ -181,6 +183,14 @@ public class HarvestPriceConfirmation {
 
 	public void setUpdatedDt(Timestamp updatedDt) {
 		this.updatedDt = updatedDt;
+	}
+
+	public String getLaborCost() {
+		return laborCost;
+	}
+
+	public void setLaborCost(String laborCost) {
+		this.laborCost = laborCost;
 	}
 
 }

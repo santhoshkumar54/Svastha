@@ -227,20 +227,14 @@ public class HomeController {
 		String apiKey = request.getHeader(API_KEY_HEADER);
 		System.out.println("in");
 		if (VALID_API_KEY.equals(apiKey)) {
-			System.out.println("in1");
 			try {
-				System.out.println("in2");
 				awdDao.save(data);
-				System.out.println("in3");
 				return ResponseEntity.ok("SUCCESS");
 
 			} catch (Exception ex) {
-				System.out.println("out");
 				return ResponseEntity.badRequest().body("FAILED");
 			}
 		} else {
-			System.out.println("out 1");
-
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("UNAUTHORIZED");
 		}
 	}

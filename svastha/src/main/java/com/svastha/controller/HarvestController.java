@@ -148,18 +148,4 @@ public class HarvestController {
 
 		return harvestDao.save(harvest);
 	}
-
-	@GetMapping("/getPriceConfirmation")
-	public List<HarvestPriceConfirmation> getPriceConfirmation(@RequestParam Long projectId) {
-		FarmProjects project = projectDao.findById(projectId).get();
-
-		return priceConfirmationDao.findAllByProjects(project);
-	}
-
-	@PostMapping("/savePriceConfirmation")
-	public HarvestPriceConfirmation savePriceConfirmation(@RequestBody HarvestPriceConfirmation price) {
-
-		return priceConfirmationDao.save(price);
-	}
-
 }
