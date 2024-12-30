@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.svastha.entity.*;
+import com.svastha.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,67 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.svastha.entity.District;
-import com.svastha.entity.LiveStock;
-import com.svastha.entity.MasterAnnualProgram;
-import com.svastha.entity.MasterBioFertilizer;
-import com.svastha.entity.MasterChemicalBrandMapping;
-import com.svastha.entity.MasterChemicalBrands;
-import com.svastha.entity.MasterChemicalPestMapping;
-import com.svastha.entity.MasterChemicals;
-import com.svastha.entity.MasterCrop;
-import com.svastha.entity.MasterCropStage;
-import com.svastha.entity.MasterCropVariety;
-import com.svastha.entity.MasterFertilizers;
-import com.svastha.entity.MasterGrainMarket;
-import com.svastha.entity.MasterGrowthPromoter;
-import com.svastha.entity.MasterIcs;
-import com.svastha.entity.MasterMicroNutrient;
-import com.svastha.entity.MasterOrganicManure;
-import com.svastha.entity.MasterPests;
-import com.svastha.entity.MasterProjectType;
-import com.svastha.entity.MasterRiskManagement;
-import com.svastha.entity.MasterSeason;
-import com.svastha.entity.MasterSoiltype;
-import com.svastha.entity.MasterTools;
-import com.svastha.entity.MasterWeedicide;
-import com.svastha.entity.MasterYear;
-import com.svastha.entity.Thaluk;
-import com.svastha.entity.TransplantMethods;
-import com.svastha.entity.Village;
-import com.svastha.entity.WaterSource;
 import com.svastha.model.ChemicalBrandModel;
 import com.svastha.model.DiseaseAndPestModel;
 import com.svastha.model.MasterProjectModel;
-import com.svastha.repository.DistrictRepository;
-import com.svastha.repository.LiveStockRepository;
-import com.svastha.repository.MasterAnnualProgramRepository;
-import com.svastha.repository.MasterBioFertilizerRepository;
-import com.svastha.repository.MasterChemicalBrandMappingRepository;
-import com.svastha.repository.MasterChemicalBrandRepository;
-import com.svastha.repository.MasterChemicalRepository;
-import com.svastha.repository.MasterCropRepository;
-import com.svastha.repository.MasterCropStageRepository;
-import com.svastha.repository.MasterCropVarietyRepository;
-import com.svastha.repository.MasterDiseasesAndPestsRepository;
-import com.svastha.repository.MasterFertilizerRepository;
-import com.svastha.repository.MasterGrainMarketRepository;
-import com.svastha.repository.MasterGrowthPromoterRepository;
-import com.svastha.repository.MasterIcsRepository;
-import com.svastha.repository.MasterManureRepository;
-import com.svastha.repository.MasterMicroNutrientRepository;
-import com.svastha.repository.MasterPestChemicalMappingRepository;
-import com.svastha.repository.MasterProjectTypeRepository;
-import com.svastha.repository.MasterRiskManagementRepository;
-import com.svastha.repository.MasterSeasonRepository;
-import com.svastha.repository.MasterSoilTypeRepository;
-import com.svastha.repository.MasterToolsRepository;
-import com.svastha.repository.MasterWeedicideRepository;
-import com.svastha.repository.MasterYearRepository;
-import com.svastha.repository.ThalukRepository;
-import com.svastha.repository.TransplantMethodRepository;
-import com.svastha.repository.VillageRepository;
-import com.svastha.repository.WaterSourceRepository;
 
 enum ChemicalStatusEnum {
 	recommended, restricted, unknown
@@ -170,6 +116,9 @@ public class MasterController {
 
 	@Autowired
 	private MasterCropVarietyRepository varietyDao;
+
+	@Autowired
+	private AwdDeviceRepository awdDeviceDao;
 
 	@GetMapping(path = "/liveStocks")
 	public @ResponseBody Iterable<LiveStock> getLiveStocks() {
@@ -838,5 +787,17 @@ public class MasterController {
 	public @ResponseBody Iterable<MasterChemicalBrands> deleteBrands(@RequestBody MasterChemicalBrands brands) {
 		brandsDao.delete(brands);
 		return brandsDao.findAll();
+	}
+
+	@GetMapping("/awdDevices")
+	public @ResponseBody Page<AwdDevice> getAllAwdDevices(Pageable pageable) {
+		return awdDeviceDao.findAll(pageable);
+	}
+
+
+	@PostMapping("/saveAwdDevice")
+	public @ResponseBody Iterable<AwdDevice> saveAwdDevice(@RequestBody AwdDevice awdDevice) {
+		awdDeviceDao.save(awdDevice);
+		return awdDeviceDao.findAll();
 	}
 }
