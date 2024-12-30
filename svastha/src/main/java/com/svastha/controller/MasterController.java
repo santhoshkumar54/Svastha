@@ -791,7 +791,7 @@ public class MasterController {
 
 	@GetMapping("/awdDevices")
 	public @ResponseBody Page<AwdDevice> getAllAwdDevices(Pageable pageable) {
-		return awdDeviceDao.findWithFilters(pageable);
+		return awdDeviceDao.findAll(pageable);
 	}
 
 
