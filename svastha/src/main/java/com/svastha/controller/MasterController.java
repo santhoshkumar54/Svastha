@@ -790,11 +790,8 @@ public class MasterController {
 	}
 
 	@GetMapping("/awdDevices")
-	public @ResponseBody Page<AwdDevice> getAllAwdDevices(@RequestParam(required = false) String deviceId,
-														@RequestParam(required = false) Long id,
-														@RequestParam(required = false) Long user,
-														Pageable pageable) {
-		return awdDeviceDao.findWithFilters(deviceId, id, user, pageable);
+	public @ResponseBody Page<AwdDevice> getAllAwdDevices(Pageable pageable) {
+		return awdDeviceDao.findWithFilters(pageable);
 	}
 
 
