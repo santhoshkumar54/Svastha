@@ -1,5 +1,6 @@
 package com.svastha.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import com.svastha.entity.FarmProjects;
 import com.svastha.entity.HarvestDryingProcess;
 import com.svastha.entity.HarvestEwayBill;
 import com.svastha.entity.HarvestGstInvoice;
+import com.svastha.entity.HarvestGstProducts;
 import com.svastha.entity.HarvestInvoice;
+import com.svastha.entity.HarvestInvoiceProducts;
 import com.svastha.entity.HarvestLabelling;
 import com.svastha.entity.HarvestLoadingSlip;
 import com.svastha.entity.HarvestMillEquipmentUsage;
@@ -28,10 +31,14 @@ import com.svastha.entity.HarvestSampleTest;
 import com.svastha.entity.HarvestStocking;
 import com.svastha.entity.HarvestUnloadingSlip;
 import com.svastha.entity.HarvestWeighmentDetails;
+import com.svastha.model.HarvestGstInvoiveDTO;
+import com.svastha.model.HarvestInvoiveDTO;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.HarvestDryingProcessRepository;
 import com.svastha.repository.HarvestEwayBillRepository;
 import com.svastha.repository.HarvestGstInvoiceRepository;
+import com.svastha.repository.HarvestGstProductsRepository;
+import com.svastha.repository.HarvestInvoiceProductsRepository;
 import com.svastha.repository.HarvestInvoiceRepository;
 import com.svastha.repository.HarvestLabellingRepository;
 import com.svastha.repository.HarvestLoadingSlipRepository;
@@ -59,6 +66,12 @@ public class MRLHarvestController {
 
 	@Autowired
 	private HarvestGstInvoiceRepository gstInvoiceDao;
+
+	@Autowired
+	private HarvestGstProductsRepository gstProductsDao;
+
+	@Autowired
+	private HarvestInvoiceProductsRepository invoiceProductsDao;
 
 	@Autowired
 	private HarvestLabellingRepository labellingDao;
@@ -143,14 +156,29 @@ public class MRLHarvestController {
 	}
 
 	@GetMapping("/getGstInvoice")
-	public List<HarvestGstInvoice> getGstInvoice(@RequestParam Long projectId) {
+	public HarvestGstInvoiveDTO getGstInvoice(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
-		return gstInvoiceDao.findAllByProjects(project);
+		HarvestGstInvoice gst = gstInvoiceDao.findByProjects(project);
+		List<HarvestGstProducts> products = gstProductsDao.findAllByInvoice(gst);
+
+		HarvestGstInvoiveDTO dto = new HarvestGstInvoiveDTO();
+		dto.setGst(gst);
+		dto.setProducts(products);
+		return dto;
 	}
 
 	@PostMapping("/saveGstInvoice")
-	public List<HarvestGstInvoice> saveGstInvoice(@RequestBody List<HarvestGstInvoice> gstInvoice) {
-		return gstInvoiceDao.saveAll(gstInvoice);
+	public HarvestGstInvoiveDTO saveGstInvoice(@RequestBody HarvestGstInvoiveDTO gstInvoice) {
+		HarvestGstInvoice gst = gstInvoiceDao.save(gstInvoice.getGst());
+		List<HarvestGstProducts> products = new ArrayList<>();
+		for (HarvestGstProducts product : gstInvoice.getProducts()) {
+			product.setInvoice(gst);
+			products.add(product);
+		}
+		gstProductsDao.saveAll(products);
+		gstInvoice.setProducts(products);
+		gstInvoice.setGst(gst);
+		return gstInvoice;
 	}
 
 	@GetMapping("/getLabelling")
@@ -234,14 +262,29 @@ public class MRLHarvestController {
 	}
 
 	@GetMapping("/getInvoice")
-	public List<HarvestInvoice> getInvoice(@RequestParam Long projectId) {
+	public HarvestInvoiveDTO getInvoice(@RequestParam Long projectId) {
 		FarmProjects project = projectDao.findById(projectId).get();
-		return invoiceDao.findAllByProjects(project);
+		HarvestInvoice gst = invoiceDao.findByProjects(project);
+		List<HarvestInvoiceProducts> products = invoiceProductsDao.findAllByInvoice(gst);
+
+		HarvestInvoiveDTO dto = new HarvestInvoiveDTO();
+		dto.setInvoice(gst);
+		dto.setProducts(products);
+		return dto;
 	}
 
 	@PostMapping("/saveInvoice")
-	public List<HarvestInvoice> saveInvoice(@RequestBody List<HarvestInvoice> invoice) {
-		return invoiceDao.saveAll(invoice);
+	public HarvestInvoiveDTO saveInvoice(@RequestBody HarvestInvoiveDTO invoice) {
+		HarvestInvoice gst = invoiceDao.save(invoice.getInvoice());
+		List<HarvestInvoiceProducts> products = new ArrayList<>();
+		for (HarvestInvoiceProducts product : invoice.getProducts()) {
+			product.setInvoice(gst);
+			products.add(product);
+		}
+		invoiceProductsDao.saveAll(products);
+		invoice.setProducts(products);
+		invoice.setInvoice(gst);
+		return invoice;
 	}
 
 	@GetMapping("/getPurchasePointEntry")
