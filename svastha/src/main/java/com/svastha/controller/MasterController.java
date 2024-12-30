@@ -712,7 +712,7 @@ public class MasterController {
 	@PostMapping("/saveChemicalsWithBrand")
 	public @ResponseBody List<ChemicalBrandModel> saveChemicalsWithBrand(@RequestBody ChemicalBrandModel chemicals) {
 		MasterChemicals chemical = chemicals.getChemicals();
-		chemical = chemicalsDao.save(chemical);
+//		chemical = chemicalsDao.save(chemical);
 		List<MasterChemicalBrandMapping> existing = chemicalBrandDao.findAllByChemicals(chemical);
 		List<MasterChemicalBrands> incoming = chemicals.getBrands();
 
@@ -747,7 +747,7 @@ public class MasterController {
 	@PostMapping("/savePestWithChemicals")
 	public @ResponseBody Iterable<DiseaseAndPestModel> savePestWithChemicals(@RequestBody DiseaseAndPestModel pests) {
 		MasterPests pest = pests.getPests();
-		pest = masterPestsDao.save(pest);
+//		pest = masterPestsDao.save(pest);
 		List<MasterChemicalPestMapping> existing = pestChemicalDao.findAllByPests(pest);
 		List<ChemicalBrandModel> incoming = pests.getChemicals();
 
