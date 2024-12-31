@@ -17,7 +17,7 @@ public class CarbonAwdMapping {
     private FarmProjects projects;
 
     @ManyToOne
-    @JoinColumn(name = "device_pk1, updatable = false")
+    @JoinColumn(name = "device_pk1")
     private AwdDevice device;
 
     @ManyToOne

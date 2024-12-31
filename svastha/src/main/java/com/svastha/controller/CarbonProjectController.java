@@ -10,6 +10,7 @@ import com.svastha.repository.MasterProjectTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +35,7 @@ public class CarbonProjectController {
     @Autowired
     private AwdDeviceRepository awdDeviceDao;
 
-    private static String PROJECT_TYPE = "CARBON";
+    private static String PROJECT_TYPE = "Carbon";
 
     @GetMapping("/carbonProjects")
     public @ResponseBody Page<FarmProjects> getAllProjects(@RequestParam(required = false) Long yearId,
@@ -60,22 +61,28 @@ public class CarbonProjectController {
         FarmProjects project = projectDao.findById(projectId).get();
         return carbonAwdMappingDao.findAllByProjects(project);
     }
- 
+
     @PostMapping("/saveCarbonAwdMapping")
     public @ResponseBody CarbonAwdMapping saveCarbonProject(CarbonAwdMapping carbonAwdMapping) {
         return carbonAwdMappingDao.save(carbonAwdMapping);
     }
 
     @GetMapping("/awdDatas")
-    public @ResponseBody List<AwdDevice> getAwdData(@RequestParam Long projectId) {
-        FarmProjects project = projectDao.findById(projectId).get();
+    public @ResponseBody Page<AwdDevice> getAwdData(@RequestParam Long projectId, Pageable pageable) {
+        FarmProjects project = projectDao.findById(projectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found with id " + projectId));
+
         List<CarbonAwdMapping> carbonAwdMappingList = carbonAwdMappingDao.findAllByProjects(project);
+
+        if (carbonAwdMappingList.isEmpty()) {
+            return Page.empty();
+        }
 
         List<Long> deviceIds = carbonAwdMappingList.stream()
                 .map(mapping -> mapping.getDevice().getPk1())
                 .collect(Collectors.toList());
 
-        return awdDeviceDao.findAllById(deviceIds);
+        return awdDeviceDao.findAllById(deviceIds, pageable);
     }
 
 }

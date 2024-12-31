@@ -13,5 +13,5 @@ public interface AwdDeviceRepository extends JpaRepository<AwdDevice, Long> {
         @Query("SELECT a FROM AwdDevice a ORDER BY a.pk1 DESC")
         Page<AwdDevice> findAll(Pageable pageable);
 
-        List<AwdDevice> findAllById(Iterable<Long> ids);
+        Page<AwdDevice> findAllById(Iterable<Long> ids, Pageable pageable);
 }
