@@ -55,13 +55,13 @@ public class CarbonProjectController {
         return projectDao.findWithFilters(null, null, null, null, userId, projectTypePk1, null, null, null, null, null);
     }
 
-    @GetMapping("/carbonProjects")
+    @GetMapping("/carbonAwdMappings")
     public @ResponseBody List<CarbonAwdMapping> getCarbonProjects(@RequestParam Long projectId) {
         FarmProjects project = projectDao.findById(projectId).get();
         return carbonAwdMappingDao.findAllByProjects(project);
     }
-
-    @PostMapping("/saveCarbonProject")
+ 
+    @PostMapping("/saveCarbonAwdMapping")
     public @ResponseBody CarbonAwdMapping saveCarbonProject(CarbonAwdMapping carbonAwdMapping) {
         return carbonAwdMappingDao.save(carbonAwdMapping);
     }
