@@ -6,8 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface AwdDeviceRepository extends JpaRepository<AwdDevice, Long> {
 
         @Query("SELECT a FROM AwdDevice a ORDER BY a.pk1 DESC")
         Page<AwdDevice> findAll(Pageable pageable);
+
+        Page<AwdDevice> findAllById(Iterable<Long> ids, Pageable pageable);
 }
