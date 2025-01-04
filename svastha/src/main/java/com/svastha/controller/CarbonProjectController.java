@@ -82,7 +82,7 @@ public class CarbonProjectController {
                 .map(mapping -> mapping.getDevice().getPk1())
                 .collect(Collectors.toList());
 
-        return awdDeviceDao.findAllById(deviceIds, pageable);
+        return awdDeviceDao.findAllByPk1In(deviceIds, pageable);
     }
 
 }

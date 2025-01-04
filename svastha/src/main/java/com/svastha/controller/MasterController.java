@@ -794,10 +794,15 @@ public class MasterController {
 		return awdDeviceDao.findAll(pageable);
 	}
 
-
 	@PostMapping("/saveAwdDevice")
 	public @ResponseBody Iterable<AwdDevice> saveAwdDevice(@RequestBody AwdDevice awdDevice) {
 		awdDeviceDao.save(awdDevice);
+		return awdDeviceDao.findAll();
+	}
+
+	@PostMapping("/deleteAwdDevice")
+	public @ResponseBody Iterable<AwdDevice> deleteAwdDevice(@RequestBody AwdDevice awdDevice) {
+		awdDeviceDao.delete(awdDevice);
 		return awdDeviceDao.findAll();
 	}
 }
