@@ -30,779 +30,801 @@ enum ChemicalStatusEnum {
 @RestController
 public class MasterController {
 
-	@Autowired
-	private LiveStockRepository liveStockDao;
+    @Autowired
+    private LiveStockRepository liveStockDao;
 
-	@Autowired
-	private WaterSourceRepository waterSourceDao;
+    @Autowired
+    private WaterSourceRepository waterSourceDao;
 
-	@Autowired
-	private MasterSoilTypeRepository soiltypeDao;
+    @Autowired
+    private MasterSoilTypeRepository soiltypeDao;
 
-	@Autowired
-	private MasterToolsRepository toolsDao;
+    @Autowired
+    private MasterToolsRepository toolsDao;
 
-	@Autowired
-	private MasterGrainMarketRepository marketDao;
+    @Autowired
+    private MasterGrainMarketRepository marketDao;
 
-	@Autowired
-	private TransplantMethodRepository transplantMethodDao;
+    @Autowired
+    private TransplantMethodRepository transplantMethodDao;
 
-	@Autowired
-	private MasterFertilizerRepository fertilizerDao;
+    @Autowired
+    private MasterFertilizerRepository fertilizerDao;
 
-	@Autowired
-	private MasterBioFertilizerRepository bioFertilizerDao;
+    @Autowired
+    private MasterBioFertilizerRepository bioFertilizerDao;
 
-	@Autowired
-	private MasterManureRepository manureDao;
+    @Autowired
+    private MasterManureRepository manureDao;
 
-	@Autowired
-	private MasterCropRepository masterCropDao;
+    @Autowired
+    private MasterCropRepository masterCropDao;
 
-	@Autowired
-	private MasterYearRepository yearDao;
+    @Autowired
+    private MasterYearRepository yearDao;
 
-	@Autowired
-	private MasterSeasonRepository seasonDao;
+    @Autowired
+    private MasterSeasonRepository seasonDao;
 
-	@Autowired
-	private MasterCropStageRepository masterStageDao;
+    @Autowired
+    private MasterCropStageRepository masterStageDao;
 
-	@Autowired
-	private MasterDiseasesAndPestsRepository masterPestsDao;
+    @Autowired
+    private MasterDiseasesAndPestsRepository masterPestsDao;
 
-	@Autowired
-	private MasterChemicalRepository chemicalsDao;
+    @Autowired
+    private MasterChemicalRepository chemicalsDao;
 
-	@Autowired
-	private MasterChemicalBrandRepository brandsDao;
+    @Autowired
+    private MasterChemicalBrandRepository brandsDao;
 
-	@Autowired
-	private MasterPestChemicalMappingRepository pestChemicalDao;
+    @Autowired
+    private MasterPestChemicalMappingRepository pestChemicalDao;
 
-	@Autowired
-	private MasterChemicalBrandMappingRepository chemicalBrandDao;
+    @Autowired
+    private MasterChemicalBrandMappingRepository chemicalBrandDao;
 
-	@Autowired
-	private MasterWeedicideRepository weedicideDao;
+    @Autowired
+    private MasterWeedicideRepository weedicideDao;
 
-	@Autowired
-	private MasterProjectTypeRepository projectTypeDao;
+    @Autowired
+    private MasterProjectTypeRepository projectTypeDao;
 
-	@Autowired
-	private MasterAnnualProgramRepository annualDao;
+    @Autowired
+    private MasterAnnualProgramRepository annualDao;
 
-	@Autowired
-	private MasterRiskManagementRepository riskDao;
+    @Autowired
+    private MasterRiskManagementRepository riskDao;
 
-	@Autowired
-	private MasterGrowthPromoterRepository growthDao;
+    @Autowired
+    private MasterGrowthPromoterRepository growthDao;
 
-	@Autowired
-	private MasterMicroNutrientRepository microDao;
+    @Autowired
+    private MasterMicroNutrientRepository microDao;
 
-	@Autowired
-	private VillageRepository villageDao;
+    @Autowired
+    private VillageRepository villageDao;
 
-	@Autowired
-	private DistrictRepository districtDao;
+    @Autowired
+    private DistrictRepository districtDao;
 
-	@Autowired
-	private ThalukRepository thalukDao;
+    @Autowired
+    private ThalukRepository thalukDao;
 
-	@Autowired
-	private MasterIcsRepository icsDao;
+    @Autowired
+    private MasterIcsRepository icsDao;
 
-	@Autowired
-	private MasterCropVarietyRepository varietyDao;
+    @Autowired
+    private MasterCropVarietyRepository varietyDao;
 
-	@Autowired
-	private AwdDeviceRepository awdDeviceDao;
+    @Autowired
+    private AwdDeviceRepository awdDeviceDao;
 
-	@GetMapping(path = "/liveStocks")
-	public @ResponseBody Iterable<LiveStock> getLiveStocks() {
+    @Autowired
+    private MasterHarvestEstimationRepository harvestEstimationDao;
 
-		return liveStockDao.findAll();
-	}
+    @GetMapping(path = "/liveStocks")
+    public @ResponseBody Iterable<LiveStock> getLiveStocks() {
 
-	@PostMapping("/saveLiveStock")
-	public @ResponseBody Iterable<LiveStock> saveLiveStock(@RequestBody LiveStock livestock) {
+        return liveStockDao.findAll();
+    }
 
-		liveStockDao.save(livestock);
-		return liveStockDao.findAll();
-	}
+    @PostMapping("/saveLiveStock")
+    public @ResponseBody Iterable<LiveStock> saveLiveStock(@RequestBody LiveStock livestock) {
 
-	@PostMapping("/deleteLiveStock")
-	public @ResponseBody Iterable<LiveStock> deleteLiveStock(@RequestBody LiveStock livestock) {
+        liveStockDao.save(livestock);
+        return liveStockDao.findAll();
+    }
 
-		liveStockDao.delete(livestock);
-		return liveStockDao.findAll();
-	}
+    @PostMapping("/deleteLiveStock")
+    public @ResponseBody Iterable<LiveStock> deleteLiveStock(@RequestBody LiveStock livestock) {
 
-	@GetMapping(path = "/waterSources")
-	public @ResponseBody Iterable<WaterSource> getWaterSources() {
+        liveStockDao.delete(livestock);
+        return liveStockDao.findAll();
+    }
 
-		return waterSourceDao.findAll();
-	}
+    @GetMapping(path = "/waterSources")
+    public @ResponseBody Iterable<WaterSource> getWaterSources() {
 
-	@PostMapping("/saveWaterSources")
-	public @ResponseBody Iterable<WaterSource> saveWaterSources(@RequestBody WaterSource waterSources) {
+        return waterSourceDao.findAll();
+    }
 
-		waterSourceDao.save(waterSources);
-		return waterSourceDao.findAll();
-	}
+    @PostMapping("/saveWaterSources")
+    public @ResponseBody Iterable<WaterSource> saveWaterSources(@RequestBody WaterSource waterSources) {
 
-	@PostMapping("/deleteWaterSources")
-	public @ResponseBody Iterable<WaterSource> deleteWaterSources(@RequestBody WaterSource waterSources) {
+        waterSourceDao.save(waterSources);
+        return waterSourceDao.findAll();
+    }
 
-		waterSourceDao.delete(waterSources);
-		return waterSourceDao.findAll();
-	}
+    @PostMapping("/deleteWaterSources")
+    public @ResponseBody Iterable<WaterSource> deleteWaterSources(@RequestBody WaterSource waterSources) {
 
-	@GetMapping(path = "/soiltype")
-	public @ResponseBody Iterable<MasterSoiltype> getSoiltype() {
+        waterSourceDao.delete(waterSources);
+        return waterSourceDao.findAll();
+    }
 
-		return soiltypeDao.findAll();
-	}
+    @GetMapping(path = "/soiltype")
+    public @ResponseBody Iterable<MasterSoiltype> getSoiltype() {
 
-	@PostMapping("/saveSoiltype")
-	public @ResponseBody Iterable<MasterSoiltype> saveSoiltype(@RequestBody MasterSoiltype soiltype) {
+        return soiltypeDao.findAll();
+    }
 
-		soiltypeDao.save(soiltype);
-		return soiltypeDao.findAll();
-	}
+    @PostMapping("/saveSoiltype")
+    public @ResponseBody Iterable<MasterSoiltype> saveSoiltype(@RequestBody MasterSoiltype soiltype) {
 
-	@PostMapping("/deleteSoiltype")
-	public @ResponseBody Iterable<MasterSoiltype> deleteSoiltype(@RequestBody MasterSoiltype soiltype) {
+        soiltypeDao.save(soiltype);
+        return soiltypeDao.findAll();
+    }
 
-		soiltypeDao.delete(soiltype);
-		return soiltypeDao.findAll();
-	}
+    @PostMapping("/deleteSoiltype")
+    public @ResponseBody Iterable<MasterSoiltype> deleteSoiltype(@RequestBody MasterSoiltype soiltype) {
 
-	@GetMapping(path = "/tools")
-	public @ResponseBody Iterable<MasterTools> getTools() {
+        soiltypeDao.delete(soiltype);
+        return soiltypeDao.findAll();
+    }
 
-		return toolsDao.findAll();
-	}
+    @GetMapping(path = "/tools")
+    public @ResponseBody Iterable<MasterTools> getTools() {
 
-	@PostMapping("/saveTools")
-	public @ResponseBody Iterable<MasterTools> saveTools(@RequestBody MasterTools tools) {
+        return toolsDao.findAll();
+    }
 
-		toolsDao.save(tools);
-		return toolsDao.findAll();
-	}
+    @PostMapping("/saveTools")
+    public @ResponseBody Iterable<MasterTools> saveTools(@RequestBody MasterTools tools) {
 
-	@PostMapping("/deleteTools")
-	public @ResponseBody Iterable<MasterTools> deleteTools(@RequestBody MasterTools tools) {
+        toolsDao.save(tools);
+        return toolsDao.findAll();
+    }
 
-		toolsDao.delete(tools);
-		return toolsDao.findAll();
-	}
+    @PostMapping("/deleteTools")
+    public @ResponseBody Iterable<MasterTools> deleteTools(@RequestBody MasterTools tools) {
 
-	@GetMapping(path = "/grainmarkets")
-	public @ResponseBody Iterable<MasterGrainMarket> getGrainMarkets() {
+        toolsDao.delete(tools);
+        return toolsDao.findAll();
+    }
 
-		return marketDao.findAll();
-	}
+    @GetMapping(path = "/grainmarkets")
+    public @ResponseBody Iterable<MasterGrainMarket> getGrainMarkets() {
 
-	@GetMapping(path = "/fertilizers")
-	public @ResponseBody Iterable<MasterFertilizers> getFertilizers() {
+        return marketDao.findAll();
+    }
 
-		return fertilizerDao.findAll();
-	}
+    @GetMapping(path = "/fertilizers")
+    public @ResponseBody Iterable<MasterFertilizers> getFertilizers() {
 
-	@PostMapping("/saveFertilizer")
-	public @ResponseBody Iterable<MasterFertilizers> saveFertilizer(@RequestBody MasterFertilizers fertilizer) {
+        return fertilizerDao.findAll();
+    }
 
-		fertilizerDao.save(fertilizer);
-		return fertilizerDao.findAll();
-	}
+    @PostMapping("/saveFertilizer")
+    public @ResponseBody Iterable<MasterFertilizers> saveFertilizer(@RequestBody MasterFertilizers fertilizer) {
 
-	@PostMapping("/deleteFertilizer")
-	public @ResponseBody Iterable<MasterFertilizers> deleteFertilizer(@RequestBody MasterFertilizers fertilizer) {
+        fertilizerDao.save(fertilizer);
+        return fertilizerDao.findAll();
+    }
 
-		fertilizerDao.delete(fertilizer);
-		return fertilizerDao.findAll();
-	}
+    @PostMapping("/deleteFertilizer")
+    public @ResponseBody Iterable<MasterFertilizers> deleteFertilizer(@RequestBody MasterFertilizers fertilizer) {
 
-	@GetMapping(path = "/biofertilizers")
-	public @ResponseBody Iterable<MasterBioFertilizer> getBioFertilizers() {
+        fertilizerDao.delete(fertilizer);
+        return fertilizerDao.findAll();
+    }
 
-		return bioFertilizerDao.findAll();
-	}
+    @GetMapping(path = "/biofertilizers")
+    public @ResponseBody Iterable<MasterBioFertilizer> getBioFertilizers() {
 
-	@PostMapping("/saveBioFertilizer")
-	public @ResponseBody Iterable<MasterBioFertilizer> saveBioFertilizer(
-			@RequestBody MasterBioFertilizer biofertilizers) {
+        return bioFertilizerDao.findAll();
+    }
 
-		bioFertilizerDao.save(biofertilizers);
-		return bioFertilizerDao.findAll();
-	}
+    @PostMapping("/saveBioFertilizer")
+    public @ResponseBody Iterable<MasterBioFertilizer> saveBioFertilizer(
+            @RequestBody MasterBioFertilizer biofertilizers) {
 
-	@PostMapping("/deleteBioFertilizer")
-	public @ResponseBody Iterable<MasterBioFertilizer> deleteBioFertilizer(
-			@RequestBody MasterBioFertilizer biofertilizers) {
+        bioFertilizerDao.save(biofertilizers);
+        return bioFertilizerDao.findAll();
+    }
 
-		bioFertilizerDao.delete(biofertilizers);
-		return bioFertilizerDao.findAll();
-	}
+    @PostMapping("/deleteBioFertilizer")
+    public @ResponseBody Iterable<MasterBioFertilizer> deleteBioFertilizer(
+            @RequestBody MasterBioFertilizer biofertilizers) {
 
-	@GetMapping(path = "/organicmanures")
-	public @ResponseBody Iterable<MasterOrganicManure> getManures() {
+        bioFertilizerDao.delete(biofertilizers);
+        return bioFertilizerDao.findAll();
+    }
 
-		return manureDao.findAll();
-	}
+    @GetMapping(path = "/organicmanures")
+    public @ResponseBody Iterable<MasterOrganicManure> getManures() {
 
-	@PostMapping("/saveOrganicManure")
-	public @ResponseBody Iterable<MasterOrganicManure> saveOrganicManure(
-			@RequestBody MasterOrganicManure organicmanures) {
+        return manureDao.findAll();
+    }
 
-		manureDao.save(organicmanures);
-		return manureDao.findAll();
-	}
+    @PostMapping("/saveOrganicManure")
+    public @ResponseBody Iterable<MasterOrganicManure> saveOrganicManure(
+            @RequestBody MasterOrganicManure organicmanures) {
 
-	@PostMapping("/deleteOrganicManure")
-	public @ResponseBody Iterable<MasterOrganicManure> deleteOrganicManure(
-			@RequestBody MasterOrganicManure organicmanures) {
+        manureDao.save(organicmanures);
+        return manureDao.findAll();
+    }
 
-		manureDao.delete(organicmanures);
-		return manureDao.findAll();
-	}
+    @PostMapping("/deleteOrganicManure")
+    public @ResponseBody Iterable<MasterOrganicManure> deleteOrganicManure(
+            @RequestBody MasterOrganicManure organicmanures) {
 
-	@GetMapping(path = "/cropStage")
-	public @ResponseBody Iterable<MasterCropStage> getCropStage() {
+        manureDao.delete(organicmanures);
+        return manureDao.findAll();
+    }
 
-		return masterStageDao.findAll();
-	}
+    @GetMapping(path = "/cropStage")
+    public @ResponseBody Iterable<MasterCropStage> getCropStage() {
 
-	@PostMapping("/saveCropStage")
-	public @ResponseBody Iterable<MasterCropStage> saveCropStage(@RequestBody MasterCropStage cropStage) {
+        return masterStageDao.findAll();
+    }
 
-		masterStageDao.save(cropStage);
-		return masterStageDao.findAll();
-	}
+    @PostMapping("/saveCropStage")
+    public @ResponseBody Iterable<MasterCropStage> saveCropStage(@RequestBody MasterCropStage cropStage) {
 
-	@PostMapping("/deleteCropStage")
-	public @ResponseBody Iterable<MasterCropStage> deleteCropStage(@RequestBody MasterCropStage cropStage) {
+        masterStageDao.save(cropStage);
+        return masterStageDao.findAll();
+    }
 
-		masterStageDao.delete(cropStage);
-		return masterStageDao.findAll();
-	}
+    @PostMapping("/deleteCropStage")
+    public @ResponseBody Iterable<MasterCropStage> deleteCropStage(@RequestBody MasterCropStage cropStage) {
 
-	@GetMapping(path = "/transplantMethod")
-	public @ResponseBody Iterable<TransplantMethods> getTransplantMethods() {
+        masterStageDao.delete(cropStage);
+        return masterStageDao.findAll();
+    }
 
-		return transplantMethodDao.findAll();
-	}
+    @GetMapping(path = "/transplantMethod")
+    public @ResponseBody Iterable<TransplantMethods> getTransplantMethods() {
 
-	@PostMapping("/saveTransplantMethod")
-	public @ResponseBody Iterable<TransplantMethods> saveTransplantMethod(
-			@RequestBody TransplantMethods transplantMethod) {
+        return transplantMethodDao.findAll();
+    }
 
-		transplantMethodDao.save(transplantMethod);
-		return transplantMethodDao.findAll();
-	}
+    @PostMapping("/saveTransplantMethod")
+    public @ResponseBody Iterable<TransplantMethods> saveTransplantMethod(
+            @RequestBody TransplantMethods transplantMethod) {
 
-	@PostMapping("/deleteTransplantMethod")
-	public @ResponseBody Iterable<TransplantMethods> deleteTransplantMethod(
-			@RequestBody TransplantMethods transplantMethod) {
+        transplantMethodDao.save(transplantMethod);
+        return transplantMethodDao.findAll();
+    }
 
-		transplantMethodDao.delete(transplantMethod);
-		return transplantMethodDao.findAll();
-	}
+    @PostMapping("/deleteTransplantMethod")
+    public @ResponseBody Iterable<TransplantMethods> deleteTransplantMethod(
+            @RequestBody TransplantMethods transplantMethod) {
 
-	@GetMapping(path = "/getProjectMaster")
-	public @ResponseBody MasterProjectModel getMasterProject() {
-		MasterProjectModel master = new MasterProjectModel();
-		master.setYear(yearDao.findAll());
-		master.setSeason(seasonDao.findAll());
-		master.setCrop(masterCropDao.findAll());
-		master.setProjectType(projectTypeDao.findAll());
-		master.setIcsType(icsDao.findAll());
+        transplantMethodDao.delete(transplantMethod);
+        return transplantMethodDao.findAll();
+    }
 
-		return master;
-	}
+    @GetMapping(path = "/getProjectMaster")
+    public @ResponseBody MasterProjectModel getMasterProject() {
+        MasterProjectModel master = new MasterProjectModel();
+        master.setYear(yearDao.findAll());
+        master.setSeason(seasonDao.findAll());
+        master.setCrop(masterCropDao.findAll());
+        master.setProjectType(projectTypeDao.findAll());
+        master.setIcsType(icsDao.findAll());
 
-	@GetMapping("/getMasterCrops")
-	public @ResponseBody List<MasterCrop> getMasterCrops() {
-		return masterCropDao.findAll();
-	}
+        return master;
+    }
 
-	@PostMapping("/saveMasterCrop")
-	public @ResponseBody Iterable<MasterCrop> saveMasterCrop(@RequestBody MasterCrop crop) {
+    @GetMapping("/getMasterCrops")
+    public @ResponseBody List<MasterCrop> getMasterCrops() {
+        return masterCropDao.findAll();
+    }
 
-		masterCropDao.save(crop);
-		return masterCropDao.findAll();
-	}
+    @PostMapping("/saveMasterCrop")
+    public @ResponseBody Iterable<MasterCrop> saveMasterCrop(@RequestBody MasterCrop crop) {
 
-	@PostMapping("/deleteMasterCrop")
-	public @ResponseBody Iterable<MasterCrop> deleteMasterCrop(@RequestBody MasterCrop crop) {
+        masterCropDao.save(crop);
+        return masterCropDao.findAll();
+    }
 
-		masterCropDao.delete(crop);
-		return masterCropDao.findAll();
-	}
+    @PostMapping("/deleteMasterCrop")
+    public @ResponseBody Iterable<MasterCrop> deleteMasterCrop(@RequestBody MasterCrop crop) {
 
-	@GetMapping("/getMasterSeasons")
-	public @ResponseBody List<MasterSeason> getMasterSeasons() {
-		return seasonDao.findAll();
-	}
+        masterCropDao.delete(crop);
+        return masterCropDao.findAll();
+    }
 
-	@PostMapping("/saveMasterSeason")
-	public @ResponseBody Iterable<MasterSeason> saveMasterSeason(@RequestBody MasterSeason season) {
+    @GetMapping("/getMasterSeasons")
+    public @ResponseBody List<MasterSeason> getMasterSeasons() {
+        return seasonDao.findAll();
+    }
 
-		seasonDao.save(season);
-		return seasonDao.findAll();
-	}
+    @PostMapping("/saveMasterSeason")
+    public @ResponseBody Iterable<MasterSeason> saveMasterSeason(@RequestBody MasterSeason season) {
 
-	@PostMapping("/deleteMasterSeason")
-	public @ResponseBody Iterable<MasterSeason> deleteMasterSeason(@RequestBody MasterSeason season) {
+        seasonDao.save(season);
+        return seasonDao.findAll();
+    }
 
-		seasonDao.delete(season);
-		return seasonDao.findAll();
-	}
+    @PostMapping("/deleteMasterSeason")
+    public @ResponseBody Iterable<MasterSeason> deleteMasterSeason(@RequestBody MasterSeason season) {
 
-	@GetMapping("/getMasterYear")
-	public @ResponseBody List<MasterYear> getMasterYear() {
-		return yearDao.findAll();
-	}
+        seasonDao.delete(season);
+        return seasonDao.findAll();
+    }
 
-	@PostMapping("/saveMasterYear")
-	public @ResponseBody Iterable<MasterYear> saveMasterYear(@RequestBody MasterYear year) {
+    @GetMapping("/getMasterYear")
+    public @ResponseBody List<MasterYear> getMasterYear() {
+        return yearDao.findAll();
+    }
 
-		yearDao.save(year);
-		return yearDao.findAll();
-	}
+    @PostMapping("/saveMasterYear")
+    public @ResponseBody Iterable<MasterYear> saveMasterYear(@RequestBody MasterYear year) {
 
-	@PostMapping("/deleteMasterYear")
-	public @ResponseBody Iterable<MasterYear> deleteMasterYear(@RequestBody MasterYear year) {
+        yearDao.save(year);
+        return yearDao.findAll();
+    }
 
-		yearDao.delete(year);
-		return yearDao.findAll();
-	}
+    @PostMapping("/deleteMasterYear")
+    public @ResponseBody Iterable<MasterYear> deleteMasterYear(@RequestBody MasterYear year) {
 
-	@GetMapping(path = "/getDiseasesAndPests")
-	public @ResponseBody Iterable<DiseaseAndPestModel> getDiseasesAndPests() {
+        yearDao.delete(year);
+        return yearDao.findAll();
+    }
 
-		List<DiseaseAndPestModel> pests = new ArrayList<DiseaseAndPestModel>();
+    @GetMapping(path = "/getDiseasesAndPests")
+    public @ResponseBody Iterable<DiseaseAndPestModel> getDiseasesAndPests() {
 
-		List<MasterPests> master = masterPestsDao.findAll();
-		for (MasterPests pest : master) {
-			DiseaseAndPestModel pestModel = new DiseaseAndPestModel();
+        List<DiseaseAndPestModel> pests = new ArrayList<DiseaseAndPestModel>();
 
-			List<MasterChemicalPestMapping> chemicals = pestChemicalDao.findAllByPests(pest);
-			List<ChemicalBrandModel> chemicalBrandModels = new ArrayList<>();
-			for (MasterChemicalPestMapping chemical : chemicals) {
-				ChemicalBrandModel chemicalBrandModel = new ChemicalBrandModel();
+        List<MasterPests> master = masterPestsDao.findAll();
+        for (MasterPests pest : master) {
+            DiseaseAndPestModel pestModel = new DiseaseAndPestModel();
 
-				List<MasterChemicalBrandMapping> brandsMap = chemicalBrandDao
-						.findAllByChemicals(chemical.getChemicals());
-				List<MasterChemicalBrands> brands = new ArrayList<>();
-				for (MasterChemicalBrandMapping brand : brandsMap) {
-					MasterChemicalBrands chemicalBrand = brand.getBrands();
-					brands.add(chemicalBrand);
-				}
-				chemicalBrandModel.setChemicals(chemical.getChemicals());
-				chemicalBrandModel.setBrands(brands);
-				chemicalBrandModels.add(chemicalBrandModel);
-			}
+            List<MasterChemicalPestMapping> chemicals = pestChemicalDao.findAllByPests(pest);
+            List<ChemicalBrandModel> chemicalBrandModels = new ArrayList<>();
+            for (MasterChemicalPestMapping chemical : chemicals) {
+                ChemicalBrandModel chemicalBrandModel = new ChemicalBrandModel();
 
-			pestModel.setPests(pest);
-			pestModel.setChemicals(chemicalBrandModels);
-			pests.add(pestModel);
+                List<MasterChemicalBrandMapping> brandsMap = chemicalBrandDao
+                        .findAllByChemicals(chemical.getChemicals());
+                List<MasterChemicalBrands> brands = new ArrayList<>();
+                for (MasterChemicalBrandMapping brand : brandsMap) {
+                    MasterChemicalBrands chemicalBrand = brand.getBrands();
+                    brands.add(chemicalBrand);
+                }
+                chemicalBrandModel.setChemicals(chemical.getChemicals());
+                chemicalBrandModel.setBrands(brands);
+                chemicalBrandModels.add(chemicalBrandModel);
+            }
 
-		}
-		return pests;
-	}
+            pestModel.setPests(pest);
+            pestModel.setChemicals(chemicalBrandModels);
+            pests.add(pestModel);
 
-	@GetMapping(path = "/getRestrictedChemicals")
-	public @ResponseBody Iterable<MasterChemicals> getRestrictedChemicals() {
+        }
+        return pests;
+    }
 
-		return chemicalsDao.findAllByStatus(ChemicalStatusEnum.restricted.toString());
-	}
+    @GetMapping(path = "/getRestrictedChemicals")
+    public @ResponseBody Iterable<MasterChemicals> getRestrictedChemicals() {
 
-	@GetMapping(path = "/getWeedicide")
-	public @ResponseBody Iterable<MasterWeedicide> getWeedicide() {
+        return chemicalsDao.findAllByStatus(ChemicalStatusEnum.restricted.toString());
+    }
 
-		return weedicideDao.findAll();
-	}
+    @GetMapping(path = "/getWeedicide")
+    public @ResponseBody Iterable<MasterWeedicide> getWeedicide() {
 
-	@PostMapping("/saveWeedicide")
-	public @ResponseBody Iterable<MasterWeedicide> saveWeedicide(@RequestBody MasterWeedicide weedicide) {
+        return weedicideDao.findAll();
+    }
 
-		weedicideDao.save(weedicide);
-		return weedicideDao.findAll();
-	}
+    @PostMapping("/saveWeedicide")
+    public @ResponseBody Iterable<MasterWeedicide> saveWeedicide(@RequestBody MasterWeedicide weedicide) {
 
-	@PostMapping("/deleteWeedicide")
-	public @ResponseBody Iterable<MasterWeedicide> deleteWeedicide(@RequestBody MasterWeedicide weedicide) {
+        weedicideDao.save(weedicide);
+        return weedicideDao.findAll();
+    }
 
-		weedicideDao.delete(weedicide);
-		return weedicideDao.findAll();
-	}
+    @PostMapping("/deleteWeedicide")
+    public @ResponseBody Iterable<MasterWeedicide> deleteWeedicide(@RequestBody MasterWeedicide weedicide) {
 
-	@GetMapping(path = "/getProjectType")
-	public @ResponseBody Iterable<MasterProjectType> getProjectType() {
+        weedicideDao.delete(weedicide);
+        return weedicideDao.findAll();
+    }
 
-		return projectTypeDao.findAll();
-	}
+    @GetMapping(path = "/getProjectType")
+    public @ResponseBody Iterable<MasterProjectType> getProjectType() {
 
-	@PostMapping("/saveProjectType")
-	public @ResponseBody Iterable<MasterProjectType> saveProjectType(@RequestBody MasterProjectType projectType) {
+        return projectTypeDao.findAll();
+    }
 
-		projectTypeDao.save(projectType);
-		return projectTypeDao.findAll();
-	}
+    @PostMapping("/saveProjectType")
+    public @ResponseBody Iterable<MasterProjectType> saveProjectType(@RequestBody MasterProjectType projectType) {
 
-	@PostMapping("/deleteProjectType")
-	public @ResponseBody Iterable<MasterProjectType> deleteProjectType(@RequestBody MasterProjectType projectType) {
+        projectTypeDao.save(projectType);
+        return projectTypeDao.findAll();
+    }
 
-		projectTypeDao.delete(projectType);
-		return projectTypeDao.findAll();
-	}
+    @PostMapping("/deleteProjectType")
+    public @ResponseBody Iterable<MasterProjectType> deleteProjectType(@RequestBody MasterProjectType projectType) {
 
-	@GetMapping(path = "/getMasterAnnualProgram")
-	public @ResponseBody Iterable<MasterAnnualProgram> getMasterAnnualProgram() {
+        projectTypeDao.delete(projectType);
+        return projectTypeDao.findAll();
+    }
 
-		return annualDao.findAll();
-	}
+    @GetMapping(path = "/getMasterAnnualProgram")
+    public @ResponseBody Iterable<MasterAnnualProgram> getMasterAnnualProgram() {
 
-	@PostMapping("/saveMasterAnnualProgram")
-	public @ResponseBody Iterable<MasterAnnualProgram> saveMasterAnnualProgram(
-			@RequestBody MasterAnnualProgram annualProgram) {
+        return annualDao.findAll();
+    }
 
-		annualDao.save(annualProgram);
-		return annualDao.findAll();
-	}
+    @PostMapping("/saveMasterAnnualProgram")
+    public @ResponseBody Iterable<MasterAnnualProgram> saveMasterAnnualProgram(
+            @RequestBody MasterAnnualProgram annualProgram) {
 
-	@PostMapping("/deleteMasterAnnualProgram")
-	public @ResponseBody Iterable<MasterAnnualProgram> deleteMasterAnnualProgram(
-			@RequestBody MasterAnnualProgram annualProgram) {
+        annualDao.save(annualProgram);
+        return annualDao.findAll();
+    }
 
-		annualDao.delete(annualProgram);
-		return annualDao.findAll();
-	}
+    @PostMapping("/deleteMasterAnnualProgram")
+    public @ResponseBody Iterable<MasterAnnualProgram> deleteMasterAnnualProgram(
+            @RequestBody MasterAnnualProgram annualProgram) {
 
-	@GetMapping(path = "/getMasterRiskManagement")
-	public @ResponseBody Iterable<MasterRiskManagement> getMasterRiskManagement() {
+        annualDao.delete(annualProgram);
+        return annualDao.findAll();
+    }
 
-		return riskDao.findAll();
-	}
+    @GetMapping(path = "/getMasterRiskManagement")
+    public @ResponseBody Iterable<MasterRiskManagement> getMasterRiskManagement() {
 
-	@PostMapping("/saveMasterRiskManagement")
-	public @ResponseBody Iterable<MasterRiskManagement> saveMasterRiskManagement(
-			@RequestBody MasterRiskManagement riskManagement) {
+        return riskDao.findAll();
+    }
 
-		riskDao.save(riskManagement);
-		return riskDao.findAll();
-	}
+    @PostMapping("/saveMasterRiskManagement")
+    public @ResponseBody Iterable<MasterRiskManagement> saveMasterRiskManagement(
+            @RequestBody MasterRiskManagement riskManagement) {
 
-	@PostMapping("/deleteMasterRiskManagement")
-	public @ResponseBody Iterable<MasterRiskManagement> deleteMasterRiskManagement(
-			MasterRiskManagement riskManagement) {
+        riskDao.save(riskManagement);
+        return riskDao.findAll();
+    }
 
-		riskDao.delete(riskManagement);
-		return riskDao.findAll();
-	}
+    @PostMapping("/deleteMasterRiskManagement")
+    public @ResponseBody Iterable<MasterRiskManagement> deleteMasterRiskManagement(
+            MasterRiskManagement riskManagement) {
 
-	@GetMapping(path = "/getMasterGrowthPromoter")
-	public @ResponseBody Iterable<MasterGrowthPromoter> getMasterGrowthPromoter() {
+        riskDao.delete(riskManagement);
+        return riskDao.findAll();
+    }
 
-		return growthDao.findAll();
-	}
+    @GetMapping(path = "/getMasterGrowthPromoter")
+    public @ResponseBody Iterable<MasterGrowthPromoter> getMasterGrowthPromoter() {
 
-	@PostMapping("/saveGrowthPromoter")
-	public @ResponseBody Iterable<MasterGrowthPromoter> saveGrowthPromoter(
-			@RequestBody MasterGrowthPromoter growthPromoter) {
+        return growthDao.findAll();
+    }
 
-		growthDao.save(growthPromoter);
-		return growthDao.findAll();
-	}
+    @PostMapping("/saveGrowthPromoter")
+    public @ResponseBody Iterable<MasterGrowthPromoter> saveGrowthPromoter(
+            @RequestBody MasterGrowthPromoter growthPromoter) {
 
-	@PostMapping("/deleteGrowthPromoter")
-	public @ResponseBody Iterable<MasterGrowthPromoter> deleteGrowthPromoter(
-			@RequestBody MasterGrowthPromoter growthPromoter) {
+        growthDao.save(growthPromoter);
+        return growthDao.findAll();
+    }
 
-		growthDao.delete(growthPromoter);
-		return growthDao.findAll();
-	}
+    @PostMapping("/deleteGrowthPromoter")
+    public @ResponseBody Iterable<MasterGrowthPromoter> deleteGrowthPromoter(
+            @RequestBody MasterGrowthPromoter growthPromoter) {
 
-	@GetMapping(path = "/getMasterMicroNutrient")
-	public @ResponseBody Iterable<MasterMicroNutrient> getMasterMicroNutrient() {
+        growthDao.delete(growthPromoter);
+        return growthDao.findAll();
+    }
 
-		return microDao.findAll();
-	}
+    @GetMapping(path = "/getMasterMicroNutrient")
+    public @ResponseBody Iterable<MasterMicroNutrient> getMasterMicroNutrient() {
 
-	@PostMapping("/saveMicroNutrient")
-	public @ResponseBody Iterable<MasterMicroNutrient> saveMicroNutrient(@RequestBody MasterMicroNutrient micro) {
+        return microDao.findAll();
+    }
 
-		microDao.save(micro);
-		return microDao.findAll();
-	}
+    @PostMapping("/saveMicroNutrient")
+    public @ResponseBody Iterable<MasterMicroNutrient> saveMicroNutrient(@RequestBody MasterMicroNutrient micro) {
 
-	@PostMapping("/deleteMicroNutrient")
-	public @ResponseBody Iterable<MasterMicroNutrient> deleteMicroNutrient(@RequestBody MasterMicroNutrient micro) {
+        microDao.save(micro);
+        return microDao.findAll();
+    }
 
-		microDao.delete(micro);
-		return microDao.findAll();
-	}
+    @PostMapping("/deleteMicroNutrient")
+    public @ResponseBody Iterable<MasterMicroNutrient> deleteMicroNutrient(@RequestBody MasterMicroNutrient micro) {
 
-	@GetMapping("/getVillages")
-	public List<Village> getVillages() {
-		return villageDao.findAll();
-	}
+        microDao.delete(micro);
+        return microDao.findAll();
+    }
 
-	@PostMapping("/saveVillages")
-	public @ResponseBody Iterable<Village> saveVillages(@RequestBody Village village) {
+    @GetMapping("/getVillages")
+    public List<Village> getVillages() {
+        return villageDao.findAll();
+    }
 
-		villageDao.save(village);
-		return villageDao.findAll();
-	}
+    @PostMapping("/saveVillages")
+    public @ResponseBody Iterable<Village> saveVillages(@RequestBody Village village) {
 
-	@PostMapping("/deleteVillages")
-	public @ResponseBody Iterable<Village> deleteVillages(@RequestBody Village village) {
+        villageDao.save(village);
+        return villageDao.findAll();
+    }
 
-		villageDao.delete(village);
-		return villageDao.findAll();
-	}
+    @PostMapping("/deleteVillages")
+    public @ResponseBody Iterable<Village> deleteVillages(@RequestBody Village village) {
 
-	@GetMapping("/getThaluk")
-	public List<Thaluk> getThaluk() {
-		return thalukDao.findAll();
-	}
+        villageDao.delete(village);
+        return villageDao.findAll();
+    }
 
-	@PostMapping("/saveThaluk")
-	public @ResponseBody Iterable<Thaluk> saveThaluk(@RequestBody Thaluk thaluk) {
+    @GetMapping("/getThaluk")
+    public List<Thaluk> getThaluk() {
+        return thalukDao.findAll();
+    }
 
-		thalukDao.save(thaluk);
-		return thalukDao.findAll();
-	}
+    @PostMapping("/saveThaluk")
+    public @ResponseBody Iterable<Thaluk> saveThaluk(@RequestBody Thaluk thaluk) {
 
-	@PostMapping("/deleteThaluk")
-	public @ResponseBody Iterable<Thaluk> deleteThaluk(@RequestBody Thaluk thaluk) {
+        thalukDao.save(thaluk);
+        return thalukDao.findAll();
+    }
 
-		thalukDao.delete(thaluk);
-		return thalukDao.findAll();
-	}
+    @PostMapping("/deleteThaluk")
+    public @ResponseBody Iterable<Thaluk> deleteThaluk(@RequestBody Thaluk thaluk) {
 
-	@GetMapping("/getDistrict")
-	public List<District> getDistrict() {
-		return districtDao.findAll();
-	}
+        thalukDao.delete(thaluk);
+        return thalukDao.findAll();
+    }
 
-	@PostMapping("/saveDistrict")
-	public @ResponseBody Iterable<District> saveDistrict(@RequestBody District district) {
+    @GetMapping("/getDistrict")
+    public List<District> getDistrict() {
+        return districtDao.findAll();
+    }
 
-		districtDao.save(district);
-		return districtDao.findAll();
-	}
+    @PostMapping("/saveDistrict")
+    public @ResponseBody Iterable<District> saveDistrict(@RequestBody District district) {
 
-	@PostMapping("/deleteDistrict")
-	public @ResponseBody Iterable<District> deleteDistrict(@RequestBody District district) {
+        districtDao.save(district);
+        return districtDao.findAll();
+    }
 
-		districtDao.delete(district);
-		return districtDao.findAll();
-	}
+    @PostMapping("/deleteDistrict")
+    public @ResponseBody Iterable<District> deleteDistrict(@RequestBody District district) {
 
-	@GetMapping("/getIcs")
-	public List<MasterIcs> getIcs() {
-		return icsDao.findAll();
-	}
+        districtDao.delete(district);
+        return districtDao.findAll();
+    }
 
-	@PostMapping("/saveIcs")
-	public @ResponseBody Iterable<MasterIcs> saveIcs(@RequestBody MasterIcs ics) {
+    @GetMapping("/getIcs")
+    public List<MasterIcs> getIcs() {
+        return icsDao.findAll();
+    }
 
-		icsDao.save(ics);
-		return icsDao.findAll();
-	}
+    @PostMapping("/saveIcs")
+    public @ResponseBody Iterable<MasterIcs> saveIcs(@RequestBody MasterIcs ics) {
 
-	@PostMapping("/deleteIcs")
-	public @ResponseBody Iterable<MasterIcs> deleteIcs(@RequestBody MasterIcs ics) {
+        icsDao.save(ics);
+        return icsDao.findAll();
+    }
 
-		icsDao.delete(ics);
-		return icsDao.findAll();
-	}
+    @PostMapping("/deleteIcs")
+    public @ResponseBody Iterable<MasterIcs> deleteIcs(@RequestBody MasterIcs ics) {
 
-	@GetMapping("/getVariety")
-	public List<MasterCropVariety> getVariety() {
-		return varietyDao.findAll();
-	}
+        icsDao.delete(ics);
+        return icsDao.findAll();
+    }
 
-	@GetMapping("/getVarietyBySeason")
-	public List<MasterCropVariety> getVarietyBySeason(@RequestParam MasterSeason season) {
-		return varietyDao.findAllBySeason(season);
-	}
+    @GetMapping("/getVariety")
+    public List<MasterCropVariety> getVariety() {
+        return varietyDao.findAll();
+    }
 
-	@GetMapping("/getVarietyByName")
-	public List<MasterCropVariety> getVarietyByName(@RequestParam String variety) {
-		return varietyDao.findAllByvariety(variety);
-	}
+    @GetMapping("/getVarietyBySeason")
+    public List<MasterCropVariety> getVarietyBySeason(@RequestParam MasterSeason season) {
+        return varietyDao.findAllBySeason(season);
+    }
 
-	@PostMapping("/saveVariety")
-	public @ResponseBody Iterable<MasterCropVariety> saveVariety(@RequestBody MasterCropVariety variety) {
+    @GetMapping("/getVarietyByName")
+    public List<MasterCropVariety> getVarietyByName(@RequestParam String variety) {
+        return varietyDao.findAllByvariety(variety);
+    }
 
-		varietyDao.save(variety);
-		return varietyDao.findAll();
-	}
+    @PostMapping("/saveVariety")
+    public @ResponseBody Iterable<MasterCropVariety> saveVariety(@RequestBody MasterCropVariety variety) {
 
-	@PostMapping("/deleteVariety")
-	public @ResponseBody Iterable<MasterCropVariety> deleteVariety(@RequestBody MasterCropVariety variety) {
-		varietyDao.delete(variety);
-		return varietyDao.findAll();
-	}
+        varietyDao.save(variety);
+        return varietyDao.findAll();
+    }
 
-	@GetMapping("getPests")
-	public @ResponseBody Iterable<MasterPests> getPests() {
-		return masterPestsDao.findAll();
-	}
+    @PostMapping("/deleteVariety")
+    public @ResponseBody Iterable<MasterCropVariety> deleteVariety(@RequestBody MasterCropVariety variety) {
+        varietyDao.delete(variety);
+        return varietyDao.findAll();
+    }
 
-	@PostMapping("/savePests")
-	public @ResponseBody Iterable<MasterPests> savePests(@RequestBody MasterPests pests) {
-		masterPestsDao.save(pests);
-		return masterPestsDao.findAll();
-	}
+    @GetMapping("getPests")
+    public @ResponseBody Iterable<MasterPests> getPests() {
+        return masterPestsDao.findAll();
+    }
 
-	@PostMapping("/deletePests")
-	public @ResponseBody Iterable<MasterPests> deletePests(@RequestBody MasterPests pests) {
-		masterPestsDao.delete(pests);
-		return masterPestsDao.findAll();
-	}
+    @PostMapping("/savePests")
+    public @ResponseBody Iterable<MasterPests> savePests(@RequestBody MasterPests pests) {
+        masterPestsDao.save(pests);
+        return masterPestsDao.findAll();
+    }
 
-	@GetMapping("/getChemicals")
-	public @ResponseBody Iterable<MasterChemicals> getChemicals() {
-		return chemicalsDao.findAll();
-	}
+    @PostMapping("/deletePests")
+    public @ResponseBody Iterable<MasterPests> deletePests(@RequestBody MasterPests pests) {
+        masterPestsDao.delete(pests);
+        return masterPestsDao.findAll();
+    }
 
-	@PostMapping("/saveChemicals")
-	public @ResponseBody Iterable<MasterChemicals> saveChemicals(@RequestBody MasterChemicals chemicals) {
-		chemicalsDao.save(chemicals);
-		return chemicalsDao.findAll();
-	}
+    @GetMapping("/getChemicals")
+    public @ResponseBody Iterable<MasterChemicals> getChemicals() {
+        return chemicalsDao.findAll();
+    }
 
-	@PostMapping("/deleteChemicals")
-	public @ResponseBody Iterable<MasterChemicals> deleteChemicals(@RequestBody MasterChemicals chemicals) {
-		chemicalsDao.delete(chemicals);
-		return chemicalsDao.findAll();
-	}
+    @PostMapping("/saveChemicals")
+    public @ResponseBody Iterable<MasterChemicals> saveChemicals(@RequestBody MasterChemicals chemicals) {
+        chemicalsDao.save(chemicals);
+        return chemicalsDao.findAll();
+    }
 
-	@GetMapping("/getChemicalsWithBrand")
-	public @ResponseBody List<ChemicalBrandModel> getChemicalsWithBrand() {
-		List<MasterChemicals> chemicals = chemicalsDao.findAll();
-		Map<Long, List<MasterChemicalBrandMapping>> brandMappingMap = chemicalBrandDao.findAllByChemicalsIn(chemicals)
-				.stream().collect(Collectors.groupingBy(mapping -> mapping.getChemicals().getPk1()));
+    @PostMapping("/deleteChemicals")
+    public @ResponseBody Iterable<MasterChemicals> deleteChemicals(@RequestBody MasterChemicals chemicals) {
+        chemicalsDao.delete(chemicals);
+        return chemicalsDao.findAll();
+    }
 
-		// Construct the response using a streamlined approach
-		return chemicals.stream().map(chemical -> {
-			ChemicalBrandModel chemicalBrandModel = new ChemicalBrandModel();
-			chemicalBrandModel.setChemicals(chemical);
+    @GetMapping("/getChemicalsWithBrand")
+    public @ResponseBody List<ChemicalBrandModel> getChemicalsWithBrand() {
+        List<MasterChemicals> chemicals = chemicalsDao.findAll();
+        Map<Long, List<MasterChemicalBrandMapping>> brandMappingMap = chemicalBrandDao.findAllByChemicalsIn(chemicals)
+                .stream().collect(Collectors.groupingBy(mapping -> mapping.getChemicals().getPk1()));
 
-			// Get the brand mappings for the current chemical
-			List<MasterChemicalBrandMapping> brandMappings = brandMappingMap.getOrDefault(chemical.getPk1(),
-					Collections.emptyList());
+        // Construct the response using a streamlined approach
+        return chemicals.stream().map(chemical -> {
+            ChemicalBrandModel chemicalBrandModel = new ChemicalBrandModel();
+            chemicalBrandModel.setChemicals(chemical);
 
-			// Extract brands from the mappings
-			List<MasterChemicalBrands> brands = brandMappings.stream().map(MasterChemicalBrandMapping::getBrands)
-					.collect(Collectors.toList());
+            // Get the brand mappings for the current chemical
+            List<MasterChemicalBrandMapping> brandMappings = brandMappingMap.getOrDefault(chemical.getPk1(),
+                    Collections.emptyList());
 
-			chemicalBrandModel.setBrands(brands);
-			return chemicalBrandModel;
-		}).collect(Collectors.toList());
-	}
+            // Extract brands from the mappings
+            List<MasterChemicalBrands> brands = brandMappings.stream().map(MasterChemicalBrandMapping::getBrands)
+                    .collect(Collectors.toList());
 
-	@PostMapping("/saveChemicalsWithBrand")
-	public @ResponseBody List<ChemicalBrandModel> saveChemicalsWithBrand(@RequestBody ChemicalBrandModel chemicals) {
-		MasterChemicals chemical = chemicals.getChemicals();
+            chemicalBrandModel.setBrands(brands);
+            return chemicalBrandModel;
+        }).collect(Collectors.toList());
+    }
+
+    @PostMapping("/saveChemicalsWithBrand")
+    public @ResponseBody List<ChemicalBrandModel> saveChemicalsWithBrand(@RequestBody ChemicalBrandModel chemicals) {
+        MasterChemicals chemical = chemicals.getChemicals();
 //		chemical = chemicalsDao.save(chemical);
-		List<MasterChemicalBrandMapping> existing = chemicalBrandDao.findAllByChemicals(chemical);
-		List<MasterChemicalBrands> incoming = chemicals.getBrands();
+        List<MasterChemicalBrandMapping> existing = chemicalBrandDao.findAllByChemicals(chemical);
+        List<MasterChemicalBrands> incoming = chemicals.getBrands();
 
-		List<MasterChemicalBrands> commonItems = incoming.stream()
-				.filter(in -> existing.stream().anyMatch(ex -> ex.getBrands().getPk1().equals(in.getPk1())))
-				.collect(Collectors.toList());
+        List<MasterChemicalBrands> commonItems = incoming.stream()
+                .filter(in -> existing.stream().anyMatch(ex -> ex.getBrands().getPk1().equals(in.getPk1())))
+                .collect(Collectors.toList());
 
-		List<MasterChemicalBrandMapping> notInIncoming = existing.stream()
-				.filter(ex -> incoming.stream().noneMatch(in -> ex.getBrands().getPk1().equals(in.getPk1())))
-				.collect(Collectors.toList());
+        List<MasterChemicalBrandMapping> notInIncoming = existing.stream()
+                .filter(ex -> incoming.stream().noneMatch(in -> ex.getBrands().getPk1().equals(in.getPk1())))
+                .collect(Collectors.toList());
 
-		incoming.removeAll(commonItems);
+        incoming.removeAll(commonItems);
 
-		for (MasterChemicalBrands masterChemicalBrands : incoming) {
-			MasterChemicalBrandMapping newMapping = new MasterChemicalBrandMapping();
-			newMapping.setChemicals(chemical);
-			newMapping.setBrands(masterChemicalBrands);
-			chemicalBrandDao.save(newMapping);
-		}
+        for (MasterChemicalBrands masterChemicalBrands : incoming) {
+            MasterChemicalBrandMapping newMapping = new MasterChemicalBrandMapping();
+            newMapping.setChemicals(chemical);
+            newMapping.setBrands(masterChemicalBrands);
+            chemicalBrandDao.save(newMapping);
+        }
 
-		for (MasterChemicalBrandMapping masterChemicalBrandMapping : notInIncoming) {
-			System.out.println(
-					"Items in existing but not in incoming (unique brands): " + masterChemicalBrandMapping.getPk1());
+        for (MasterChemicalBrandMapping masterChemicalBrandMapping : notInIncoming) {
+            System.out.println(
+                    "Items in existing but not in incoming (unique brands): " + masterChemicalBrandMapping.getPk1());
 
-		}
+        }
 
-		chemicalBrandDao.deleteAll(notInIncoming);
+        chemicalBrandDao.deleteAll(notInIncoming);
 
-		return getChemicalsWithBrand();
-	}
+        return getChemicalsWithBrand();
+    }
 
-	@PostMapping("/savePestWithChemicals")
-	public @ResponseBody Iterable<DiseaseAndPestModel> savePestWithChemicals(@RequestBody DiseaseAndPestModel pests) {
-		MasterPests pest = pests.getPests();
+    @PostMapping("/savePestWithChemicals")
+    public @ResponseBody Iterable<DiseaseAndPestModel> savePestWithChemicals(@RequestBody DiseaseAndPestModel pests) {
+        MasterPests pest = pests.getPests();
 //		pest = masterPestsDao.save(pest);
-		List<MasterChemicalPestMapping> existing = pestChemicalDao.findAllByPests(pest);
-		List<ChemicalBrandModel> incoming = pests.getChemicals();
+        List<MasterChemicalPestMapping> existing = pestChemicalDao.findAllByPests(pest);
+        List<ChemicalBrandModel> incoming = pests.getChemicals();
 
-		List<ChemicalBrandModel> commonItems = incoming.stream().filter(
-				in -> existing.stream().anyMatch(ex -> ex.getChemicals().getPk1().equals(in.getChemicals().getPk1())))
-				.collect(Collectors.toList());
+        List<ChemicalBrandModel> commonItems = incoming.stream().filter(
+                        in -> existing.stream().anyMatch(ex -> ex.getChemicals().getPk1().equals(in.getChemicals().getPk1())))
+                .collect(Collectors.toList());
 
-		List<MasterChemicalPestMapping> notInIncoming = existing.stream().filter(
-				ex -> incoming.stream().noneMatch(in -> ex.getChemicals().getPk1().equals(in.getChemicals().getPk1())))
-				.collect(Collectors.toList());
+        List<MasterChemicalPestMapping> notInIncoming = existing.stream().filter(
+                        ex -> incoming.stream().noneMatch(in -> ex.getChemicals().getPk1().equals(in.getChemicals().getPk1())))
+                .collect(Collectors.toList());
 
-		incoming.removeAll(commonItems);
+        incoming.removeAll(commonItems);
 
-		for (ChemicalBrandModel chem : incoming) {
-			MasterChemicalPestMapping newMapping = new MasterChemicalPestMapping();
-			newMapping.setChemicals(chem.getChemicals());
-			newMapping.setPests(pest);
-			pestChemicalDao.save(newMapping);
-		}
-		pestChemicalDao.deleteAll(notInIncoming);
+        for (ChemicalBrandModel chem : incoming) {
+            MasterChemicalPestMapping newMapping = new MasterChemicalPestMapping();
+            newMapping.setChemicals(chem.getChemicals());
+            newMapping.setPests(pest);
+            pestChemicalDao.save(newMapping);
+        }
+        pestChemicalDao.deleteAll(notInIncoming);
 
-		return getDiseasesAndPests();
-	}
+        return getDiseasesAndPests();
+    }
 
-	@GetMapping("/getBrands")
-	public @ResponseBody Iterable<MasterChemicalBrands> getBrands() {
-		return brandsDao.findAll();
-	}
+    @GetMapping("/getBrands")
+    public @ResponseBody Iterable<MasterChemicalBrands> getBrands() {
+        return brandsDao.findAll();
+    }
 
-	@PostMapping("/saveBrands")
-	public @ResponseBody Iterable<MasterChemicalBrands> saveBrands(@RequestBody MasterChemicalBrands brands) {
-		brandsDao.save(brands);
-		return brandsDao.findAll();
-	}
+    @PostMapping("/saveBrands")
+    public @ResponseBody Iterable<MasterChemicalBrands> saveBrands(@RequestBody MasterChemicalBrands brands) {
+        brandsDao.save(brands);
+        return brandsDao.findAll();
+    }
 
-	@PostMapping("/deleteBrands")
-	public @ResponseBody Iterable<MasterChemicalBrands> deleteBrands(@RequestBody MasterChemicalBrands brands) {
-		brandsDao.delete(brands);
-		return brandsDao.findAll();
-	}
+    @PostMapping("/deleteBrands")
+    public @ResponseBody Iterable<MasterChemicalBrands> deleteBrands(@RequestBody MasterChemicalBrands brands) {
+        brandsDao.delete(brands);
+        return brandsDao.findAll();
+    }
 
-	@GetMapping("/awdDevices")
-	public @ResponseBody Page<AwdDevice> getAllAwdDevices(Pageable pageable) {
-		return awdDeviceDao.findAll(pageable);
-	}
+    @GetMapping("/awdDevices")
+    public @ResponseBody Page<AwdDevice> getAllAwdDevices(Pageable pageable) {
+        return awdDeviceDao.findAll(pageable);
+    }
 
-	@PostMapping("/saveAwdDevice")
-	public @ResponseBody Iterable<AwdDevice> saveAwdDevice(@RequestBody AwdDevice awdDevice) {
-		awdDeviceDao.save(awdDevice);
-		return awdDeviceDao.findAll();
-	}
+    @PostMapping("/saveAwdDevice")
+    public @ResponseBody Iterable<AwdDevice> saveAwdDevice(@RequestBody AwdDevice awdDevice) {
+        awdDeviceDao.save(awdDevice);
+        return awdDeviceDao.findAll();
+    }
 
-	@PostMapping("/deleteAwdDevice")
-	public @ResponseBody Iterable<AwdDevice> deleteAwdDevice(@RequestBody AwdDevice awdDevice) {
-		awdDeviceDao.delete(awdDevice);
-		return awdDeviceDao.findAll();
-	}
+    @PostMapping("/deleteAwdDevice")
+    public @ResponseBody Iterable<AwdDevice> deleteAwdDevice(@RequestBody AwdDevice awdDevice) {
+        awdDeviceDao.delete(awdDevice);
+        return awdDeviceDao.findAll();
+    }
+
+    @GetMapping("/harvestestimations")
+    public @ResponseBody Page<MasterHarvestEstimation> getAllMasterHarvestEstimation(Pageable pageable) {
+        return harvestEstimationDao.findAll(pageable);
+    }
+
+    @PostMapping("/saveHarvestEstimation")
+    public @ResponseBody Iterable<MasterHarvestEstimation> saveMasterHarvestEstimation(
+            @RequestBody MasterHarvestEstimation masterHarvestEstimation) {
+        harvestEstimationDao.save(masterHarvestEstimation);
+        return harvestEstimationDao.findAll();
+    }
+
+    @PostMapping("/deleteHarvestEstimation")
+    public @ResponseBody Iterable<MasterHarvestEstimation> deleteMasterHarvestEstimation(
+            @RequestBody MasterHarvestEstimation masterHarvestEstimation) {
+        harvestEstimationDao.delete(masterHarvestEstimation);
+        return harvestEstimationDao.findAll();
+    }
 }

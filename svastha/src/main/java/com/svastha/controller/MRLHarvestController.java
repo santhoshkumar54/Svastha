@@ -1,17 +1,8 @@
 package com.svastha.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.HarvestDryingProcess;
+import com.svastha.entity.HarvestEstimates;
 import com.svastha.entity.HarvestEwayBill;
 import com.svastha.entity.HarvestGstInvoice;
 import com.svastha.entity.HarvestGstProducts;
@@ -35,6 +26,7 @@ import com.svastha.model.HarvestGstInvoiveDTO;
 import com.svastha.model.HarvestInvoiveDTO;
 import com.svastha.repository.FarmProjectRepository;
 import com.svastha.repository.HarvestDryingProcessRepository;
+import com.svastha.repository.HarvestEstimatesRepository;
 import com.svastha.repository.HarvestEwayBillRepository;
 import com.svastha.repository.HarvestGstInvoiceRepository;
 import com.svastha.repository.HarvestGstProductsRepository;
@@ -54,6 +46,15 @@ import com.svastha.repository.HarvestSampleTestRepository;
 import com.svastha.repository.HarvestStockingRepository;
 import com.svastha.repository.HarvestUnloadingSlipRepository;
 import com.svastha.repository.HarvestWeighmentDetailsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class MRLHarvestController {
@@ -120,6 +121,9 @@ public class MRLHarvestController {
 
 	@Autowired
 	private FarmProjectRepository projectDao;
+
+	@Autowired
+	private HarvestEstimatesRepository estimatesDao;
 
 	@GetMapping("/getWeighmentDetails")
 	public List<HarvestWeighmentDetails> getWeighmentDetails(@RequestParam Long projectId) {
@@ -356,4 +360,9 @@ public class MRLHarvestController {
 		return unloadingSlipDao.saveAll(unloadingSlip);
 	}
 
+	@GetMapping("/getEstimates")
+	public List<HarvestEstimates> getEstimates(@RequestParam Long projectId) {
+		FarmProjects project = projectDao.findById(projectId).get();
+		return estimatesDao.findAllByProjects(project);
+	}
 }
