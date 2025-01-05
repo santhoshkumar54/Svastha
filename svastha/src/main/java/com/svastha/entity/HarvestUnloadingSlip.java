@@ -31,10 +31,6 @@ public class HarvestUnloadingSlip {
 
 	private String loadingSlipNo;
 
-	private String farmerCode;
-
-	private String paddyVariety;
-
 	private String weighmentSlipNo;
 
 	private String totalWeightKg;
@@ -130,22 +126,6 @@ public class HarvestUnloadingSlip {
 
 	public void setLoadingSlipNo(String loadingSlipNo) {
 		this.loadingSlipNo = loadingSlipNo;
-	}
-
-	public String getFarmerCode() {
-		return farmerCode;
-	}
-
-	public void setFarmerCode(String farmerCode) {
-		this.farmerCode = farmerCode;
-	}
-
-	public String getPaddyVariety() {
-		return paddyVariety;
-	}
-
-	public void setPaddyVariety(String paddyVariety) {
-		this.paddyVariety = paddyVariety;
 	}
 
 	public String getWeighmentSlipNo() {

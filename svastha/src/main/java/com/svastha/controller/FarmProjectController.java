@@ -245,15 +245,16 @@ public class FarmProjectController {
 	}
 
 	public Date convertToDate(String dateString) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/M/dd");
-
+		SimpleDateFormat dateFormatSlash = new SimpleDateFormat("yyyy/M/dd");
+		SimpleDateFormat dateFormatDash = new SimpleDateFormat("yyyy-M-dd");
 		try {
-			Date date = dateFormat.parse(dateString);
-
-			return date;
+			if (dateString.contains("-")) {
+				return dateFormatDash.parse(dateString);
+			} else {
+				return dateFormatSlash.parse(dateString);
+			}
 		} catch (ParseException e) {
 			System.out.println("sowing date ex:" + e);
-
 			return new Date();
 		}
 	}
@@ -462,7 +463,7 @@ public class FarmProjectController {
 	public void updateCompletion() {
 		projectDao.updateFarmProjectCompletionPercentage();
 	}
-	
+
 	@Scheduled(cron = "0 20 2 * * *")
 	public void updateOrganicCompletion() {
 		projectDao.updateOrganicProjectCompletionPercentage();
