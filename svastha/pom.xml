@@ -154,11 +154,11 @@
 			<plugin>
 				<groupId>com.diffplug.spotless</groupId>
 				<artifactId>spotless-maven-plugin</artifactId>
-				<version>2.29.0</version> <!-- Use the latest version -->
+				<version>2.29.0</version>
 				<executions>
 					<execution>
 						<goals>
-							<goal>apply</goal> <!-- Automatically format your code -->
+							<goal>apply</goal>
 						</goals>
 					</execution>
 				</executions>
