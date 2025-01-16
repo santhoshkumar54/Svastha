@@ -33,6 +33,7 @@ import com.svastha.entity.OrganicSoilAnalysis;
 import com.svastha.entity.OrganicSowingData;
 import com.svastha.entity.OrganicTransplantData;
 import com.svastha.entity.OrganicWaterAnalysis;
+import com.svastha.logs.LogServiceFactory;
 import com.svastha.model.OrganicProjectModel;
 import com.svastha.model.OrganicProjectPlotModel;
 import com.svastha.repository.FarmPlotsRepository;
@@ -189,6 +190,9 @@ public class OrganicProjectController {
 			field.setFilePath(p.toString());
 			field.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
 			omodel.setFieldMap(fieldDao.save(omodel.getFieldMap()));
+		} else {
+			LogServiceFactory.getService()
+					.logError("No image recieved. Uploaded by "+omodel.getAnnualProgram().getCreatedBy().getPk1()+ ". Uploaded in FieldMap", null);
 		}
 		return omodel;
 	}

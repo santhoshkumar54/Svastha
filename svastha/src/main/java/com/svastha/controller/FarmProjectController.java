@@ -36,6 +36,7 @@ import com.svastha.entity.ProjectPlots;
 import com.svastha.entity.ProjectSowingData;
 import com.svastha.entity.ProjectSyntheticFertilizers;
 import com.svastha.entity.Users;
+import com.svastha.logs.LogServiceFactory;
 import com.svastha.model.ImageModel;
 import com.svastha.model.ProjectExportModel;
 import com.svastha.model.ProjectModel;
@@ -388,7 +389,10 @@ public class FarmProjectController {
 
 		String folderPath = SEPARATOR + "projectImage" + SEPARATOR + projectId;
 		Path p = storageService.createFolder(folderPath);
-
+		if(file==null)
+		{
+			LogServiceFactory.getService().logError("No image recieved. Uploaded by "+userId+". Uploaded in "+projectId, null);
+		}
 		for (MultipartFile multipartFile : file) {
 			ProjectImages i = new ProjectImages();
 			i.setCreatedBy(u);
@@ -414,6 +418,10 @@ public class FarmProjectController {
 		String folderPath = SEPARATOR + "projectImage" + SEPARATOR + fid;
 		Path p = storageService.createFolder(folderPath);
 
+		if(file==null)
+		{
+			LogServiceFactory.getService().logError("No image recieved. Uploaded by "+userId+". Uploaded in "+formName, null);
+		}
 		for (MultipartFile multipartFile : file) {
 			ProjectImages i = new ProjectImages();
 			i.setCreatedBy(u);

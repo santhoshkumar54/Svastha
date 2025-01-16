@@ -38,6 +38,7 @@ import com.svastha.entity.District;
 import com.svastha.entity.Manual;
 import com.svastha.entity.Thaluk;
 import com.svastha.entity.Weather;
+import com.svastha.entity.viewNotification;
 import com.svastha.repository.AwdDataRepository;
 import com.svastha.repository.MasterManualRepository;
 import com.svastha.repository.ThalukRepository;
@@ -106,6 +107,12 @@ public class HomeController {
 		}
 	}
 
+	@GetMapping("/getNotifications")
+	public List<viewNotification> getNotification()
+	{
+		return notificationDao.findAll();
+	}
+	
 	@GetMapping("/hello")
 	public String index() throws IllegalArgumentException, IllegalAccessException {
 		System.out.println("hello Scheduler called");

@@ -92,6 +92,8 @@ public class FarmProjects {
 	private Users AssignedBy;
 
 	private Timestamp assignedDt;
+	
+	private String location;
 
 	public Long getPk1() {
 		return pk1;
@@ -275,6 +277,14 @@ public class FarmProjects {
 
 	public void setSowingDate(String sowingDate) {
 		this.sowingDate = sowingDate;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 }
