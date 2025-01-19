@@ -1,29 +1,34 @@
 package com.svastha.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.google.gson.Gson;
 import com.svastha.entity.FarmProjects;
+import com.svastha.entity.RouteMaster;
 import com.svastha.entity.Thaluk;
 import com.svastha.entity.Village;
 import com.svastha.logs.LogServiceFactory;
 import com.svastha.repository.FarmProjectRepository;
+import com.svastha.repository.RouteMasterRepository;
 import com.svastha.repository.ThalukRepository;
 import com.svastha.repository.VillageRepository;
 import com.svastha.util.GeoMapDTO;
 import com.svastha.util.LocationDTO;
 import com.svastha.util.RouteLocation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 @Service
 public class RouteService {
@@ -38,6 +43,37 @@ public class RouteService {
 
 	@Autowired
 	private ThalukRepository thalukDao;
+
+	@Autowired
+	private RouteMasterRepository routeMasterDao;
+
+	public Page<RouteMaster> getRoutesWithFilters(
+			String routeName,
+			Integer count,
+			Long assignedTo,
+			Long assignedBy,
+			Timestamp startDate,
+			Timestamp endDate,
+			Pageable pageable) {
+		return routeMasterDao.findWithFilters(routeName, count, assignedTo, assignedBy, startDate, endDate, pageable);
+	}
+
+	public RouteMaster getRouteById(Long routeId) {
+		Optional<RouteMaster> route = routeMasterDao.findById(routeId);
+		return route.orElse(null);
+	}
+
+	public RouteMaster createRoute(RouteMaster route) {
+		return routeMasterDao.save(route);
+	}
+
+	public void deleteRoute(RouteMaster route) {
+		if (route != null && route.getPk1() != null) {
+			routeMasterDao.deleteById(route.getPk1());
+		} else {
+			throw new IllegalArgumentException("Route to delete is invalid");
+		}
+	}
 
 	@Async
 	public void villageLocationMapper(Long thalukId) {
