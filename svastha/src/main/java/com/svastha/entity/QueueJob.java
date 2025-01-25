@@ -18,7 +18,7 @@ public class QueueJob {
 	private String status;
 	private String imageUrl;
 	private String result;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "created_by_pk1", updatable = false)
 	private Users createdBy;

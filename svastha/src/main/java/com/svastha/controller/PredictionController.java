@@ -56,6 +56,7 @@ import com.svastha.repository.UserRepository;
 import com.svastha.repository.ViewNotificationRepository;
 import com.svastha.repository.WeatherRepository;
 import com.svastha.service.FilesStorageService;
+import com.svastha.service.PredictionService;
 import com.svastha.util.Daily;
 import com.svastha.util.GeoMapDTO;
 import com.svastha.util.WeatherDTO;
@@ -71,6 +72,9 @@ public class PredictionController {
 
 	@Autowired
 	private UserRepository userDao;
+	
+	@Autowired
+	private PredictionService predService;
 
 	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
@@ -78,7 +82,7 @@ public class PredictionController {
 
 	@PostConstruct
 	public void init() {
-		jobTypes.add("AI Prediction");
+		jobTypes.add("FindDisease");
 	}
 
 	@PostMapping("/addQueueJob")
@@ -98,7 +102,7 @@ public class PredictionController {
 			LogServiceFactory.getService()
 					.logError("No image recieved. Uploaded by " + userId + ". Uploaded in predictions", null);
 		}
-		
+
 			QueueJob i = new QueueJob();
 			i.setCreatedBy(u);
 			i.setJobType(jobType);
@@ -108,12 +112,21 @@ public class PredictionController {
 			i.setImageUrl("/farmer/images" + folderPath + SEPARATOR + filePath);
 			i.setStatus("NEW");
 			i = jobDao.save(i);
+
+		 Long jobId = i.getPk1();
+		 predService.predictDisease(i.getPath()+SEPARATOR+filePath, jobId);
 		return i.getPk1().toString();
 	}
-	
+
 	@GetMapping("/getResult")
 	public @ResponseBody QueueJob getResult(@RequestParam Long jobId)
 	{
 		return jobDao.findById(jobId).get();
 	}
+
+	@GetMapping("/testPrediction")
+	public void getResult(@RequestParam Long jobId,@RequestParam String filePath)
+	{
+		 predService.predictDisease(filePath, jobId);
+	}	
 }
