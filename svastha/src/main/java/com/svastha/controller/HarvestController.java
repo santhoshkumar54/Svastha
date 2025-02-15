@@ -145,7 +145,9 @@ public class HarvestController {
 
 	@PostMapping("/saveHarvestData")
 	public ProjectHarvest saveHarvestData(@RequestBody ProjectHarvest harvest) {
-
+        FarmProjects project = harvest.getProjects();
+        project.setRemarks("COMPLETED");
+        projectDao.save(project); 
 		return harvestDao.save(harvest);
 	}
 }

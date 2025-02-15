@@ -7,6 +7,7 @@ import com.svastha.entity.Thaluk;
 import com.svastha.entity.Village;
 import com.svastha.logs.LogServiceFactory;
 import com.svastha.repository.FarmProjectRepository;
+import com.svastha.repository.MasterProjectTypeRepository;
 import com.svastha.repository.RouteMasterRepository;
 import com.svastha.repository.ThalukRepository;
 import com.svastha.repository.VillageRepository;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -47,14 +49,11 @@ public class RouteService {
 	@Autowired
 	private RouteMasterRepository routeMasterDao;
 
-	public Page<RouteMaster> getRoutesWithFilters(
-			String routeName,
-			Integer count,
-			Long assignedTo,
-			Long assignedBy,
-			Timestamp startDate,
-			Timestamp endDate,
-			Pageable pageable) {
+	@Autowired
+	private MasterProjectTypeRepository projectTypeDao;
+
+	public Page<RouteMaster> getRoutesWithFilters(String routeName, Integer count, Long assignedTo, Long assignedBy,
+			Timestamp startDate, Timestamp endDate, Pageable pageable) {
 		return routeMasterDao.findWithFilters(routeName, count, assignedTo, assignedBy, startDate, endDate, pageable);
 	}
 
@@ -69,10 +68,47 @@ public class RouteService {
 
 	public void deleteRoute(RouteMaster route) {
 		if (route != null && route.getPk1() != null) {
+			resetProjectsInRoute(route);
 			routeMasterDao.deleteById(route.getPk1());
 		} else {
 			throw new IllegalArgumentException("Route to delete is invalid");
 		}
+	}
+
+	public void resetProjectsInRoute(RouteMaster route) {
+		List<FarmProjects> projects = projectDao.findAllByRoutes(route);
+		for (FarmProjects project : projects) {
+			project.setRoutes(null);
+			projectDao.save(project);
+		}
+	}
+
+	public List<FarmProjects> getProjectsInRoute(Long routeId) {
+		RouteMaster route = getRouteById(routeId);
+		return projectDao.findAllByRoutes(route);
+	}
+
+	public Page<FarmProjects> getProjectsWithoutRoutes(Long yearId, Long seasonId, Long cropId, String key, Long userId,
+			Long varietyId, Long ics, Long districtId, Long thalukId, Long villageId, Pageable pageable) {
+		Long projectTypePk1 = projectTypeDao.findByProjectType("MRL").getPk1();
+		Page<FarmProjects> projects = projectDao.findWithFiltersWithoutRoute(yearId, seasonId, cropId, key, userId,
+				projectTypePk1, varietyId, ics, "APPROVED", districtId, thalukId, villageId, pageable);
+		return projects;
+	}
+
+	public List<FarmProjects> saveProjectInRoutes(RouteMaster route, List<FarmProjects> projects) {
+		List<FarmProjects> projectsinRoute = projectDao.findAllByRoutes(route);
+		for (FarmProjects project : projectsinRoute) {
+			project.setRoutes(null);
+			projectDao.save(project);
+		}
+		for (FarmProjects project : projects) {
+			project.setRoutes(route);
+			projectDao.save(project);
+		}
+		route.setCount(projects.size());
+		routeMasterDao.save(route);
+		return projectDao.findAllByRoutes(route);
 	}
 
 	@Async
@@ -98,8 +134,7 @@ public class RouteService {
 					db.append("Result: ");
 					for (GeoMapDTO geo : w) {
 						db.append(geo.getDisplayName());
-						if(geo.getDisplayName().contains(village.getThaluk().getName()))
-						{
+						if (geo.getDisplayName().contains(village.getThaluk().getName())) {
 							village.setLatitude(Double.parseDouble(geo.getLat()));
 							village.setLongitude(Double.parseDouble(geo.getLon()));
 							villageDao.save(village);
@@ -129,15 +164,14 @@ public class RouteService {
 					RestTemplate restTemplate = new RestTemplate();
 					GeoMapDTO[] w = restTemplate.getForObject(apiURL, GeoMapDTO[].class);
 					for (GeoMapDTO geo : w) {
-						if(geo.getDisplayName().contains(thaluk.getDistrict().getName()))
-						{
+						if (geo.getDisplayName().contains(thaluk.getDistrict().getName())) {
 							thaluk.setLatitude(Double.parseDouble(geo.getLat()));
 							thaluk.setLongitude(Double.parseDouble(geo.getLon()));
 							thalukDao.save(thaluk);
 							break;
 						}
 					}
-					
+
 				}
 
 				catch (Exception ex) {

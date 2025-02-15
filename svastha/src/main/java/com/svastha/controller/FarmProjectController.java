@@ -330,6 +330,7 @@ public class FarmProjectController {
 		try {
 			FarmProjects f = projectsDTO.getProjects();
 			f.setStatus("WAITING");
+			f.setRemarks("WAITING");
 			f.setAssignedTo(f.getCreatedBy());
 
 			f = projectDao.save(f);
@@ -462,6 +463,7 @@ public class FarmProjectController {
 		FarmProjects project = projectDao.findById(projectId).get();
 		Users u = userDao.findById(userId).get();
 		project.setStatus(approvalStatus);
+		project.setRemarks(approvalStatus);
 		project.setUpdatedBy(u);
 		projectDao.save(project);
 		return "Success";

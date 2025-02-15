@@ -43,6 +43,7 @@ public class DeleteController {
 		List<FarmProjects> projects = projectDao.findAllByFarm(farm);
 		for (FarmProjects project : projects) {
 			project.setDeleted(true);
+			project.setRemarks("DELETED");
 			project.setDeletedBy(user);
 			project.setDeletedDt(Timestamp.from(Instant.now()));
 			projectDao.save(project);
@@ -54,6 +55,7 @@ public class DeleteController {
 		FarmProjects project = projectDao.findById(model.getProject().getPk1()).get();
 		Users user = userDao.findByPk1(model.getUser().getPk1());
 		project.setDeleted(true);
+		project.setRemarks("DELETED");
 		project.setDeletedBy(user);
 		project.setDeletedDt(Timestamp.from(Instant.now()));
 		projectDao.save(project);

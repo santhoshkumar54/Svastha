@@ -94,6 +94,8 @@ public class FarmProjects {
 	private Timestamp assignedDt;
 	
 	private String location;
+	
+	private RouteMaster routes;
 
 	public Long getPk1() {
 		return pk1;
@@ -285,6 +287,14 @@ public class FarmProjects {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public RouteMaster getRoutes() {
+		return routes;
+	}
+
+	public void setRoutes(RouteMaster routes) {
+		this.routes = routes;
 	}
 
 }
