@@ -40,7 +40,7 @@ public class FarmProjects {
 
 	@ManyToOne
 	private MasterCropVariety variety;
-	
+
 	private String sowingDate;
 
 	// Mapping to the other table
@@ -92,9 +92,10 @@ public class FarmProjects {
 	private Users AssignedBy;
 
 	private Timestamp assignedDt;
-	
+
 	private String location;
-	
+
+	@ManyToOne
 	private RouteMaster routes;
 
 	public Long getPk1() {
