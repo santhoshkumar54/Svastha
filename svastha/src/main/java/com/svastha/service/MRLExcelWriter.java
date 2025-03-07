@@ -243,8 +243,7 @@ public class MRLExcelWriter {
 	@PostConstruct
 	public void init() {
 		System.out.println("Upload Directory: " + uploadDirectory);
-		//excelFilePath = uploadDirectory + "Excel/";
-		excelFilePath = "N:\\Rathai Office\\Rathai work\\February 2025\\8 2 25\\";
+		excelFilePath = uploadDirectory + "Excel/";
 		System.out.println("EXCEL Directory: " + excelFilePath);
 	}
 
