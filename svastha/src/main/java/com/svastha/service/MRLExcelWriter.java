@@ -27,9 +27,27 @@ import org.springframework.stereotype.Component;
 
 import com.svastha.entity.FarmPlots;
 import com.svastha.entity.FarmProjects;
+import com.svastha.entity.HarvestDryingProcess;
+import com.svastha.entity.HarvestEstimates;
+import com.svastha.entity.HarvestEwayBill;
+import com.svastha.entity.HarvestGstInvoice;
+import com.svastha.entity.HarvestInvoice;
+import com.svastha.entity.HarvestLabelling;
+import com.svastha.entity.HarvestLoadingSlip;
+import com.svastha.entity.HarvestMillEquipmentUsage;
+import com.svastha.entity.HarvestMillingProcess;
+import com.svastha.entity.HarvestPackagingDetails;
+import com.svastha.entity.HarvestPaymentDetails;
+import com.svastha.entity.HarvestPriceConfirmation;
+import com.svastha.entity.HarvestPurchasePointEntry;
+import com.svastha.entity.HarvestQualityAssessment;
+import com.svastha.entity.HarvestQualityStandards;
+import com.svastha.entity.HarvestSampleTest;
+import com.svastha.entity.HarvestStocking;
+import com.svastha.entity.HarvestUnloadingSlip;
+import com.svastha.entity.HarvestWeighmentDetails;
 import com.svastha.entity.ProjectBioFertilizers;
 import com.svastha.entity.ProjectDSRMethod;
-import com.svastha.entity.ProjectDispatch;
 import com.svastha.entity.ProjectHarvest;
 import com.svastha.entity.ProjectIrrigation;
 import com.svastha.entity.ProjectLandPreparation;
@@ -39,21 +57,34 @@ import com.svastha.entity.ProjectNurseryPests;
 import com.svastha.entity.ProjectNurseryWater;
 import com.svastha.entity.ProjectNurseryWeed;
 import com.svastha.entity.ProjectOrganicManure;
-import com.svastha.entity.ProjectPacking;
 import com.svastha.entity.ProjectPlots;
-import com.svastha.entity.ProjectPostPurchase;
-import com.svastha.entity.ProjectPrePurchase;
-import com.svastha.entity.ProjectProcurement;
 import com.svastha.entity.ProjectProtection;
 import com.svastha.entity.ProjectSeedTreatment;
 import com.svastha.entity.ProjectSowingData;
-import com.svastha.entity.ProjectStorage;
 import com.svastha.entity.ProjectSyntheticFertilizers;
 import com.svastha.entity.ProjectTransplantManagement;
 import com.svastha.entity.ProjectWeedManagement;
 import com.svastha.repository.FarmProjectRepository;
+import com.svastha.repository.HarvestDryingProcessRepository;
+import com.svastha.repository.HarvestEstimatesRepository;
+import com.svastha.repository.HarvestEwayBillRepository;
+import com.svastha.repository.HarvestGstInvoiceRepository;
+import com.svastha.repository.HarvestInvoiceRepository;
+import com.svastha.repository.HarvestLabellingRepository;
+import com.svastha.repository.HarvestLoadingSlipRepository;
+import com.svastha.repository.HarvestMillEquipmentUsageRepository;
+import com.svastha.repository.HarvestMillingProcessRepository;
+import com.svastha.repository.HarvestPackagingDetailsRepository;
+import com.svastha.repository.HarvestPaymentDetailsRepository;
+import com.svastha.repository.HarvestPriceConfirmationRepository;
+import com.svastha.repository.HarvestPurchasePointEntryRepository;
+import com.svastha.repository.HarvestQualityAssessmentRepository;
+import com.svastha.repository.HarvestQualityStandardRepository;
+import com.svastha.repository.HarvestSampleTestRepository;
+import com.svastha.repository.HarvestStockingRepository;
+import com.svastha.repository.HarvestUnloadingSlipRepository;
+import com.svastha.repository.HarvestWeighmentDetailsRepository;
 import com.svastha.repository.ProjectsBioFertilizerRepository;
-import com.svastha.repository.ProjectsDispatchRepository;
 import com.svastha.repository.ProjectsDsrRepository;
 import com.svastha.repository.ProjectsHarvestRepository;
 import com.svastha.repository.ProjectsIrrigationRepository;
@@ -61,17 +92,12 @@ import com.svastha.repository.ProjectsLandPreparationRepository;
 import com.svastha.repository.ProjectsManureRepository;
 import com.svastha.repository.ProjectsMicroNutrientRepository;
 import com.svastha.repository.ProjectsNutrientRepository;
-import com.svastha.repository.ProjectsPackingRepository;
 import com.svastha.repository.ProjectsPestsRepository;
 import com.svastha.repository.ProjectsPlotsRepository;
-import com.svastha.repository.ProjectsPostPurchaseRepository;
-import com.svastha.repository.ProjectsPrePurchaseRepository;
-import com.svastha.repository.ProjectsProcurementRepository;
 import com.svastha.repository.ProjectsProtectionRepository;
 import com.svastha.repository.ProjectsSeedTreatmentChemicalRepository;
 import com.svastha.repository.ProjectsSeedTreatmentRepository;
 import com.svastha.repository.ProjectsSowingDataRepository;
-import com.svastha.repository.ProjectsStorageRepository;
 import com.svastha.repository.ProjectsSyntheticFertilizerRepository;
 import com.svastha.repository.ProjectsTransplantManagementRepository;
 import com.svastha.repository.ProjectsWaterRepository;
@@ -139,25 +165,66 @@ public class MRLExcelWriter {
 	private ProjectsProtectionRepository protectionDao;
 
 	@Autowired
-	private ProjectsPackingRepository packingDao;
-
-	@Autowired
-	private ProjectsProcurementRepository procDao;
-
-	@Autowired
-	private ProjectsDispatchRepository dispatchDao;
-
-	@Autowired
-	private ProjectsStorageRepository storageDao;
-
-	@Autowired
-	private ProjectsPrePurchaseRepository preDao;
-
-	@Autowired
-	private ProjectsPostPurchaseRepository postDao;
-
-	@Autowired
 	private ProjectsHarvestRepository harvestDao;
+	
+	@Autowired
+	private HarvestQualityAssessmentRepository harvestQADao;
+	
+	@Autowired
+	private HarvestPurchasePointEntryRepository harvestPurchaseEntryDao;
+	
+	@Autowired
+	private HarvestPackagingDetailsRepository harvestPackingDao;
+	
+	@Autowired
+	private HarvestLabellingRepository harvestLabelDao;
+	
+	@Autowired
+	private HarvestWeighmentDetailsRepository harvestWeighmentDao;
+	
+	@Autowired
+	private HarvestQualityStandardRepository harvestQualityStdDao;
+	
+	@Autowired
+	private HarvestInvoiceRepository harvestInvoiceDao;
+	
+	@Autowired
+	private HarvestPriceConfirmationRepository harvestPriceConfirmDao;
+	
+	@Autowired
+	private HarvestGstInvoiceRepository harvestGstInvoiceDao;
+	
+	@Autowired
+	private HarvestLoadingSlipRepository harvestLoadingSlipDao;
+	
+	@Autowired
+	private HarvestUnloadingSlipRepository harvestUnLoadingSlipDao;
+	
+	@Autowired
+	private HarvestPaymentDetailsRepository harvestPaymentDetailsDao;
+	
+	@Autowired
+	private HarvestEwayBillRepository harvestEwayBillDao;
+	
+	@Autowired
+	private HarvestStockingRepository harvestStockingDao;
+	
+	
+	@Autowired
+	private HarvestDryingProcessRepository harvestDryingProcessDao;
+	
+	@Autowired
+	private HarvestMillingProcessRepository harvestMillingProcessDao;
+	
+	@Autowired
+	private HarvestMillEquipmentUsageRepository harvestMillEquipmentUsageDao;
+	
+	@Autowired
+	private HarvestSampleTestRepository harvestSampleTestDao;
+	
+	@Autowired
+	private HarvestEstimatesRepository harvestEstimatesDao;
+
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -176,7 +243,8 @@ public class MRLExcelWriter {
 	@PostConstruct
 	public void init() {
 		System.out.println("Upload Directory: " + uploadDirectory);
-		excelFilePath = uploadDirectory + "Excel/";
+		//excelFilePath = uploadDirectory + "Excel/";
+		excelFilePath = "N:\\Rathai Office\\Rathai work\\February 2025\\8 2 25\\";
 		System.out.println("EXCEL Directory: " + excelFilePath);
 	}
 
@@ -635,171 +703,504 @@ public class MRLExcelWriter {
 		return end;
 	}
 
-	private int populatePrePurchase(FarmProjects project, int rowNum, Sheet sheet) {
-		List<ProjectPrePurchase> objs = preDao.findAllByProjects(project);
-
-		for (ProjectPrePurchase obj : objs) {
+	private int populatePaddyPriceConfirmation(FarmProjects project, int rowNum, Sheet sheet) {
+		List<HarvestPriceConfirmation> objs = harvestPriceConfirmDao.findAllByProjects(project);
+		int tempRowNum=rowNum;
+		for (HarvestPriceConfirmation obj : objs) {
 			Row row = sheet.getRow(rowNum);
 			if (row == null) {
 				row = sheet.createRow(rowNum);
 				createSingleRows(project, row, rowNum);
 			}
 
-			row.createCell(122).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(123).setCellValue(obj.getLotQty());
-			row.createCell(124).setCellValue(obj.getSamplingDate());
-			row.createCell(125).setCellValue(obj.getSamplePrepDate());
-			row.createCell(126).setCellValue(obj.getSampleTestDate());
-			row.createCell(127).setCellValue(obj.getSampleCode());
-			row.createCell(128).setCellValue(obj.getResult());
+			row.createCell(122).setCellValue(obj.getQty());
+			row.createCell(123).setCellValue(obj.getPurchaseOrder());
+			row.createCell(124).setCellValue(obj.getPriceTrends());
+			row.createCell(125).setCellValue(obj.getRate());
+			row.createCell(126).setCellValue(obj.getRate());
+			row.createCell(127).setCellValue(obj.getQualityVerifedBy());
+			row.createCell(128).setCellValue(obj.getQualityStaff());
+			row.createCell(129).setCellValue(obj.getSlipPreparedBy());
+			row.createCell(130).setCellValue(obj.getApprovedBy());
+			row.createCell(131).setCellValue(obj.getDateOfApproval());
+			row.createCell(132).setCellValue(obj.getLaborCost());
 			rowNum = rowNum + 1;
 		}
-		return rowNum;
+		return tempRowNum;
+}
+		
+		private int populateQualityAssessment(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestQualityAssessment> objs = harvestQADao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestQualityAssessment obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(133).setCellValue(obj.getMoisturePercentage());
+				row.createCell(134).setCellValue(obj.getMethodOfMoistureChecking());
+				row.createCell(135).setCellValue(obj.getGreenGrainsPercentage());
+				row.createCell(136).setCellValue(obj.getChaffyGrainsPercentage());
+				row.createCell(137).setCellValue(obj.getImpurities());
+				row.createCell(138).setCellValue(obj.getOtherQualityParameters());
+				row.createCell(139).setCellValue(obj.getRemarks());
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
 	}
+		
+		
+		private int populatePurchasePointEntry(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestPurchasePointEntry> objs = harvestPurchaseEntryDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestPurchasePointEntry obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
 
-	private int populatePrcurement(FarmProjects project, int rowNum, Sheet sheet) {
-		List<ProjectProcurement> objs = procDao.findAllByProjects(project);
+				row.createCell(140).setCellValue(obj.getPurchasePoint());
+				row.createCell(141).setCellValue(obj.getFieldExecutiveName());
+				row.createCell(142).setCellValue(obj.getPpcSlipNo());
+				row.createCell(143).setCellValue(obj.getDateOfReceipt());
+				row.createCell(144).setCellValue(obj.getQualityReportNo());
+				row.createCell(145).setCellValue(obj.getDateOfTestReport());
+				row.createCell(146).setCellValue(obj.getLabName());
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populatePackingDetails(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestPackagingDetails> objs = harvestPackingDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestPackagingDetails obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
 
-		for (ProjectProcurement obj : objs) {
+				row.createCell(147).setCellValue(obj.getPackagingMaterial());
+				row.createCell(148).setCellValue(obj.getNumberOfBagsRequired());
+				row.createCell(149).setCellValue(obj.getPackingSize());
+				row.createCell(150).setCellValue(obj.getCostOfBags());
+				row.createCell(151).setCellValue(obj.getRopeCost());
+				row.createCell(152).setCellValue(obj.getStitchingCost());
+				row.createCell(153).setCellValue(obj.getNumberOfLoadMansInvolved());
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populateLabelling(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestLabelling> objs = harvestLabelDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestLabelling obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(154).setCellValue(obj.getLotCode());
+				row.createCell(155).setCellValue(obj.getBatchNumber());
+				row.createCell(156).setCellValue(obj.getTagColour());
+				row.createCell(157).setCellValue(obj.getQualityGrade());
+				row.createCell(158).setCellValue(obj.getIdentificationMark());
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populateWeighmentSlip(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestWeighmentDetails> objs = harvestWeighmentDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestWeighmentDetails obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(159).setCellValue(obj.getWeighmentSlipNumber());
+				row.createCell(160).setCellValue(obj.getDateTimeOfWeighment());
+				row.createCell(161).setCellValue(obj.getLoadingUnloadingStatus());
+				row.createCell(162).setCellValue(obj.getVehicleNumber());
+				row.createCell(163).setCellValue(obj.getDriverName());
+				row.createCell(164).setCellValue(obj.getGrossWeight());
+				row.createCell(165).setCellValue(obj.getTareWeight());
+				row.createCell(166).setCellValue(obj.getNetWeight());
+				row.createCell(167).setCellValue(obj.getWeightDifference());
+				row.createCell(168).setCellValue(obj.getMoisturePercentage());
+				row.createCell(169).setCellValue(obj.getTotalQuantity());
+				row.createCell(170).setCellValue(obj.getNumberOfBags());
+				row.createCell(171).setCellValue(obj.getChargesForWeighment());
+				row.createCell(172).setCellValue(obj.getNameOfWeighBridge());
+				row.createCell(173).setCellValue(obj.getSignatureOrSealOfInCharge());
+				row.createCell(174).setCellValue(obj.getPlaceOfWeighment());
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populatePhysicalQualityStandards(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestQualityStandards> objs = harvestQualityStdDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestQualityStandards obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(175).setCellValue(obj.getPurchaseDate());
+				row.createCell(176).setCellValue(obj.getLotNumber());
+				row.createCell(177).setCellValue(obj.getPurchaseCenter());
+				row.createCell(178).setCellValue(obj.getQuantity());
+				row.createCell(179).setCellValue(obj.getPackSize());
+				row.createCell(180).setCellValue(obj.getLabelled());
+				row.createCell(181).setCellValue(obj.getMoisture());
+				row.createCell(182).setCellValue(obj.getHrPercentage());
+				row.createCell(183).setCellValue(obj.getBrokenPercentage());
+				row.createCell(184).setCellValue(obj.getLength());
+				row.createCell(185).setCellValue(obj.getBreadth());
+				row.createCell(186).setCellValue(obj.getDdPercentage());
+				row.createCell(187).setCellValue(obj.getInertMatterPercentage());
+				row.createCell(188).setCellValue(obj.getAdmixturePercentage());
+				row.createCell(189).setCellValue(obj.getCheffPercentage());
+				row.createCell(190).setCellValue(obj.getDispatchDate());
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populateSalesInvoice(FarmProjects project, int rowNum, Sheet sheet) {
+			
+				HarvestInvoice obj = harvestInvoiceDao.findByProjects(project);
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(191).setCellValue(obj.getInvoiceNumber());
+				row.createCell(192).setCellValue(obj.getDateOfInvoice());
+				row.createCell(193).setCellValue(obj.getPurchasePointAddress());
+				row.createCell(194).setCellValue(obj.getTruckNo());
+				row.createCell(195).setCellValue(obj.getEmptyWeight());
+				row.createCell(196).setCellValue(obj.getGrossWeight());
+				row.createCell(197).setCellValue(obj.getNetWeight());
+				row.createCell(198).setCellValue(obj.getNumberOfBags());
+				row.createCell(199).setCellValue(obj.getHsnCode());
+				row.createCell(200).setCellValue(obj.getBuyerName());
+				row.createCell(201).setCellValue(obj.getBillingAddress());
+				row.createCell(202).setCellValue(obj.getBillingGSTIN());
+				row.createCell(203).setCellValue(obj.getDeliveryAddress());
+				row.createCell(204).setCellValue(obj.getDeliveryGSTIN());
+			return rowNum;
+	}
+		
+		private int populateGstInvoice(FarmProjects project, int rowNum, Sheet sheet) {
+			
+			HarvestGstInvoice obj = harvestGstInvoiceDao.findByProjects(project);
 			Row row = sheet.getRow(rowNum);
 			if (row == null) {
 				row = sheet.createRow(rowNum);
 				createSingleRows(project, row, rowNum);
 			}
 
-			row.createCell(129).setCellValue(obj.getPurchaseDate());
-			row.createCell(130).setCellValue(obj.getLotNumber());
-			row.createCell(131).setCellValue(obj.getPurchaseCenter());
-			row.createCell(132).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(133).setCellValue(obj.getNumberOfBags());
-			row.createCell(134).setCellValue(obj.getPackSize());
-			row.createCell(135).setCellValue(obj.getLabelled());
-			row.createCell(136).setCellValue(obj.getMoisture());
-			row.createCell(137).setCellValue(obj.getHr());
-			row.createCell(138).setCellValue(obj.getBroken());
-			row.createCell(139).setCellValue(obj.getLength());
-			row.createCell(140).setCellValue(obj.getBreadth());
-			row.createCell(141).setCellValue(obj.getDd());
-			row.createCell(142).setCellValue(obj.getIntert());
-			row.createCell(143).setCellValue(obj.getAdmixture());
-			row.createCell(144).setCellValue(obj.getCheff());
-			row.createCell(145).setCellValue(obj.getDispatchDate());
-
-			rowNum = rowNum + 1;
-		}
+			row.createCell(205).setCellValue(obj.getInvoiceNumber());
+			row.createCell(206).setCellValue(obj.getInvoiceDate());
+			row.createCell(207).setCellValue(obj.getTransportMode());
+			row.createCell(208).setCellValue(obj.getVehicleNumber());
+			row.createCell(209).setCellValue(obj.getBillFromName());
+			row.createCell(210).setCellValue(obj.getGstin());
+			row.createCell(211).setCellValue(obj.getAddress());
+			row.createCell(212).setCellValue(obj.getSupplierContactNumber());
+			row.createCell(213).setCellValue(obj.getMillName());
+			row.createCell(214).setCellValue(obj.getMillAddress());
+			row.createCell(215).setCellValue(obj.getGstinOfMill());
+			row.createCell(216).setCellValue(obj.getRecepientContactNumber());
+			row.createCell(217).setCellValue(obj.getDispatchDateTime());
+			row.createCell(218).setCellValue(obj.getPlaceOfDelivery());
+			row.createCell(219).setCellValue(obj.getLocation());
 		return rowNum;
-	}
+}
 
-	private int populatePacking(FarmProjects project, int rowNum, Sheet sheet) {
-		List<ProjectPacking> objs = packingDao.findAllByProjects(project);
 
-		for (ProjectPacking obj : objs) {
-			Row row = sheet.getRow(rowNum);
-			if (row == null) {
-				row = sheet.createRow(rowNum);
-				createSingleRows(project, row, rowNum);
+		private int populateLoadingSlip(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestLoadingSlip> objs = harvestLoadingSlipDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestLoadingSlip obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(220).setCellValue(obj.getSlipNo());
+				row.createCell(221).setCellValue(obj.getRatePerKg());
+				row.createCell(222).setCellValue(obj.getWeighmentSlipNo());
+				row.createCell(223).setCellValue(obj.getQuantityLoadedKg());
+				row.createCell(224).setCellValue(obj.getNoOfBags());
+				row.createCell(225).setCellValue(obj.getTotalValue());
+				row.createCell(226).setCellValue(obj.getDateOfDispatch());
+				row.createCell(227).setCellValue(obj.getDispatchTime());
+				row.createCell(228).setCellValue(obj.getFromLocation());
+				row.createCell(229).setCellValue(obj.getToLocation());
+				row.createCell(230).setCellValue(obj.getVehicleNo());
+				row.createCell(231).setCellValue(obj.getVerifierName());
+				rowNum = rowNum + 1;
 			}
-			row.createCell(146).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(147).setCellValue(obj.getHarvestDate());
-			row.createCell(148).setCellValue(obj.getHarvestDate());
-			row.createCell(149).setCellValue(obj.getThreshingDate());
-			row.createCell(150).setCellValue(obj.getThreshingMethod());
-			row.createCell(151).setCellValue(obj.getCleaningDate());
-			row.createCell(152).setCellValue(obj.getMoisture());
-			row.createCell(153).setCellValue(obj.getPackingMaterial());
-			row.createCell(154).setCellValue(obj.getPackSize());
-			row.createCell(155).setCellValue(obj.getNumberOfBags());
-			row.createCell(156).setCellValue(obj.getGrossWeight());
-			row.createCell(157).setCellValue(obj.getEmptyWeight());
-			row.createCell(158).setCellValue(obj.getLabelled());
-
-			rowNum = rowNum + 1;
-		}
-		return rowNum;
+			return tempRowNum;
 	}
+		
+		private int populateUnLoadingSlip(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestUnloadingSlip> objs = harvestUnLoadingSlipDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestUnloadingSlip obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
 
-	private int populateDispatch(FarmProjects project, int rowNum, Sheet sheet) {
-		List<ProjectDispatch> objs = dispatchDao.findAllByProjects(project);
-
-		for (ProjectDispatch obj : objs) {
-			Row row = sheet.getRow(rowNum);
-			if (row == null) {
-				row = sheet.createRow(rowNum);
-				createSingleRows(project, row, rowNum);
+				row.createCell(232).setCellValue(obj.getUnloadingReceiptNo());
+				row.createCell(233).setCellValue(obj.getVehicleNo());
+				row.createCell(234).setCellValue(obj.getDateOfUnloading());
+				row.createCell(235).setCellValue(obj.getTimeOfUnloading());
+				row.createCell(236).setCellValue(obj.getDryerCode());
+				row.createCell(237).setCellValue(obj.getUnloadingLocation());
+				row.createCell(238).setCellValue(obj.getLoadingSlipNo());
+				row.createCell(239).setCellValue(obj.getWeighmentSlipNo());
+				row.createCell(240).setCellValue(obj.getTotalWeightKg());
+				row.createCell(241).setCellValue(obj.getWeightDifference());
+				row.createCell(242).setCellValue(obj.getNumberOfBags());
+				row.createCell(243).setCellValue(obj.getMoistureContent());
+				row.createCell(244).setCellValue(obj.getRemarksOfInCharge());
+				row.createCell(245).setCellValue(obj.getNameOfInCharge());
+				rowNum = rowNum + 1;
 			}
-			row.createCell(159).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(160).setCellValue(obj.getDispatchDate());
-			row.createCell(161).setCellValue(obj.getInvoiceNumber());
-			row.createCell(162).setCellValue(obj.getTruckNumber());
-			row.createCell(163).setCellValue(obj.getTruckBiltyNumber());
-			row.createCell(164).setCellValue(obj.getNumberOfBags());
-			row.createCell(165).setCellValue(obj.getHsnCode());
-			row.createCell(166).setCellValue(obj.getGrossWeight());
-			row.createCell(167).setCellValue(obj.getEmptyWeight());
-			row.createCell(168).setCellValue(obj.getRatePerKg());
-			row.createCell(169).setCellValue(obj.getDispatchFrom());
-			row.createCell(170).setCellValue(obj.getDispatchTo());
-			row.createCell(171).setCellValue(obj.getDispatchBy());
-
-			rowNum = rowNum + 1;
-		}
-		return rowNum;
+			return tempRowNum;
 	}
+		
+		private int populatePricePaymentDetails(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestPaymentDetails> objs = harvestPaymentDetailsDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestPaymentDetails obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
 
-	private int populateStorage(FarmProjects project, int rowNum, Sheet sheet) {
-		List<ProjectStorage> objs = storageDao.findAllByProjects(project);
-
-		for (ProjectStorage obj : objs) {
-			Row row = sheet.getRow(rowNum);
-			if (row == null) {
-				row = sheet.createRow(rowNum);
-				createSingleRows(project, row, rowNum);
+				row.createCell(246).setCellValue(obj.getFarmerPrice());
+				row.createCell(247).setCellValue(obj.getLabourCharges());
+				row.createCell(248).setCellValue(obj.getPriceNegotiation());
+				row.createCell(249).setCellValue(obj.getCurrentPriceTrends());
+				row.createCell(250).setCellValue(obj.getPricePerMT());
+				row.createCell(251).setCellValue(obj.getPaymentFollowUpPerson());
+				row.createCell(252).setCellValue(obj.getApprovalStatus());
+				row.createCell(253).setCellValue(obj.getNameOfSender());
+				row.createCell(254).setCellValue(obj.getAmount());
+				row.createCell(255).setCellValue(obj.getPaymentMode());
+				row.createCell(256).setCellValue(obj.getUtrReferenceNumber());
+				rowNum = rowNum + 1;
 			}
-			row.createCell(172).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(173).setCellValue(obj.getStorageDate());
-			row.createCell(174).setCellValue(obj.getStackNumber());
-			row.createCell(175).setCellValue(obj.getNumberOfBags());
-			row.createCell(176).setCellValue(obj.getPackSize());
-			row.createCell(177).setCellValue(obj.getGrossWeight());
-			row.createCell(178).setCellValue(obj.getStorageLocation());
-			row.createCell(179).setCellValue(obj.getGodownName());
-			row.createCell(180).setCellValue(obj.getLabelled());
-			row.createCell(181).setCellValue(obj.getSeparateStacks());
-			row.createCell(182).setCellValue(obj.getChemicalName());
-			row.createCell(183).setCellValue(obj.getDose());
-			row.createCell(184).setCellValue(obj.getFumigationDate());
-			row.createCell(185).setCellValue(obj.getExposureDate());
-			row.createCell(186).setCellValue(obj.getAgencyName());
-
-			rowNum = rowNum + 1;
-		}
-		return rowNum;
+			return tempRowNum;
 	}
+		
+		private int populateEwayBillDetails(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestEwayBill> objs = harvestEwayBillDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestEwayBill obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
 
-	private int populatePostPurchase(FarmProjects project, int rowNum, Sheet sheet) {
-		List<ProjectPostPurchase> objs = postDao.findAllByProjects(project);
+				row.createCell(257).setCellValue(obj.geteWayBillSystem());
+				row.createCell(258).setCellValue(obj.geteWayBillNo());
+				row.createCell(259).setCellValue(obj.geteWayBillDate());
+				row.createCell(260).setCellValue(obj.getGeneratedBy());
+				row.createCell(261).setCellValue(obj.getValidFrom());
+				row.createCell(262).setCellValue(obj.getValidUntil());
+				row.createCell(263).setCellValue(obj.getGstinOfSupplier());
+				row.createCell(264).setCellValue(obj.getGstinOfRecipient());
+				row.createCell(265).setCellValue(obj.getPlaceOfDelivery());
+				row.createCell(266).setCellValue(obj.getDocumentNo());
+				row.createCell(267).setCellValue(obj.getDocumentDate());
+				row.createCell(268).setCellValue(obj.getTransactionType());
+				row.createCell(269).setCellValue(obj.getValueOfGoods());
+				row.createCell(270).setCellValue(obj.getHsnCode());
+				row.createCell(271).setCellValue(obj.getReasonForTransportation());
+				row.createCell(272).setCellValue(obj.getTransporter());
+				row.createCell(273).setCellValue(obj.getMode());
+				row.createCell(274).setCellValue(obj.getVehicleNo());
+				row.createCell(275).setCellValue(obj.getPlaceOfDispatchB());
+				row.createCell(276).setCellValue(obj.getEnteredDate());
+				row.createCell(277).setCellValue(obj.getEnteredBy());
+				row.createCell(278).setCellValue(obj.getCewbNo());
 
-		for (ProjectPostPurchase obj : objs) {
-			Row row = sheet.getRow(rowNum);
-			if (row == null) {
-				row = sheet.createRow(rowNum);
-				createSingleRows(project, row, rowNum);
+				rowNum = rowNum + 1;
 			}
-			row.createCell(187).setCellValue(obj.getVariety() == null ? "" : obj.getVariety().getVariety());
-			row.createCell(188).setCellValue(obj.getStackNumber());
-			row.createCell(189).setCellValue(obj.getLocation());
-			row.createCell(190).setCellValue(obj.getProduct());
-			row.createCell(191).setCellValue(obj.getSampleCode());
-			row.createCell(192).setCellValue(obj.getSampleTestDate());
-			row.createCell(193).setCellValue(obj.getReportDate());
-			row.createCell(194).setCellValue(obj.getMrl());
-			row.createCell(195).setCellValue(obj.getResult());
-
-			rowNum = rowNum + 1;
-		}
-		return rowNum;
+			return tempRowNum;
 	}
+		private int populateStorageAndStocking(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestStocking> objs = harvestStockingDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestStocking obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
 
+				row.createCell(279).setCellValue(obj.getStackNumber());
+				row.createCell(280).setCellValue(obj.getLotCode());
+				row.createCell(281).setCellValue(obj.getNumberOfLot());
+				row.createCell(282).setCellValue(obj.getNumberOfBagsInLot());
+				row.createCell(283).setCellValue(obj.getIdentificationMark());
+				row.createCell(284).setCellValue(obj.getTarpaulinUsed());
+				row.createCell(285).setCellValue(obj.getFumigationChemical());
+				row.createCell(286).setCellValue(obj.getDose());
+				row.createCell(287).setCellValue(obj.getFumigationDate());
+				row.createCell(288).setCellValue(obj.getExposureDate());
+				row.createCell(289).setCellValue(obj.getAgencyName());
+				row.createCell(290).setCellValue(obj.getRemarks());
+
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populateDryingProcess(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestDryingProcess> objs = harvestDryingProcessDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestDryingProcess obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(291).setCellValue(obj.getInChargeName());
+				row.createCell(292).setCellValue(obj.getBinCapacity());
+				row.createCell(293).setCellValue(obj.getStartTime());
+				row.createCell(294).setCellValue(obj.getEndTime());
+				row.createCell(295).setCellValue(obj.getDryingTotalTime());
+				row.createCell(296).setCellValue(obj.getMoistureBeforeDrying());
+				row.createCell(297).setCellValue(obj.getMoistureAfterDrying());
+				row.createCell(298).setCellValue(obj.getBinUnloadingDetails());
+				row.createCell(299).setCellValue(obj.getNumberOfTrucksUnloaded());
+				row.createCell(300).setCellValue(obj.getTruckCapacity());
+				row.createCell(301).setCellValue(obj.getTotalUnloadedCapacity());
+
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populateMillingProcess(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestMillingProcess> objs = harvestMillingProcessDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestMillingProcess obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(302).setCellValue(obj.getLoadArrivalDate());
+				row.createCell(303).setCellValue(obj.getMillAndLocation());
+				row.createCell(304).setCellValue(obj.getLoadNo());
+				row.createCell(305).setCellValue(obj.getVehicleNo());
+				row.createCell(306).setCellValue(obj.getPaddyMoistureContent());
+				row.createCell(307).setCellValue(obj.getBatch());
+				row.createCell(308).setCellValue(obj.getSoakingDate());
+				row.createCell(309).setCellValue(obj.getMillingDate());
+				row.createCell(310).setCellValue(obj.getInputQuantityKgs());
+				row.createCell(311).setCellValue(obj.getFullRiceKgs());
+				row.createCell(312).setCellValue(obj.getBrokenRiceKgs());
+				row.createCell(313).setCellValue(obj.getBlackRiceKgs());
+				row.createCell(314).setCellValue(obj.getDustRiceKgs());
+				row.createCell(315).setCellValue(obj.getHeadRiceRecovery());
+				row.createCell(316).setCellValue(obj.getTotalRiceRecovery());
+				row.createCell(317).setCellValue(obj.getOutturnKgs());
+				row.createCell(318).setCellValue(obj.getMillingRecoveryPercentage());
+
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populateMillEquipmentUsage(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestMillEquipmentUsage> objs = harvestMillEquipmentUsageDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestMillEquipmentUsage obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(319).setCellValue(obj.getEquipment());
+				row.createCell(320).setCellValue(obj.getDateOfOperation());
+				row.createCell(321).setCellValue(obj.getQuantity());
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populateSampleTest(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestSampleTest> objs = harvestSampleTestDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestSampleTest obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(322).setCellValue(obj.getStackNumber());
+				row.createCell(323).setCellValue(obj.getLocation());
+				row.createCell(324).setCellValue(obj.getProduct());
+				row.createCell(325).setCellValue(obj.getQuantity());
+				row.createCell(326).setCellValue(obj.getSampleCode());
+				row.createCell(327).setCellValue(obj.getSamplingDate());
+				row.createCell(328).setCellValue(obj.getSamplePrepDate());
+				row.createCell(329).setCellValue(obj.getSampleTestDate());
+				row.createCell(330).setCellValue(obj.getReportDate());
+				row.createCell(331).setCellValue(obj.getMrl());
+				row.createCell(332).setCellValue(obj.getResult());
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
+		private int populateHarvest(FarmProjects project, int rowNum, Sheet sheet) {
+			List<HarvestEstimates> objs = harvestEstimatesDao.findAllByProjects(project);
+			int tempRowNum=rowNum;
+			for (HarvestEstimates obj : objs) {
+				Row row = sheet.getRow(rowNum);
+				if (row == null) {
+					row = sheet.createRow(rowNum);
+					createSingleRows(project, row, rowNum);
+				}
+
+				row.createCell(333).setCellValue(obj.getEstimatedDate());
+				row.createCell(334).setCellValue(obj.getEstimatedYield());
+				row.createCell(335).setCellValue(obj.getRemarks());
+				rowNum = rowNum + 1;
+			}
+			return tempRowNum;
+	}
+		
 	private void generateHarvestData(FarmProjects project, Row row) {
 		ProjectHarvest obj = harvestDao.findByProjects(project);
 		if (obj != null) {
@@ -838,12 +1239,25 @@ public class MRLExcelWriter {
 				tempRowNum = Math.max(tempRowNum, populateLandPreparation(project, tempRowNum, sheet));
 				tempRowNum = Math.max(tempRowNum, populateIrrigationManagement(project, rowNum, sheet));
 				tempRowNum = Math.max(tempRowNum, populateWeedManagement(project, rowNum, sheet));
-				tempRowNum = Math.max(tempRowNum, populatePrePurchase(project, tempRowNum, sheet));
-				tempRowNum = Math.max(tempRowNum, populatePrcurement(project, rowNum, sheet));
-				tempRowNum = Math.max(tempRowNum, populatePacking(project, rowNum, sheet));
-				tempRowNum = Math.max(tempRowNum, populateDispatch(project, tempRowNum, sheet));
-				tempRowNum = Math.max(tempRowNum, populateStorage(project, rowNum, sheet));
-				tempRowNum = Math.max(tempRowNum, populatePostPurchase(project, rowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populatePaddyPriceConfirmation(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateQualityAssessment(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populatePurchasePointEntry(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populatePackingDetails(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateLabelling(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateWeighmentSlip(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populatePhysicalQualityStandards(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateSalesInvoice(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateGstInvoice(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateLoadingSlip(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateUnLoadingSlip(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populatePricePaymentDetails(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateEwayBillDetails(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateStorageAndStocking(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateDryingProcess(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateMillingProcess(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateMillEquipmentUsage(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateSampleTest(project, tempRowNum, sheet));
+				tempRowNum = Math.max(tempRowNum, populateHarvest(project, tempRowNum, sheet));
 
 				List<ProjectPlots> plots = projectPlotsDao.findAllPlotsByProject(project);
 				for (ProjectPlots plot : plots) {
