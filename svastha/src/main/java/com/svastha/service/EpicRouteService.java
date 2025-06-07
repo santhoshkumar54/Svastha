@@ -89,10 +89,10 @@ public class EpicRouteService {
         List<RouteLocation> locations = new ArrayList<>();
 
         for (FarmProjects project : projects) {
-            if (project.getFarm() != null && project.getFarm().getLocation() != null && 
-                !project.getFarm().getLocation().isEmpty()) {
+            if (project.getLocation() != null && 
+                !project.getLocation().isEmpty()) {
                 try {
-                    LocationDTO loc = new Gson().fromJson(project.getFarm().getLocation(), LocationDTO.class);
+                    LocationDTO loc = new Gson().fromJson(project.getLocation(), LocationDTO.class);
                     if (loc.getCoords() != null && loc.getCoords().getLatitude() != null && 
                         loc.getCoords().getLongitude() != null) {
                         RouteLocation location = new RouteLocation(
