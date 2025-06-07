@@ -1,4 +1,3 @@
-
 package com.svastha.entity;
 
 import javax.persistence.*;
@@ -21,7 +20,14 @@ public class RouteAssignment {
     private Integer sprintDay; // Day within the sprint this assignment is for
 
     @Enumerated(EnumType.STRING)
-    private com.svastha.enums.AssignmentStatus status;
+    private AssignmentStatus status;
+
+    public enum AssignmentStatus {
+        ASSIGNED,
+        IN_PROGRESS,
+        COMPLETED,
+        CANCELLED
+    }
 
     @ManyToOne
     @JoinColumn(name = "epic_route_pk1")
@@ -37,6 +43,9 @@ public class RouteAssignment {
 
     @Column(name = "created_dt", nullable = false, updatable = false, insertable = false)
     private Timestamp createdDt;
+
+    // Constructors
+    public RouteAssignment() {}
 
     // Getters and Setters
     public Long getPk1() {
@@ -79,11 +88,11 @@ public class RouteAssignment {
         this.sprintNumber = sprintNumber;
     }
 
-    public com.svastha.enums.AssignmentStatus getStatus() {
+    public AssignmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(com.svastha.enums.AssignmentStatus status) {
+    public void setStatus(AssignmentStatus status) {
         this.status = status;
     }
 
@@ -118,6 +127,4 @@ public class RouteAssignment {
     public void setCreatedDt(Timestamp createdDt) {
         this.createdDt = createdDt;
     }
-
-    
 }

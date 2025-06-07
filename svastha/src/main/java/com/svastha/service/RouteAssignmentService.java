@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import com.svastha.entity.Epic;
-import com.svastha.enums.AssignmentStatus;
+import com.svastha.entity.RouteAssignment.AssignmentStatus;
 
 import java.time.LocalDate;
 import java.util.Optional;
