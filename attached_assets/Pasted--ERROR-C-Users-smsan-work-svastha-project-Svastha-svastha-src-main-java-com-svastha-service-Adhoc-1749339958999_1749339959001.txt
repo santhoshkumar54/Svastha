@@ -1,0 +1,51 @@
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[50,34] incompatible types: com.svastha.enums.TaskStatus cannot be converted to com.svastha.entity.AdhocTask.TaskStatus
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[74,28] incompatible types: com.svastha.enums.TaskStatus cannot be converted to com.svastha.entity.AdhocTask.TaskStatus
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/EpicRouteService.java:[96,82] bad operand types for binary operator '!='
+[ERROR]   first type:  double
+[ERROR]   second type: <nulltype>
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/EpicRouteService.java:[97,56] bad operand types for binary operator '!='
+[ERROR]   first type:  double
+[ERROR]   second type: <nulltype>
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteAssignmentService.java:[46,19] cannot find symbol
+[ERROR]   symbol:   method setEpicRoute(com.svastha.entity.EpicRoute)
+[ERROR]   location: variable assignment of type com.svastha.entity.RouteAssignment
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteAssignmentService.java:[47,19] cannot find symbol
+[ERROR]   symbol:   method setAssignedTo(com.svastha.entity.Users)
+[ERROR]   location: variable assignment of type com.svastha.entity.RouteAssignment
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteAssignmentService.java:[50,46] incompatible types: com.svastha.enums.AssignmentStatus cannot be converted to com.svastha.entity.RouteAssignment.AssignmentStatus
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteAssignmentService.java:[61,55] cannot find symbol
+[ERROR]   symbol:   method getAssignedTo()
+[ERROR]   location: variable assignmentDetails of type com.svastha.entity.RouteAssignment
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteAssignmentService.java:[86,14] cannot find symbol
+[ERROR]   symbol:   class RouteAssignmentTemplate
+[ERROR]   location: class com.svastha.service.RouteAssignmentService
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteAssignmentService.java:[87,49] cannot find symbol
+[ERROR]   symbol:   class ArrayList
+[ERROR]   location: class com.svastha.service.RouteAssignmentService
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteAssignmentService.java:[89,14] cannot find symbol
+[ERROR]   symbol:   class RouteAssignmentTemplate
+[ERROR]   location: class com.svastha.service.RouteAssignmentService
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteAssignmentService.java:[97,50] incompatible types: com.svastha.enums.AssignmentStatus cannot be converted to com.svastha.entity.RouteAssignment.AssignmentStatus
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[52,54] incompatible types: bad type in conditional expression
+[ERROR]     com.svastha.enums.VisitStatus cannot be converted to com.svastha.entity.ProjectVisit.VisitStatus
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[72,24] cannot find symbol
+[ERROR]   symbol:   method getLatitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[72,61] cannot find symbol
+[ERROR]   symbol:   method getLongitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[77,24] cannot find symbol
+[ERROR]   symbol:   method getLatitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[77,51] cannot find symbol
+[ERROR]   symbol:   method getLongitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[81,32] cannot find symbol
+[ERROR]   symbol:   method setRoutes(<nulltype>)
+[ERROR]   location: variable project of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[102,32] cannot find symbol
+[ERROR]   symbol:   method setRoutes(<nulltype>)
+[ERROR]   location: variable project of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[106,32] cannot find symbol
+[ERROR]   symbol:   method setRoutes(com.svastha.entity.RouteMaster)
+[ERROR]   location: variable project of type com.svastha.entity.FarmProjects

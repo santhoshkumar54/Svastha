@@ -25,6 +25,10 @@ public class AdhocTask {
     private TaskStatus status;
 
     @ManyToOne
+    @JoinColumn(name = "epic_pk1")
+    private Epic epic;
+
+    @ManyToOne
     @JoinColumn(name = "created_by_pk1")
     private Users createdBy;
 
@@ -78,6 +82,14 @@ public class AdhocTask {
 
     public void setStatus(TaskStatus status) {
         this.status = status;
+    }
+
+    public Epic getEpic() {
+        return epic;
+    }
+
+    public void setEpic(Epic epic) {
+        this.epic = epic;
     }
 
     public Users getCreatedBy() {
