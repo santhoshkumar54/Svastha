@@ -27,6 +27,7 @@ public class Epic {
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer sprintSize; // frequency to revisit in days
+    private Integer maxProjectsPerRoute; // maximum projects allowed per route (default 8)
 
     @ManyToOne
     @JoinColumn(name = "created_by_pk1", updatable = false)
@@ -75,6 +76,66 @@ public class Epic {
 
     public LocalDate getStartDate() {
         return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public Integer getSprintSize() {
+        return sprintSize;
+    }
+
+    public void setSprintSize(Integer sprintSize) {
+        this.sprintSize = sprintSize;
+    }
+
+    public Integer getMaxProjectsPerRoute() {
+        return maxProjectsPerRoute;
+    }
+
+    public void setMaxProjectsPerRoute(Integer maxProjectsPerRoute) {
+        this.maxProjectsPerRoute = maxProjectsPerRoute;
+    }
+
+    public Users getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Users createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Timestamp getCreatedDt() {
+        return createdDt;
+    }
+
+    public void setCreatedDt(Timestamp createdDt) {
+        this.createdDt = createdDt;
+    }
+
+    public Users getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(Users updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Timestamp getUpdatedDt() {
+        return updatedDt;
+    }
+
+    public void setUpdatedDt(Timestamp updatedDt) {
+        this.updatedDt = updatedDt;
     }
 
     public void setStartDate(LocalDate startDate) {

@@ -17,7 +17,6 @@ public class EpicRoute {
     private Epic epic;
 
     private String routeName;
-    private Integer projectCount; // should be 8 max
 
     @OneToMany(mappedBy = "epicRoute", fetch = FetchType.LAZY)
     private List<FarmProjects> projects;
@@ -52,14 +51,6 @@ public class EpicRoute {
 
     public void setRouteName(String routeName) {
         this.routeName = routeName;
-    }
-
-    public Integer getProjectCount() {
-        return projectCount;
-    }
-
-    public void setProjectCount(Integer projectCount) {
-        this.projectCount = projectCount;
     }
 
     public List<FarmProjects> getProjects() {
