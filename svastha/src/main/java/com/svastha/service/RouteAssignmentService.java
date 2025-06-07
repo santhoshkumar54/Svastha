@@ -79,11 +79,27 @@ public class RouteAssignmentService {
         routeAssignmentRepository.deleteById(id);
     }
 
-    public List<RouteAssignment> generateSprintAssignments(Epic epic, List<EpicRoute> routes, 
-                                                         List<Users> fieldOfficers, Integer sprintNumber) {
-        // Implementation for generating assignments for a sprint
-        // This would distribute routes among field officers for the sprint duration
-        // Based on sprint size and epic dates
-        return List.of(); // Placeholder
+    @Autowired
+    private RouteAssignmentTemplateService templateService;
+
+    public List<RouteAssignment> generateSprintAssignments(Long epicId, Integer sprintNumber, LocalDate sprintStartDate) {
+        List<RouteAssignmentTemplate> templates = templateService.getTemplatesByEpic(epicId);
+        List<RouteAssignment> assignments = new ArrayList<>();
+
+        for (RouteAssignmentTemplate template : templates) {
+            LocalDate assignedDate = sprintStartDate.plusDays(template.getSprintDay() - 1);
+            
+            RouteAssignment assignment = new RouteAssignment();
+            assignment.setRouteAssignmentTemplate(template);
+            assignment.setAssignedDate(assignedDate);
+            assignment.setSprintNumber(sprintNumber);
+            assignment.setSprintDay(template.getSprintDay());
+            assignment.setStatus(AssignmentStatus.ASSIGNED);
+            assignment.setAssignedBy(template.getCreatedBy());
+            
+            assignments.add(routeAssignmentRepository.save(assignment));
+        }
+
+        return assignments;
     }
 }

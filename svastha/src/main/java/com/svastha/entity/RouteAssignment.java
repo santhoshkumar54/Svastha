@@ -13,15 +13,12 @@ public class RouteAssignment {
     private Long pk1;
 
     @ManyToOne
-    @JoinColumn(name = "epic_route_pk1")
-    private EpicRoute epicRoute;
-
-    @ManyToOne
-    @JoinColumn(name = "assigned_to_pk1")
-    private Users assignedTo;
+    @JoinColumn(name = "route_assignment_template_pk1")
+    private RouteAssignmentTemplate routeAssignmentTemplate;
 
     private LocalDate assignedDate;
     private Integer sprintNumber;
+    private Integer sprintDay; // Day within the sprint this assignment is for
 
     @Enumerated(EnumType.STRING)
     private AssignmentStatus status;
@@ -42,20 +39,20 @@ public class RouteAssignment {
         this.pk1 = pk1;
     }
 
-    public EpicRoute getEpicRoute() {
-        return epicRoute;
+    public RouteAssignmentTemplate getRouteAssignmentTemplate() {
+        return routeAssignmentTemplate;
     }
 
-    public void setEpicRoute(EpicRoute epicRoute) {
-        this.epicRoute = epicRoute;
+    public void setRouteAssignmentTemplate(RouteAssignmentTemplate routeAssignmentTemplate) {
+        this.routeAssignmentTemplate = routeAssignmentTemplate;
     }
 
-    public Users getAssignedTo() {
-        return assignedTo;
+    public Integer getSprintDay() {
+        return sprintDay;
     }
 
-    public void setAssignedTo(Users assignedTo) {
-        this.assignedTo = assignedTo;
+    public void setSprintDay(Integer sprintDay) {
+        this.sprintDay = sprintDay;
     }
 
     public LocalDate getAssignedDate() {
