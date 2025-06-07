@@ -138,6 +138,10 @@ public class Epic {
         this.updatedDt = updatedDt;
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
@@ -148,18 +152,6 @@ public class Epic {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
-    }
-
-    public Integer getSprintSize() {
-        return sprintSize;
-    }
-
-    public void setSprintSize(Integer sprintSize) {
-        this.sprintSize = sprintSize;
-    }
-
-    public Users getCreatedBy() {
-        return createdBy;
     }
 
     public void setCreatedBy(Users createdBy) {

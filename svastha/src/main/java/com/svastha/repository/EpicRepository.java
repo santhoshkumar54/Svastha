@@ -1,4 +1,3 @@
-
 package com.svastha.repository;
 
 import com.svastha.entity.Epic;
@@ -7,13 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface EpicRepository extends JpaRepository<Epic, Long> {
 
-    @Query("SELECT e FROM Epic e WHERE e.season.pk1 = :seasonId AND e.variety.pk1 = :varietyId AND e.year.pk1 = :yearId")
-    Epic findBySeasonVarietyYear(@Param("seasonId") Long seasonId, @Param("varietyId") Long varietyId, @Param("yearId") Long yearId);
+    List<Epic> findBySeasonPk1AndVarietyPk1AndYearPk1(Long seasonId, Long varietyId, Long yearId);
 
-    List<Epic> findByYearPk1(Long yearId);
+    List<Epic> findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate currentDate1, LocalDate currentDate2);
 }

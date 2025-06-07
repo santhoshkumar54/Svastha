@@ -1,4 +1,3 @@
-
 package com.svastha.repository;
 
 import com.svastha.entity.AdhocTask;
@@ -11,7 +10,9 @@ import java.util.List;
 @Repository
 public interface AdhocTaskRepository extends JpaRepository<AdhocTask, Long> {
 
-    List<AdhocTask> findByAssignedToPk1AndScheduledDate(Long userId, LocalDate date);
-    
+    List<AdhocTask> findByAssignedToPk1(Long userId);
+
+    List<AdhocTask> findByEpicPk1(Long epicId);
+
     List<AdhocTask> findByScheduledDateBetween(LocalDate startDate, LocalDate endDate);
 }
