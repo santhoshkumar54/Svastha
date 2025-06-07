@@ -1,17 +1,14 @@
 package com.svastha.controller;
 
-import com.svastha.entity.FarmProjects;
-import com.svastha.entity.RouteMaster;
-import com.svastha.repository.FarmProjectRepository;
-import com.svastha.repository.MasterProjectTypeRepository;
-import com.svastha.service.RouteService;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
-import org.apache.poi.ss.formula.functions.Forecast;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
+import com.svastha.entity.FarmProjects;
+import com.svastha.entity.RouteMaster;
+import com.svastha.service.RouteService;
 
 @RestController
 public class RouteController {
@@ -72,7 +68,7 @@ public class RouteController {
 		return routes.createRoute(route);
 	}
 
-	@DeleteMapping("/deleteRoute")
+	@PostMapping("/deleteRoute")
 	public void deleteRoute(@RequestBody RouteMaster route) {
 		routes.deleteRoute(route);
 	}

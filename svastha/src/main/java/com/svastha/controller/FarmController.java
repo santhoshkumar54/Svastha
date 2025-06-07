@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.newrelic.api.agent.Trace;
 import com.svastha.entity.FarmGrainMarket;
 import com.svastha.entity.FarmImages;
 import com.svastha.entity.FarmLiveStock;
@@ -37,7 +38,6 @@ import com.svastha.entity.FarmWorkers;
 import com.svastha.entity.Farms;
 import com.svastha.entity.LandDetails;
 import com.svastha.entity.Users;
-import com.svastha.logs.LogServiceFactory;
 import com.svastha.model.FarmModel;
 import com.svastha.repository.FarmGrainMarketRepository;
 import com.svastha.repository.FarmImagesRepository;
@@ -49,7 +49,6 @@ import com.svastha.repository.FarmWaterSourceRepository;
 import com.svastha.repository.FarmWorkersRepository;
 import com.svastha.repository.LandDetailsRepository;
 import com.svastha.repository.UserRepository;
-import com.svastha.service.ExcelWriter;
 import com.svastha.service.FarmExcelWriter;
 import com.svastha.service.FilesStorageService;
 import com.svastha.service.MasterService;
@@ -100,6 +99,7 @@ public class FarmController {
 	public static final String SEPARATOR = FileSystems.getDefault().getSeparator();
 
 	@GetMapping("/farms")
+	@Trace(dispatcher = true)
 	public @ResponseBody Page<Farms> getAllFarms(@RequestParam(required = false) Long districtId,
 			@RequestParam(required = false) Long thalukId, @RequestParam(required = false) Long villageId,
 			@RequestParam(required = false) String key, @RequestParam(required = false) Long userId,
@@ -122,6 +122,7 @@ public class FarmController {
 	}
 
 	@GetMapping("/listFarms")
+	@Trace(dispatcher = true)
 	public @ResponseBody List<Farms> getFarmByUserId(@RequestParam Long userId) {
 		Users u = userDao.findByPk1(userId);
 		List<Farms> l = farmDao.findByCreatedBy(u, Sort.by(Sort.Direction.DESC, "pk1"));
@@ -216,6 +217,7 @@ public class FarmController {
 	}
 
 	@PostMapping("addPlots")
+	@Trace(dispatcher = true)
 	public @ResponseBody String savePlots(@RequestBody List<FarmPlots> farmPlots) {
 		try {
 			plotsDao.saveAll(farmPlots);

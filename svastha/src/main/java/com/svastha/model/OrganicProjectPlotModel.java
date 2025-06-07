@@ -21,8 +21,6 @@ public class OrganicProjectPlotModel implements Serializable {
 
 	private OrganicAnnualProgram annualProgram;
 
-	private OrganicIcsType icsType;
-
 	private List<OrganicPlotBoundary> boundary;
 
 	private OrganicCropVariety cropVariety;
@@ -67,13 +65,5 @@ public class OrganicProjectPlotModel implements Serializable {
 
 	public void setFieldMap(OrganicFieldMap fieldMap) {
 		this.fieldMap = fieldMap;
-	}
-
-	public OrganicIcsType getIcsType() {
-		return icsType;
-	}
-
-	public void setIcsType(OrganicIcsType icsType) {
-		this.icsType = icsType;
 	}
 }

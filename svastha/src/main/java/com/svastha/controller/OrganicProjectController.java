@@ -177,7 +177,6 @@ public class OrganicProjectController {
 		omodel.setAnnualProgram(annualDao.save(omodel.getAnnualProgram()));
 		omodel.setBoundary(boundaryDao.saveAll(omodel.getBoundary()));
 		omodel.setCropVariety(varietyDao.save(omodel.getCropVariety()));
-		omodel.setIcsType(icsDao.save(omodel.getIcsType()));
 		if (file != null && !file.isEmpty()) {
 			OrganicFieldMap field = omodel.getFieldMap();
 			Long plotId = field.getPlots().getPk1();
