@@ -290,12 +290,16 @@ public class FarmProjects {
 		this.location = location;
 	}
 
-	public RouteMaster getRoutes() {
-		return routes;
+	@ManyToOne
+	@JoinColumn(name = "epic_route_pk1")
+	private EpicRoute epicRoute;
+
+	public EpicRoute getEpicRoute() {
+		return epicRoute;
 	}
 
-	public void setRoutes(RouteMaster routes) {
-		this.routes = routes;
+	public void setEpicRoute(EpicRoute epicRoute) {
+		this.epicRoute = epicRoute;
 	}
 
 }
