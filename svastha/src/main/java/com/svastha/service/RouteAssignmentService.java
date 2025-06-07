@@ -1,17 +1,18 @@
-
 package com.svastha.service;
 
-import com.svastha.entity.Epic;
-import com.svastha.entity.EpicRoute;
 import com.svastha.entity.RouteAssignment;
+import com.svastha.entity.RouteAssignmentTemplate;
+import com.svastha.entity.EpicRoute;
 import com.svastha.entity.Users;
-import com.svastha.enums.AssignmentStatus;
 import com.svastha.repository.RouteAssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
+import com.svastha.entity.Epic;
+import com.svastha.enums.AssignmentStatus;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,7 +50,7 @@ public class RouteAssignmentService {
         assignment.setSprintNumber(sprintNumber);
         assignment.setStatus(AssignmentStatus.ASSIGNED);
         assignment.setAssignedBy(assignedBy);
-        
+
         return routeAssignmentRepository.save(assignment);
     }
 
@@ -88,7 +89,7 @@ public class RouteAssignmentService {
 
         for (RouteAssignmentTemplate template : templates) {
             LocalDate assignedDate = sprintStartDate.plusDays(template.getSprintDay() - 1);
-            
+
             RouteAssignment assignment = new RouteAssignment();
             assignment.setRouteAssignmentTemplate(template);
             assignment.setAssignedDate(assignedDate);
@@ -96,7 +97,7 @@ public class RouteAssignmentService {
             assignment.setSprintDay(template.getSprintDay());
             assignment.setStatus(AssignmentStatus.ASSIGNED);
             assignment.setAssignedBy(template.getCreatedBy());
-            
+
             assignments.add(routeAssignmentRepository.save(assignment));
         }
 

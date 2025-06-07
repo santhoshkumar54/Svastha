@@ -1,4 +1,3 @@
-
 package com.svastha.entity;
 
 import javax.persistence.*;
@@ -22,7 +21,7 @@ public class AdhocTask {
     private LocalDate scheduledDate;
 
     @Enumerated(EnumType.STRING)
-    private TaskStatus status;
+    private com.svastha.enums.TaskStatus status;
 
     @ManyToOne
     @JoinColumn(name = "epic_pk1")
@@ -76,11 +75,11 @@ public class AdhocTask {
         this.scheduledDate = scheduledDate;
     }
 
-    public TaskStatus getStatus() {
+    public com.svastha.enums.TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(TaskStatus status) {
+    public void setStatus(com.svastha.enums.TaskStatus status) {
         this.status = status;
     }
 
@@ -106,9 +105,5 @@ public class AdhocTask {
 
     public void setCreatedDt(Timestamp createdDt) {
         this.createdDt = createdDt;
-    }
-
-    public enum TaskStatus {
-        SCHEDULED, COMPLETED, CANCELLED
     }
 }

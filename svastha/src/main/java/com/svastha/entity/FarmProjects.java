@@ -95,9 +95,6 @@ public class FarmProjects {
 
 	private String location;
 
-	@ManyToOne
-	private RouteMaster routes;
-
 	public Long getPk1() {
 		return pk1;
 	}

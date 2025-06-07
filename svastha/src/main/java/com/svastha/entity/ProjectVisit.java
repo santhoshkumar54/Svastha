@@ -1,4 +1,3 @@
-
 package com.svastha.entity;
 
 import javax.persistence.*;
@@ -29,7 +28,7 @@ public class ProjectVisit {
     private String remarks;
 
     @Enumerated(EnumType.STRING)
-    private VisitStatus status;
+    private com.svastha.enums.VisitStatus status;
 
     @Column(name = "created_dt", nullable = false, updatable = false, insertable = false)
     private Timestamp createdDt;
@@ -99,11 +98,11 @@ public class ProjectVisit {
         this.remarks = remarks;
     }
 
-    public VisitStatus getStatus() {
+    public com.svastha.enums.VisitStatus getStatus() {
         return status;
     }
 
-    public void setStatus(VisitStatus status) {
+    public void setStatus(com.svastha.enums.VisitStatus status) {
         this.status = status;
     }
 
@@ -113,9 +112,5 @@ public class ProjectVisit {
 
     public void setCreatedDt(Timestamp createdDt) {
         this.createdDt = createdDt;
-    }
-
-    public enum VisitStatus {
-        PENDING, COMPLETED, SKIPPED
     }
 }

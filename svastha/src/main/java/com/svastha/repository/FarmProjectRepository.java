@@ -62,8 +62,6 @@ public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long>
 			@Param("villageId") Long villageId, Pageable pageable);
 
 	
-	List<FarmProjects> findAllByRoutes(RouteMaster route);
-	
 	@Query("SELECT p FROM FarmProjects p join p.farm f " + "WHERE p.status = 'APPROVED' and f.location != '' "
 			+ " ORDER BY p.pk1 DESC")
 	List<FarmProjects> findWithLocations();
@@ -76,15 +74,6 @@ public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long>
 
 	List<FarmProjects> findAllByFarm(Farms farm);
 }
-package com.svastha.repository;
-
-import com.svastha.entity.FarmProjects;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
-@Repository
 public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long> {
     
     List<FarmProjects> findBySeasonAndVarietyAndYear(Long seasonId, Long varietyId, Long yearId);

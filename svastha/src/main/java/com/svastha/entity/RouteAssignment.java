@@ -21,7 +21,15 @@ public class RouteAssignment {
     private Integer sprintDay; // Day within the sprint this assignment is for
 
     @Enumerated(EnumType.STRING)
-    private AssignmentStatus status;
+    private com.svastha.enums.AssignmentStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "epic_route_pk1")
+    private EpicRoute epicRoute;
+
+    @ManyToOne
+    @JoinColumn(name = "assigned_to_pk1")
+    private Users assignedTo;
 
     @ManyToOne
     @JoinColumn(name = "assigned_by_pk1")
@@ -71,12 +79,28 @@ public class RouteAssignment {
         this.sprintNumber = sprintNumber;
     }
 
-    public AssignmentStatus getStatus() {
+    public com.svastha.enums.AssignmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(AssignmentStatus status) {
+    public void setStatus(com.svastha.enums.AssignmentStatus status) {
         this.status = status;
+    }
+
+    public EpicRoute getEpicRoute() {
+        return epicRoute;
+    }
+
+    public void setEpicRoute(EpicRoute epicRoute) {
+        this.epicRoute = epicRoute;
+    }
+
+    public Users getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(Users assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
     public Users getAssignedBy() {
@@ -95,7 +119,5 @@ public class RouteAssignment {
         this.createdDt = createdDt;
     }
 
-    public enum AssignmentStatus {
-        ASSIGNED, IN_PROGRESS, COMPLETED, MOVED
-    }
+    
 }
