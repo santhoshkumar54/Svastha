@@ -8,13 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.Farms;
-import com.svastha.entity.RouteMaster;
 import com.svastha.entity.Users;
-import com.svastha.model.ProjectExportModel;
 
 public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long> {
 
@@ -73,8 +70,6 @@ public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long>
 	void updateOrganicProjectCompletionPercentage();
 
 	List<FarmProjects> findAllByFarm(Farms farm);
-}
-public interface FarmProjectRepository extends JpaRepository<FarmProjects, Long> {
     
     List<FarmProjects> findBySeasonAndVarietyAndYear(Long seasonId, Long varietyId, Long yearId);
 }

@@ -4,7 +4,7 @@ package com.svastha.service;
 import com.svastha.entity.AdhocTask;
 import com.svastha.entity.Epic;
 import com.svastha.entity.Users;
-import com.svastha.entity.AdhocTask.TaskStatus;
+import com.svastha.enums.TaskStatus;
 import com.svastha.repository.AdhocTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

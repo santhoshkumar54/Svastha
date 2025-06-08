@@ -2,10 +2,14 @@
 package com.svastha.entity;
 
 import javax.persistence.*;
+
+import lombok.Data;
+
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
+@Data
 public class Epic {
 
     @Id
@@ -18,7 +22,7 @@ public class Epic {
 
     @ManyToOne
     @JoinColumn(name = "variety_pk1")
-    private MasterVariety variety;
+    private MasterCropVariety variety;
 
     @ManyToOne
     @JoinColumn(name = "year_pk1")
@@ -41,144 +45,4 @@ public class Epic {
 
     private Timestamp updatedDt;
 
-    // Getters and Setters
-    public Long getPk1() {
-        return pk1;
-    }
-
-    public void setPk1(Long pk1) {
-        this.pk1 = pk1;
-    }
-
-    public MasterSeason getSeason() {
-        return season;
-    }
-
-    public void setSeason(MasterSeason season) {
-        this.season = season;
-    }
-
-    public MasterVariety getVariety() {
-        return variety;
-    }
-
-    public void setVariety(MasterVariety variety) {
-        this.variety = variety;
-    }
-
-    public MasterYear getYear() {
-        return year;
-    }
-
-    public void setYear(MasterYear year) {
-        this.year = year;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public Integer getSprintSize() {
-        return sprintSize;
-    }
-
-    public void setSprintSize(Integer sprintSize) {
-        this.sprintSize = sprintSize;
-    }
-
-    public Integer getMaxProjectsPerRoute() {
-        return maxProjectsPerRoute;
-    }
-
-    public void setMaxProjectsPerRoute(Integer maxProjectsPerRoute) {
-        this.maxProjectsPerRoute = maxProjectsPerRoute;
-    }
-
-    public Users getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Users createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Timestamp getCreatedDt() {
-        return createdDt;
-    }
-
-    public void setCreatedDt(Timestamp createdDt) {
-        this.createdDt = createdDt;
-    }
-
-    public Users getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(Users updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public Timestamp getUpdatedDt() {
-        return updatedDt;
-    }
-
-    public void setUpdatedDt(Timestamp updatedDt) {
-        this.updatedDt = updatedDt;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setCreatedBy(Users createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Timestamp getCreatedDt() {
-        return createdDt;
-    }
-
-    public void setCreatedDt(Timestamp createdDt) {
-        this.createdDt = createdDt;
-    }
-
-    public Users getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(Users updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public Timestamp getUpdatedDt() {
-        return updatedDt;
-    }
-
-    public void setUpdatedDt(Timestamp updatedDt) {
-        this.updatedDt = updatedDt;
-    }
-}
+  }

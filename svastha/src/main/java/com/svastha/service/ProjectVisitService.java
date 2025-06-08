@@ -1,12 +1,15 @@
 
 package com.svastha.service;
 
+import com.google.gson.Gson;
 import com.svastha.entity.FarmProjects;
 import com.svastha.entity.ProjectVisit;
 import com.svastha.entity.RouteAssignment;
 import com.svastha.entity.Users;
 import com.svastha.enums.VisitStatus;
 import com.svastha.repository.ProjectVisitRepository;
+import com.svastha.util.LocationDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,12 +72,13 @@ public class ProjectVisitService {
         // Implementation for location validation
         // Compare user's location with farm project's location
         // Allow some tolerance (e.g., within 100 meters)
-        if (farmProject.getLatitude() == null || farmProject.getLongitude() == null) {
+        if (farmProject.getLocation() == null ) {
             return true; // Skip validation if farm coordinates not available
         }
-        
+        LocationDTO loc = new Gson().fromJson(farmProject.getLocation(), LocationDTO.class);
+
         double distance = calculateDistance(
-            farmProject.getLatitude(), farmProject.getLongitude(),
+            loc.getCoords().getLatitude(), loc.getCoords().getLongitude(),
             userLatitude, userLongitude
         );
         

@@ -93,8 +93,7 @@ public class EpicRouteService {
                 !project.getLocation().isEmpty()) {
                 try {
                     LocationDTO loc = new Gson().fromJson(project.getLocation(), LocationDTO.class);
-                    if (loc.getCoords() != null && loc.getCoords().getLatitude() != null && 
-                        loc.getCoords().getLongitude() != null) {
+                    if (loc.getCoords() != null) {
                         RouteLocation location = new RouteLocation(
                             loc.getCoords().getLatitude(),
                             loc.getCoords().getLongitude(),
