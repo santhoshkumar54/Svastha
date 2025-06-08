@@ -1,0 +1,178 @@
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.10.1:compile (default-compile) on project test: Compilation failure: Compilation failure:
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/repository/FarmProjectRepository.java:[77,8] duplicate class: com.svastha.repository.FarmProjectRepository
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[21,13] cannot find symbol
+[ERROR]   symbol:   class MasterVariety
+[ERROR]   location: class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[61,12] cannot find symbol
+[ERROR]   symbol:   class MasterVariety
+[ERROR]   location: class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[65,28] cannot find symbol
+[ERROR]   symbol:   class MasterVariety
+[ERROR]   location: class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[141,22] method getStartDate() is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[145,17] method setStartDate(java.time.LocalDate) is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[149,22] method getEndDate() is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[153,17] method setEndDate(java.time.LocalDate) is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[157,17] method setCreatedBy(com.svastha.entity.Users) is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[161,22] method getCreatedDt() is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[165,17] method setCreatedDt(java.sql.Timestamp) is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[169,18] method getUpdatedBy() is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[173,17] method setUpdatedBy(com.svastha.entity.Users) is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[177,22] method getUpdatedDt() is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/entity/Epic.java:[181,17] method setUpdatedDt(java.sql.Timestamp) is already defined in class com.svastha.entity.Epic
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[7,36] cannot find symbol
+[ERROR]   symbol:   class TaskStatus
+[ERROR]   location: class com.svastha.entity.AdhocTask
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[70,48] cannot find symbol
+[ERROR]   symbol:   class TaskStatus
+[ERROR]   location: class com.svastha.service.AdhocTaskService
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/MRLExcelWriter.java:[1195,69] cannot find symbol
+[ERROR]   symbol:   method getEstimatedDate()
+[ERROR]   location: variable obj of type com.svastha.entity.HarvestEstimates
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/MRLExcelWriter.java:[1196,69] cannot find symbol
+[ERROR]   symbol:   method getEstimatedYield()
+[ERROR]   location: variable obj of type com.svastha.entity.HarvestEstimates
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/MRLExcelWriter.java:[1197,69] cannot find symbol
+[ERROR]   symbol:   method getRemarks()
+[ERROR]   location: variable obj of type com.svastha.entity.HarvestEstimates
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[50,24] cannot find symbol
+[ERROR]   symbol:   variable TaskStatus
+[ERROR]   location: class com.svastha.service.AdhocTaskService
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/CarbonProjectController.java:[84,52] cannot find symbol
+[ERROR]   symbol:   method getDevice()
+[ERROR]   location: variable carbonAwdMapping of type com.svastha.entity.CarbonAwdMapping
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/CarbonProjectController.java:[85,41] cannot find symbol
+[ERROR]   symbol:   method getDeviceId()
+[ERROR]   location: variable device of type com.svastha.entity.AwdDevice
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[66,36] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[67,36] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[70,36] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[71,36] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[73,36] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[74,36] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[78,36] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[79,36] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[83,28] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/PredictionService.java:[84,28] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/EpicRouteService.java:[96,82] bad operand types for binary operator '!='
+[ERROR]   first type:  double
+[ERROR]   second type: <nulltype>
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/EpicRouteService.java:[97,56] bad operand types for binary operator '!='
+[ERROR]   first type:  double
+[ERROR]   second type: <nulltype>
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[72,24] cannot find symbol
+[ERROR]   symbol:   method getLatitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[72,61] cannot find symbol
+[ERROR]   symbol:   method getLongitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[77,24] cannot find symbol
+[ERROR]   symbol:   method getLatitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[77,51] cannot find symbol
+[ERROR]   symbol:   method getLongitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[79,57] cannot find symbol
+[ERROR]   symbol:   method findAllByRoutes(com.svastha.entity.RouteMaster)
+[ERROR]   location: variable projectDao of type com.svastha.repository.FarmProjectRepository
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[81,32] cannot find symbol
+[ERROR]   symbol:   method setRoutes(<nulltype>)
+[ERROR]   location: variable project of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[88,34] cannot find symbol
+[ERROR]   symbol:   method findAllByRoutes(com.svastha.entity.RouteMaster)
+[ERROR]   location: variable projectDao of type com.svastha.repository.FarmProjectRepository
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[100,64] cannot find symbol
+[ERROR]   symbol:   method findAllByRoutes(com.svastha.entity.RouteMaster)
+[ERROR]   location: variable projectDao of type com.svastha.repository.FarmProjectRepository
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[102,32] cannot find symbol
+[ERROR]   symbol:   method setRoutes(<nulltype>)
+[ERROR]   location: variable project of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[106,32] cannot find symbol
+[ERROR]   symbol:   method setRoutes(com.svastha.entity.RouteMaster)
+[ERROR]   location: variable project of type com.svastha.entity.FarmProjects
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/RouteService.java:[111,34] cannot find symbol
+[ERROR]   symbol:   method findAllByRoutes(com.svastha.entity.RouteMaster)
+[ERROR]   location: variable projectDao of type com.svastha.repository.FarmProjectRepository
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/PredictionController.java:[107,26] cannot find symbol
+[ERROR]   symbol:   method setCreatedBy(com.svastha.entity.Users)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/PredictionController.java:[108,26] cannot find symbol
+[ERROR]   symbol:   method setJobType(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/PredictionController.java:[110,26] cannot find symbol
+[ERROR]   symbol:   method setFileName(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/PredictionController.java:[111,26] cannot find symbol
+[ERROR]   symbol:   method setPath(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/PredictionController.java:[112,26] cannot find symbol
+[ERROR]   symbol:   method setImageUrl(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/PredictionController.java:[113,26] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/PredictionController.java:[116,32] cannot find symbol
+[ERROR]   symbol:   method getPk1()
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/PredictionController.java:[117,46] cannot find symbol
+[ERROR]   symbol:   method getPath()
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/controller/PredictionController.java:[118,25] cannot find symbol
+[ERROR]   symbol:   method getPk1()
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] -> [Help 1]
+[ERROR]
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR]
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+PS C:\Users\smsan\work\svastha project\Svastha\svastha> git pull
+Already up to date.
+PS C:\Users\smsan\work\svastha project\Svastha\svastha> ./mvnw spring-boot:run
+[INFO] Scanning for projects...
+[INFO]
+[INFO] --------------------------< com.svastha:test >--------------------------
+[INFO] Building test 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[INFO]
+[INFO] >>> spring-boot:2.7.13:run (default-cli) > test-compile @ test >>>
+[INFO]
+[INFO] --- resources:3.2.0:resources (default-resources) @ test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 2 resources
+[INFO]
+[INFO] --- compiler:3.10.1:compile (default-compile) @ test ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 343 source files to C:\Users\smsan\work\svastha project\Svastha\svastha\target\classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR :
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[7,36] cannot find symbol
+  symbol:   class TaskStatus
+  location: class com.svastha.entity.AdhocTask
+[ERROR] /C:/Users/smsan/work/svastha project/Svastha/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[70,48] cannot find symbol
+  symbol:   class TaskStatus
+  location: class com.svastha.service.AdhocTaskService
