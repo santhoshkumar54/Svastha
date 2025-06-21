@@ -2,3 +2,14 @@ modules = ["java-graalvm22.3", "web"]
 
 [nix]
 channel = "stable-24_05"
+
+[workflows]
+
+[[workflows.workflow]]
+name = "test"
+mode = "sequential"
+author = 11135591
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "mvn package -P test"
