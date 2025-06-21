@@ -1,0 +1,35 @@
+- name: Deploy to Linux Server
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        source: "svastha/target/svasthatest.war"
+        target: "/tmp/"
+        strip_components: 2
+
+    - name: Replace WAR file on Server
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SERVER_SSH_KEY }}
+        port: ${{ secrets.SERVER_PORT || 22 }}
+        script: |
+          # Backup existing WAR file
+          sudo cp /var/lib/tomcat9/webapps/svasthatest.war /var/lib/tomcat9/webapps/svasthatest.war.backup.$(date +%Y%m%d_%H%M%S) || true
+
+          # Remove old deployment directory (Tomcat will auto-redeploy)
+          sudo rm -rf /var/lib/tomcat9/webapps/svasthatest/ || true
+
+          # Replace WAR file
+          sudo cp /tmp/svasthatest.war /var/lib/tomcat9/webapps/svasthatest.war
+
+          # Set proper permissions
+          sudo chown tomcat:tomcat /var/lib/tomcat9/webapps/svasthatest.war
+
+          # Clean up temporary file
+          rm -f /tmp/svasthatest.war
+
+          echo "WAR file deployed successfully. Tomcat will auto-redeploy."
