@@ -1,0 +1,373 @@
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/repository/FarmProjectRepository.java:[77,8] duplicate class: com.svastha.repository.FarmProjectRepository
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/entity/Epic.java:[20,13] cannot find symbol
+  symbol:   class MasterVariety
+  location: class com.svastha.entity.Epic
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/entity/Epic.java:[60,12] cannot find symbol
+  symbol:   class MasterVariety
+  location: class com.svastha.entity.Epic
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/entity/Epic.java:[64,28] cannot find symbol
+  symbol:   class MasterVariety
+  location: class com.svastha.entity.Epic
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/repository/FarmProjectRepository.java:[15,26] cannot find symbol
+  symbol:   class RouteMaster
+  location: package com.svastha.entity
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[21,26] cannot find symbol
+  symbol:   class RouteMaster
+  location: package com.svastha.entity
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[5,26] cannot find symbol
+  symbol:   class RouteMaster
+  location: package com.svastha.entity
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[11,30] cannot find symbol
+  symbol:   class RouteMasterRepository
+  location: package com.svastha.repository
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[41,21] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[62,30] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[67,67] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[67,30] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[72,46] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[93,68] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[50,17] cannot find symbol
+  symbol:   class RouteMasterRepository
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[55,21] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[60,16] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[65,40] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[65,16] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[69,33] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[78,42] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[99,55] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicService.java:[65,17] method createEpic(com.svastha.entity.Epic,com.svastha.entity.Users) is already defined in class com.svastha.service.EpicService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicService.java:[75,17] method updateEpic(java.lang.Long,com.svastha.entity.Epic,com.svastha.entity.Users) is already defined in class com.svastha.service.EpicService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicService.java:[92,17] method deleteEpic(java.lang.Long) is already defined in class com.svastha.service.EpicService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[7,36] cannot find symbol
+  symbol:   class TaskStatus
+  location: class com.svastha.entity.AdhocTask
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[70,48] cannot find symbol
+  symbol:   class TaskStatus
+  location: class com.svastha.service.AdhocTaskService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/CarbonProjectController.java:[84,52] cannot find symbol
+  symbol:   method getDevice()
+  location: variable carbonAwdMapping of type com.svastha.entity.CarbonAwdMapping
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/CarbonProjectController.java:[85,41] cannot find symbol
+  symbol:   method getDeviceId()
+  location: variable device of type com.svastha.entity.AwdDevice
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[66,36] cannot find symbol
+  symbol:   method setResult(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[67,36] cannot find symbol
+  symbol:   method setStatus(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[70,36] cannot find symbol
+  symbol:   method setResult(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[71,36] cannot find symbol
+  symbol:   method setStatus(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[73,36] cannot find symbol
+  symbol:   method setResult(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[74,36] cannot find symbol
+  symbol:   method setStatus(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[78,36] cannot find symbol
+  symbol:   method setResult(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[79,36] cannot find symbol
+  symbol:   method setStatus(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[83,28] cannot find symbol
+  symbol:   method setResult(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[84,28] cannot find symbol
+  symbol:   method setStatus(java.lang.String)
+  location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicRouteService.java:[96,82] bad operand types for binary operator '!='
+  first type:  double
+  second type: <nulltype>
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicRouteService.java:[97,56] bad operand types for binary operator '!='
+  first type:  double
+  second type: <nulltype>
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[72,24] cannot find symbol
+  symbol:   method getLatitude()
+  location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[72,61] cannot find symbol
+  symbol:   method getLongitude()
+  location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[77,24] cannot find symbol
+  symbol:   method getLatitude()
+  location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[77,51] cannot find symbol
+  symbol:   method getLongitude()
+  location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[61,26] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[81,32] cannot find symbol
+  symbol:   method setRoutes(<nulltype>)
+  location: variable project of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[87,17] cannot find symbol
+  symbol:   class RouteMaster
+  location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[102,32] cannot find symbol
+  symbol:   method setRoutes(<nulltype>)
+  location: variable project of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/MRLExcelWriter.java:[1195,69] cannot find symbol
+  symbol:   method getEstimatedDate()
+  location: variable obj of type com.svastha.entity.HarvestEstimates
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/MRLExcelWriter.java:[1196,69] cannot find symbol
+  symbol:   method getEstimatedYield()
+  location: variable obj of type com.svastha.entity.HarvestEstimates
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/MRLExcelWriter.java:[1197,69] cannot find symbol
+  symbol:   method getRemarks()
+  location: variable obj of type com.svastha.entity.HarvestEstimates
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[107,26] cannot find symbol
+  symbol:   method setCreatedBy(com.svastha.entity.Users)
+  location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[108,26] cannot find symbol
+  symbol:   method setJobType(java.lang.String)
+  location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[110,26] cannot find symbol
+  symbol:   method setFileName(java.lang.String)
+  location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[111,26] cannot find symbol
+  symbol:   method setPath(java.lang.String)
+  location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[112,26] cannot find symbol
+  symbol:   method setImageUrl(java.lang.String)
+  location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[113,26] cannot find symbol
+  symbol:   method setStatus(java.lang.String)
+  location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[116,32] cannot find symbol
+  symbol:   method getPk1()
+  location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[117,46] cannot find symbol
+  symbol:   method getPath()
+  location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[118,25] cannot find symbol
+  symbol:   method getPk1()
+  location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[50,24] cannot find symbol
+  symbol:   variable TaskStatus
+  location: class com.svastha.service.AdhocTaskService
+[INFO] 62 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  40.025 s
+[INFO] Finished at: 2025-06-21T04:37:51Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.10.1:compile (default-compile) on project test: Compilation failure: Compilation failure: 
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/repository/FarmProjectRepository.java:[77,8] duplicate class: com.svastha.repository.FarmProjectRepository
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/entity/Epic.java:[20,13] cannot find symbol
+[ERROR]   symbol:   class MasterVariety
+[ERROR]   location: class com.svastha.entity.Epic
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/entity/Epic.java:[60,12] cannot find symbol
+[ERROR]   symbol:   class MasterVariety
+[ERROR]   location: class com.svastha.entity.Epic
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/entity/Epic.java:[64,28] cannot find symbol
+[ERROR]   symbol:   class MasterVariety
+[ERROR]   location: class com.svastha.entity.Epic
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/repository/FarmProjectRepository.java:[15,26] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: package com.svastha.entity
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[21,26] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: package com.svastha.entity
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[5,26] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: package com.svastha.entity
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[11,30] cannot find symbol
+[ERROR]   symbol:   class RouteMasterRepository
+[ERROR]   location: package com.svastha.repository
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[41,21] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[62,30] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[67,67] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[67,30] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[72,46] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/RouteController.java:[93,68] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.controller.RouteController
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[50,17] cannot find symbol
+[ERROR]   symbol:   class RouteMasterRepository
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[55,21] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[60,16] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[65,40] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[65,16] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[69,33] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[78,42] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[99,55] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicService.java:[65,17] method createEpic(com.svastha.entity.Epic,com.svastha.entity.Users) is already defined in class com.svastha.service.EpicService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicService.java:[75,17] method updateEpic(java.lang.Long,com.svastha.entity.Epic,com.svastha.entity.Users) is already defined in class com.svastha.service.EpicService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicService.java:[92,17] method deleteEpic(java.lang.Long) is already defined in class com.svastha.service.EpicService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[7,36] cannot find symbol
+[ERROR]   symbol:   class TaskStatus
+[ERROR]   location: class com.svastha.entity.AdhocTask
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[70,48] cannot find symbol
+[ERROR]   symbol:   class TaskStatus
+[ERROR]   location: class com.svastha.service.AdhocTaskService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/CarbonProjectController.java:[84,52] cannot find symbol
+[ERROR]   symbol:   method getDevice()
+[ERROR]   location: variable carbonAwdMapping of type com.svastha.entity.CarbonAwdMapping
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/CarbonProjectController.java:[85,41] cannot find symbol
+[ERROR]   symbol:   method getDeviceId()
+[ERROR]   location: variable device of type com.svastha.entity.AwdDevice
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[66,36] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[67,36] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[70,36] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[71,36] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[73,36] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[74,36] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[78,36] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[79,36] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[83,28] cannot find symbol
+[ERROR]   symbol:   method setResult(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/PredictionService.java:[84,28] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable job of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicRouteService.java:[96,82] bad operand types for binary operator '!='
+[ERROR]   first type:  double
+[ERROR]   second type: <nulltype>
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/EpicRouteService.java:[97,56] bad operand types for binary operator '!='
+[ERROR]   first type:  double
+[ERROR]   second type: <nulltype>
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[72,24] cannot find symbol
+[ERROR]   symbol:   method getLatitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[72,61] cannot find symbol
+[ERROR]   symbol:   method getLongitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[77,24] cannot find symbol
+[ERROR]   symbol:   method getLatitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/ProjectVisitService.java:[77,51] cannot find symbol
+[ERROR]   symbol:   method getLongitude()
+[ERROR]   location: variable farmProject of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[61,26] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[81,32] cannot find symbol
+[ERROR]   symbol:   method setRoutes(<nulltype>)
+[ERROR]   location: variable project of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[87,17] cannot find symbol
+[ERROR]   symbol:   class RouteMaster
+[ERROR]   location: class com.svastha.service.RouteService
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/RouteService.java:[102,32] cannot find symbol
+[ERROR]   symbol:   method setRoutes(<nulltype>)
+[ERROR]   location: variable project of type com.svastha.entity.FarmProjects
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/MRLExcelWriter.java:[1195,69] cannot find symbol
+[ERROR]   symbol:   method getEstimatedDate()
+[ERROR]   location: variable obj of type com.svastha.entity.HarvestEstimates
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/MRLExcelWriter.java:[1196,69] cannot find symbol
+[ERROR]   symbol:   method getEstimatedYield()
+[ERROR]   location: variable obj of type com.svastha.entity.HarvestEstimates
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/MRLExcelWriter.java:[1197,69] cannot find symbol
+[ERROR]   symbol:   method getRemarks()
+[ERROR]   location: variable obj of type com.svastha.entity.HarvestEstimates
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[107,26] cannot find symbol
+[ERROR]   symbol:   method setCreatedBy(com.svastha.entity.Users)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[108,26] cannot find symbol
+[ERROR]   symbol:   method setJobType(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[110,26] cannot find symbol
+[ERROR]   symbol:   method setFileName(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[111,26] cannot find symbol
+[ERROR]   symbol:   method setPath(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[112,26] cannot find symbol
+[ERROR]   symbol:   method setImageUrl(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[113,26] cannot find symbol
+[ERROR]   symbol:   method setStatus(java.lang.String)
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[116,32] cannot find symbol
+[ERROR]   symbol:   method getPk1()
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[117,46] cannot find symbol
+[ERROR]   symbol:   method getPath()
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/controller/PredictionController.java:[118,25] cannot find symbol
+[ERROR]   symbol:   method getPk1()
+[ERROR]   location: variable i of type com.svastha.entity.QueueJob
+[ERROR] /home/runner/workspace/svastha/src/main/java/com/svastha/service/AdhocTaskService.java:[50,24] cannot find symbol
+[ERROR]   symbol:   variable TaskStatus
+[ERROR]   location: class com.svastha.service.AdhocTaskService
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+~/workspace/svastha$ 
