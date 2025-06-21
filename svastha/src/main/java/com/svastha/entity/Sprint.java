@@ -2,36 +2,33 @@
 package com.svastha.entity;
 
 import javax.persistence.*;
-
-import lombok.Data;
-
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
-@Data
-public class Epic {
+public class Sprint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pk1;
 
     @ManyToOne
-    @JoinColumn(name = "season_pk1")
-    private MasterSeason season;
+    @JoinColumn(name = "epic_pk1")
+    private Epic epic;
 
-    @ManyToOne
-    @JoinColumn(name = "variety_pk1")
-    private MasterCropVariety variety;
-
-    @ManyToOne
-    @JoinColumn(name = "year_pk1")
-    private MasterYear year;
-
+    private Integer sprintNumber;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Integer sprintSize; // frequency to revisit in days
-    private Integer maxProjectsPerRoute; // maximum projects allowed per route (default 8)
+
+    @Enumerated(EnumType.STRING)
+    private SprintStatus status;
+
+    public enum SprintStatus {
+        PLANNED,
+        ACTIVE,
+        COMPLETED,
+        CANCELLED
+    }
 
     @ManyToOne
     @JoinColumn(name = "created_by_pk1", updatable = false)
@@ -45,6 +42,9 @@ public class Epic {
 
     private Timestamp updatedDt;
 
+    // Constructors
+    public Sprint() {}
+
     // Getters and Setters
     public Long getPk1() {
         return pk1;
@@ -54,28 +54,20 @@ public class Epic {
         this.pk1 = pk1;
     }
 
-    public MasterSeason getSeason() {
-        return season;
+    public Epic getEpic() {
+        return epic;
     }
 
-    public void setSeason(MasterSeason season) {
-        this.season = season;
+    public void setEpic(Epic epic) {
+        this.epic = epic;
     }
 
-    public MasterCropVariety getVariety() {
-        return variety;
+    public Integer getSprintNumber() {
+        return sprintNumber;
     }
 
-    public void setVariety(MasterCropVariety variety) {
-        this.variety = variety;
-    }
-
-    public MasterYear getYear() {
-        return year;
-    }
-
-    public void setYear(MasterYear year) {
-        this.year = year;
+    public void setSprintNumber(Integer sprintNumber) {
+        this.sprintNumber = sprintNumber;
     }
 
     public LocalDate getStartDate() {
@@ -94,20 +86,12 @@ public class Epic {
         this.endDate = endDate;
     }
 
-    public Integer getSprintSize() {
-        return sprintSize;
+    public SprintStatus getStatus() {
+        return status;
     }
 
-    public void setSprintSize(Integer sprintSize) {
-        this.sprintSize = sprintSize;
-    }
-
-    public Integer getMaxProjectsPerRoute() {
-        return maxProjectsPerRoute;
-    }
-
-    public void setMaxProjectsPerRoute(Integer maxProjectsPerRoute) {
-        this.maxProjectsPerRoute = maxProjectsPerRoute;
+    public void setStatus(SprintStatus status) {
+        this.status = status;
     }
 
     public Users getCreatedBy() {
@@ -141,4 +125,4 @@ public class Epic {
     public void setUpdatedDt(Timestamp updatedDt) {
         this.updatedDt = updatedDt;
     }
-} 
+}

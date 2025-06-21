@@ -44,14 +44,13 @@ public class EpicController {
     }
 
     @PostMapping
-    public ResponseEntity<Epic> createEpic(@RequestBody Epic epic,
-                                          @RequestParam Long createdById) {
-        // In a real application, you would get the user from security context
+    public ResponseEntity<Epic> createEpic(@RequestBody Epic epic, @RequestParam Long createdById) {
         Users createdBy = new Users();
         createdBy.setPk1(createdById);
+        epic.setCreatedBy(createdBy);
 
-        Epic createdEpic = epicService.createEpic(epic, createdBy);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdEpic);
+        Epic savedEpic = epicService.createEpic(epic, createdBy);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedEpic);
     }
 
     @PutMapping("/{id}")
