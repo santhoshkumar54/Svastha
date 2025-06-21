@@ -1,5 +1,6 @@
 package com.svastha.entity;
 
+import com.svastha.enums.TaskStatus;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;

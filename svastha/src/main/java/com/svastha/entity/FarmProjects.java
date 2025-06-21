@@ -94,6 +94,9 @@ public class FarmProjects {
 	private Timestamp assignedDt;
 
 	private String location;
+	
+	private Double latitude;
+	private Double longitude;
 
 	public Long getPk1() {
 		return pk1;
@@ -297,6 +300,22 @@ public class FarmProjects {
 
 	public void setEpicRoute(EpicRoute epicRoute) {
 		this.epicRoute = epicRoute;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 
 }

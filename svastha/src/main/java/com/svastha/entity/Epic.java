@@ -25,7 +25,7 @@ public class Epic {
 
     @ManyToOne
     @JoinColumn(name = "variety_pk1")
-    private MasterVariety variety;
+    private MasterCropVariety variety;
 
     @ManyToOne
     @JoinColumn(name = "year_pk1")
@@ -65,11 +65,11 @@ public class Epic {
         this.season = season;
     }
 
-    public MasterVariety getVariety() {
+    public MasterCropVariety getVariety() {
         return variety;
     }
 
-    public void setVariety(MasterVariety variety) {
+    public void setVariety(MasterCropVariety variety) {
         this.variety = variety;
     }
 
