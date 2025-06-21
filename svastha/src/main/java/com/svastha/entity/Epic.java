@@ -1,12 +1,15 @@
-
 package com.svastha.entity;
-
-import javax.persistence.*;
-
-import lombok.Data;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+
 
 @Entity
 @Data
@@ -22,7 +25,7 @@ public class Epic {
 
     @ManyToOne
     @JoinColumn(name = "variety_pk1")
-    private MasterCropVariety variety;
+    private MasterVariety variety;
 
     @ManyToOne
     @JoinColumn(name = "year_pk1")
@@ -62,11 +65,11 @@ public class Epic {
         this.season = season;
     }
 
-    public MasterCropVariety getVariety() {
+    public MasterVariety getVariety() {
         return variety;
     }
 
-    public void setVariety(MasterCropVariety variety) {
+    public void setVariety(MasterVariety variety) {
         this.variety = variety;
     }
 
@@ -141,4 +144,4 @@ public class Epic {
     public void setUpdatedDt(Timestamp updatedDt) {
         this.updatedDt = updatedDt;
     }
-} 
+}

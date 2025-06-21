@@ -4,6 +4,7 @@ modules = ["java-graalvm22.3", "web"]
 channel = "stable-24_05"
 
 [workflows]
+runButton = "Build and Run"
 
 [[workflows.workflow]]
 name = "test"
@@ -13,3 +14,12 @@ author = 11135591
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "mvn package -P test"
+
+[[workflows.workflow]]
+name = "Build and Run"
+author = 11135591
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd svastha && mvn clean spring-boot:run"
