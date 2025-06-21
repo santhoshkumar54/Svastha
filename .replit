@@ -2,6 +2,7 @@ modules = ["java-graalvm22.3", "web"]
 
 [nix]
 channel = "stable-24_05"
+packages = ["openssh", "vim"]
 
 [workflows]
 runButton = "Build and Run"
